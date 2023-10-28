@@ -2,5 +2,6 @@
     "user": "",
     "host": "localhost",
     "password": "",
-    "port": 5432
+    "port": 5432,
+    "database": ""
 }
