@@ -14,7 +14,7 @@ function Header() {
       </div>
 
       <div className="flex items-center md:space-x-10">
-        <Link to="/signin" className="text-[#644536] px-4 py-2 ml-4 font-bold">
+        <Link to="/pickup" className="text-[#644536] px-4 py-2 ml-4 font-bold">
         <div className="flex items-center">
             <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M17.8993 28.9735C19.785 28.0225 27.7083 23.5782 27.7083 16.0417C27.7083 10.4038 23.1379 5.83334 17.5 5.83334C11.8621 5.83334 7.29166 10.4038 7.29166 16.0417C7.29166 23.5782 15.2149 28.0225 17.1007 28.9735C17.355 29.1018 17.6449 29.1018 17.8993 28.9735ZM17.5 20.4167C19.9162 20.4167 21.875 18.4579 21.875 16.0417C21.875 13.6254 19.9162 11.6667 17.5 11.6667C15.0837 11.6667 13.125 13.6254 13.125 16.0417C13.125 18.4579 15.0837 20.4167 17.5 20.4167Z" fill="#644536"/>
