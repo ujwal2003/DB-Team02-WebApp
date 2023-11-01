@@ -1,0 +1,23 @@
+{
+  "name": "db-team02-webapp",
+  "version": "1.0.0",
+  "description": "hw2: Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-proj": "npm install",
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "build-client": "cd client && npm run build && npm run preview",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "concurrently \"npm run server\" \"npm run build-client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
