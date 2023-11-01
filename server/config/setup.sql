@@ -9,24 +9,25 @@ DROP TABLE IF EXISTS Cart;
 
 CREATE TABLE Customer (
     customerID SERIAL PRIMARY KEY,
+    pin INT,
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     email VARCHAR(255),
     phone VARCHAR(10)
 );
 
-INSERT INTO Customer (firstName, lastName, email, phone)
+INSERT INTO Customer (pin, firstName, lastName, email, phone)
 VALUES
-('Emily', 'Smith', 'EmilySmith@email.com', '8043249351'),
-('Daniel', 'Johnson', 'DanielJohnson@email.com', '8247179073'),
-('Olivia', 'Davis', 'OliviaDavis@email.com', '7828849261'),
-('James', 'Wilson', 'JamesWilson@email.com', '4058399655'),
-('Sophia', 'Martinez', 'SophiaMartinez@email.com', '5233062438'),
-('Liam', 'Brown', 'LiamBrown@email.com', '3487579753'),
-('Ava', 'Taylor', 'AvaTaylor@email.com', '7527147318'),
-('Benjamin', 'Clark', 'BenjaminClark@example.com', '2580205071'),
-('Mia', 'Anderson', 'MiaAnderson@email.com', '7860639929'),
-('Ethan', 'Walker', 'EthanWalker@email.com', '7678716663');
+(7483, 'Emily', 'Smith', 'EmilySmith@email.com', '8043249351'),
+(3269, 'Daniel', 'Johnson', 'DanielJohnson@email.com', '8247179073'),
+(5821, 'Olivia', 'Davis', 'OliviaDavis@email.com', '7828849261'),
+(9174, 'James', 'Wilson', 'JamesWilson@email.com', '4058399655'),
+(4036, 'Sophia', 'Martinez', 'SophiaMartinez@email.com', '5233062438'),
+(1598, 'Liam', 'Brown', 'LiamBrown@email.com', '3487579753'),
+(6742, 'Ava', 'Taylor', 'AvaTaylor@email.com', '7527147318'),
+(2357, 'Benjamin', 'Clark', 'BenjaminClark@example.com', '2580205071'),
+(8690, 'Mia', 'Anderson', 'MiaAnderson@email.com', '7860639929'),
+(5102, 'Ethan', 'Walker', 'EthanWalker@email.com', '7678716663');
 
 CREATE TABLE PaymentInformation (
     paymentID SERIAL PRIMARY KEY,

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 function Register() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -10,6 +12,18 @@ function Register() {
     accountPin: "",
     phoneNumber: "",
   });
+
+  async function registerUser(e) {
+    const res = await axios.post('customers/register/', formData);
+
+    if(res.status !== 201) {
+      throw new Error("unable to register");
+    }
+
+    const data = await res.data;
+    console.log(data);
+    return data;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -92,7 +106,7 @@ function Register() {
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit">
+              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit" onClick={registerUser}>
                 Submit
               </button>
             </div>
