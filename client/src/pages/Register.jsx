@@ -90,6 +90,13 @@ function Register() {
               className="form-control"
             />
           </div>
+          <div className="mb-8">
+            <div className="flex justify-center">
+              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit">
+                Submit
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -97,3 +104,4 @@ function Register() {
 }
 
 export default Register;
+
