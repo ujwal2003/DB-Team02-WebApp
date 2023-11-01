@@ -12,33 +12,28 @@ function Header() {
         <Link to="/menu" className="p-4 text-[#644536] text-2xl font-bold">
           MENU
         </Link>
+        <Link to="/Locations" className="text-[#644536] px-4 py-2 ml-4 font-bold">
+          <div className="flex items-center">
+            Locations
+          </div>
+        </Link>
       </div>
 
       <div className="flex items-center md:space-x-10">
-        <Link to="/pickup" className="text-[#644536] px-4 py-2 ml-4 font-bold">
+        <Link to="/ManageAccount" className="text-[#644536] px-4 py-2 ml-4 font-bold">
           <div className="flex items-center">
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* SVG content */}
-            </svg>
-            Pickup from
+            ManageAccount
           </div>
         </Link>
 
         <Link to="/register" className="text-[#644536] px-4 py-2 ml-4 font-bold">
           <div className="flex items-center">
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* SVG content */}
-            </svg>
             Register
           </div>
         </Link>
 
         <Link to="/signin" className="text-[#644536] px-4 py-2 ml-4 font-bold">
           <div className="flex items-center">
-            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M29.0666 28.2144C29.6562 28.0916 30.0071 27.4763 29.7386 26.9372C28.8724 25.1982 27.4064 23.67 25.4899 22.5262C23.1977 21.1582 20.3892 20.4167 17.5 20.4167C14.6107 20.4167 11.8022 21.1582 9.50996 22.5262C7.59348 23.6699 6.12747 25.1982 5.26131 26.9372C4.99278 27.4763 5.3437 28.0916 5.93332 28.2144L9.33909 28.9242C14.7218 30.046 20.2781 30.046 25.6608 28.9242L29.0666 28.2144Z" fill="#644536"/>
-            <circle cx="17.5" cy="11.6667" r="7.29167" fill="#644536"/>
-            </svg>
             Sign In
           </div>
         </Link>
@@ -58,5 +53,3 @@ function Header() {
 }
 
 export default Header;
-
-
