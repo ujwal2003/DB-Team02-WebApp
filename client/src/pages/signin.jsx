@@ -48,6 +48,13 @@ function SignIn() {
               className="form-control"
             />
           </div>
+          <div className="mb-8">
+            <div className="flex justify-center">
+              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit">
+                Sign In
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </main>
