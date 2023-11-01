@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-//TODO import customers controller
+const customerController = require("../controllers/customerController");
 
-router.post("/register", async(req, res) => {
-    return res.status(201).send(req.body);
-});
+router.post("/register", customerController.registerNewUser);
 
 module.exports = router;
