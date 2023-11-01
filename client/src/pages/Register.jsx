@@ -12,6 +12,13 @@ function Register() {
   });
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    accountPin: false,
+    phoneNumber: false,
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,10 +31,24 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the form from submitting (to avoid page reload)
 
-    // You can add your account creation logic here if needed
+    // Check for empty fields
+    const errors = {};
+    let hasError = false;
+    for (const key in formData) {
+      if (formData[key].trim() === "") {
+        errors[key] = true;
+        hasError = true;
+      }
+    }
 
-    // Display the success message
-    setShowSuccessMessage(true);
+    if (hasError) {
+      setFormErrors(errors);
+    } else {
+      // You can add your account creation logic here if needed
+
+      // Display the success message
+      setShowSuccessMessage(true);
+    }
   };
 
   return (
@@ -37,8 +58,7 @@ function Register() {
         <div className="bg-white py-14 px-40 bg-opacity-70">
           {showSuccessMessage ? (
             <div className="text-4xl font-semibold text-[#05204A] mb-4">
-              Congratulations! 
-              You successfully created your account :)
+              Congratulations! You successfully created your account :)
             </div>
           ) : (
             <>
@@ -53,8 +73,11 @@ function Register() {
                   value={formData.firstName}
                   onChange={handleChange}
                   placeholder="First Name"
-                  className="form-control"
+                  className={`form-control ${formErrors.firstName ? "border-red-500" : ""}`}
                 />
+                {formErrors.firstName && (
+                  <p className="text-red-500 text-sm">Please enter your first name</p>
+                )}
               </div>
               <div className="mb-8">
                 <div className="mb-2">
@@ -66,8 +89,11 @@ function Register() {
                   value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Last Name"
-                  className="form-control"
+                  className={`form-control ${formErrors.lastName ? "border-red-500" : ""}`}
                 />
+                {formErrors.lastName && (
+                  <p className="text-red-500 text-sm">Please enter your last name</p>
+                )}
               </div>
               <div className="mb-8">
                 <div className="mb-2">
@@ -79,8 +105,11 @@ function Register() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Email"
-                  className="form-control"
+                  className={`form-control ${formErrors.email ? "border-red-500" : ""}`}
                 />
+                {formErrors.email && (
+                  <p className="text-red-500 text-sm">Please enter your email</p>
+                )}
               </div>
               <div className="mb-8">
                 <div className="mb-2">
@@ -92,8 +121,11 @@ function Register() {
                   value={formData.accountPin}
                   onChange={handleChange}
                   placeholder="Account Pin Number"
-                  className="form-control"
+                  className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
                 />
+                {formErrors.accountPin && (
+                  <p className="text-red-500 text-sm">Please create a 4 digit pin</p>
+                )}
               </div>
               <div className="mb-8">
                 <div className="mb-2">
@@ -105,8 +137,11 @@ function Register() {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   placeholder="Phone Number"
-                  className="form-control"
+                  className={`form-control ${formErrors.phoneNumber ? "border-red-500" : ""}`}
                 />
+                {formErrors.phoneNumber && (
+                  <p className="text-red-500 text-sm">Please enter your Phone Number</p>
+                )}
               </div>
               <div className="mb-8">
                 <div className="flex justify-center">
