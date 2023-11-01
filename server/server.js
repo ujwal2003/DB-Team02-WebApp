@@ -11,6 +11,10 @@ app.get('/', (req, res) => {
 
 app.get('/init', dbInitializer);
 
+// routes
+const restaurantRouter = require('./routes/restaurantRoutes');
+app.use("/restaurants", restaurantRouter);
+
 app.listen(port, () => {
     console.log(`connected to server on port ${port}.`);
 });
