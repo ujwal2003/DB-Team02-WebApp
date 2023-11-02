@@ -14,6 +14,10 @@ async function registerNewUser(req, res) {
     }
 }
 
+async function validateSignIn(req, res) {
+    //TODO implementation
+}
+
 module.exports = {
     registerNewUser
 }
