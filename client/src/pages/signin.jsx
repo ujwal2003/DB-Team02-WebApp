@@ -7,34 +7,13 @@ function SignIn() {
     email: "",
     accountPin: "",
   });
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [formErrors, setFormErrors] = useState({
-    email: false,
-    accountPin: false,
-  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errors = {};
-    let hasError = false;
-    for (const key in formData) {
-      if (formData[key].trim() === "") {
-        errors[key] = true;
-        hasError = true;
-      }
-    }
-
-    if (hasError) {
-      setFormErrors(errors);
-    } else {
-      setShowSuccessMessage(true);
-    }
   };
 
   return (
@@ -53,9 +32,8 @@ function SignIn() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
-              className={`form-control ${formErrors.email ? "border-red-500" : ""}`}
+              className="form-control"
             />
-            {formErrors.email && <p className="text-red-500">Email is required</p>}
           </div>
           <div className="mb-8">
             <div className="mb-2">
@@ -67,13 +45,12 @@ function SignIn() {
               value={formData.accountPin}
               onChange={handleChange}
               placeholder="Account Pin Number"
-              className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
+              className="form-control"
             />
-            {formErrors.accountPin && <p className="text-red-500">Account Pin is required</p>}
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSubmit}>
+              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit">
                 Sign In
               </button>
             </div>
