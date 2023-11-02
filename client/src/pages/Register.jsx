@@ -21,6 +21,7 @@ function Register() {
     }
 
     const data = await res.data;
+    console.log(data);
     return data;
   }
 
