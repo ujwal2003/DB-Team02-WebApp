@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 function Register() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -10,6 +12,17 @@ function Register() {
     accountPin: "",
     phoneNumber: "",
   });
+
+  async function registerUser() {
+    const res = await axios.post('customers/register/', formData);
+
+    if(res.status !== 201) {
+      throw new Error("unable to register");
+    }
+
+    const data = await res.data;
+    return data;
+  }
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [formErrors, setFormErrors] = useState({
@@ -44,7 +57,8 @@ function Register() {
     if (hasError) {
       setFormErrors(errors);
     } else {
-      // You can add your account creation logic here if needed
+      //account creation logic
+      registerUser();
 
       // Display the success message
       setShowSuccessMessage(true);
