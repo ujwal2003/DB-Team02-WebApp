@@ -64,9 +64,11 @@ function ManageAccount() {
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Membership Type:</strong> {userInfo.membershipType}
           </div>
-          <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
-            Update Account Information
-          </button>
+          <Link to="/UpdateAccountInformation">
+            <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
+              Update Account Information
+            </button>
+          </Link>
         </div>
         <div className="w-1/2">
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
@@ -87,9 +89,11 @@ function ManageAccount() {
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Expiration:</strong> {paymentInfo.expiration}
           </div>
-          <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
-            Update Payment Information
-          </button>
+          <Link to ="/Edit Payment Information">
+            <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
+              Update Payment Information
+            </button>
+          </Link>
         </div>
       </div>
     </div>
