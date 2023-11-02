@@ -1,13 +1,13 @@
 const {pool} = require("../config/db");
 
-async function insertNewCustomer(pin, fname, lname, email, phone) {
+async function insertNewCustomer(email, pin, fname, lname, phone) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
             BEGIN;
-            INSERT INTO customer (pin, firstName, lastName, email, phone)
+            INSERT INTO customer (email, pin, firstName, lastName, phone)
             VALUES
-            (${pin}, '${fname}', '${lname}', '${email}', '${phone}');
+            ('${email}', ${pin}, '${fname}', '${lname}', '${phone}');
             COMMIT;
         `);
         client.release();
