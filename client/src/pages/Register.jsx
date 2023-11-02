@@ -29,9 +29,7 @@ function Register() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the form from submitting (to avoid page reload)
-
-    // Check for empty fields
+    e.preventDefault();
     const errors = {};
     let hasError = false;
     for (const key in formData) {
@@ -44,9 +42,6 @@ function Register() {
     if (hasError) {
       setFormErrors(errors);
     } else {
-      // You can add your account creation logic here if needed
-
-      // Display the success message
       setShowSuccessMessage(true);
     }
   };
