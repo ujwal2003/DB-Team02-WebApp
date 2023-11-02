@@ -13,7 +13,7 @@ function Register() {
     phoneNumber: "",
   });
 
-  async function registerUser(e) {
+  async function registerUser() {
     const res = await axios.post('customers/register/', formData);
 
     if(res.status !== 201) {
@@ -57,7 +57,8 @@ function Register() {
     if (hasError) {
       setFormErrors(errors);
     } else {
-      // You can add your account creation logic here if needed
+      //account creation logic
+      registerUser();
 
       // Display the success message
       setShowSuccessMessage(true);
