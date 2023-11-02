@@ -8,48 +8,47 @@ DROP TABLE IF EXISTS RestaurantMenu;
 DROP TABLE IF EXISTS Cart;
 
 CREATE TABLE Customer (
-    customerID SERIAL PRIMARY KEY,
+    email VARCHAR(255) PRIMARY KEY,
     pin INT,
     firstName VARCHAR(255),
     lastName VARCHAR(255),
-    email VARCHAR(255),
     phone VARCHAR(10)
 );
 
-INSERT INTO Customer (pin, firstName, lastName, email, phone)
+INSERT INTO Customer (email, pin, firstName, lastName, phone)
 VALUES
-(7483, 'Emily', 'Smith', 'EmilySmith@email.com', '8043249351'),
-(3269, 'Daniel', 'Johnson', 'DanielJohnson@email.com', '8247179073'),
-(5821, 'Olivia', 'Davis', 'OliviaDavis@email.com', '7828849261'),
-(9174, 'James', 'Wilson', 'JamesWilson@email.com', '4058399655'),
-(4036, 'Sophia', 'Martinez', 'SophiaMartinez@email.com', '5233062438'),
-(1598, 'Liam', 'Brown', 'LiamBrown@email.com', '3487579753'),
-(6742, 'Ava', 'Taylor', 'AvaTaylor@email.com', '7527147318'),
-(2357, 'Benjamin', 'Clark', 'BenjaminClark@example.com', '2580205071'),
-(8690, 'Mia', 'Anderson', 'MiaAnderson@email.com', '7860639929'),
-(5102, 'Ethan', 'Walker', 'EthanWalker@email.com', '7678716663');
+('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351'),
+('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073'),
+('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261'),
+('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655'),
+('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438'),
+('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753'),
+('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318'),
+('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071'),
+('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929'),
+('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663');
 
 CREATE TABLE PaymentInformation (
     paymentID SERIAL PRIMARY KEY,
-    customerID INT,
+    customerEmail VARCHAR(255),
     cardNumber VARCHAR(16),
     cvv INT,
     cardName VARCHAR(255),
     expiration DATE
 );
 
-INSERT INTO PaymentInformation (customerID, cardNumber, cvv, cardName, expiration)
+INSERT INTO PaymentInformation (customerEmail, cardNumber, cvv, cardName, expiration)
 VALUES
-(1, '7231272255903891', 783, 'Emily', '2026-08-11'),
-(2, '3517476411701086', 369, 'Daniel', '2026-05-10'),
-(3, '3868508863048841', 809, 'Olivia', '2027-04-12'),
-(4, '8123178976635282', 488, 'James', '2025-03-22'),
-(5, '1980717361933340', 536, 'Sophia', '2028-08-30'),
-(6, '1224560335103328', 313, 'Liam', '2026-02-16'),
-(7, '8215849522893525', 920, 'Ava', '2025-03-18'),
-(8, '5285900679883301', 221, 'Benjamin', '2024-05-15'),
-(9, '8462496026328840', 513, 'Mia', '2026-06-12'),
-(10, '6415187195548769', 652, 'Ethan', '2027-03-25');
+('EmilySmith@email.com', '7231272255903891', 783, 'Emily', '2026-08-11'),
+('DanielJohnson@email.com', '3517476411701086', 369, 'Daniel', '2026-05-10'),
+('OliviaDavis@email.com', '3868508863048841', 809, 'Olivia', '2027-04-12'),
+('JamesWilson@email.com', '8123178976635282', 488, 'James', '2025-03-22'),
+('SophiaMartinez@email.com', '1980717361933340', 536, 'Sophia', '2028-08-30'),
+('LiamBrown@email.com', '1224560335103328', 313, 'Liam', '2026-02-16'),
+('AvaTaylor@email.com', '8215849522893525', 920, 'Ava', '2025-03-18'),
+('BenjaminClark@example.com', '5285900679883301', 221, 'Benjamin', '2024-05-15'),
+('MiaAnderson@email.com', '8462496026328840', 513, 'Mia', '2026-06-12'),
+('EthanWalker@email.com', '6415187195548769', 652, 'Ethan', '2027-03-25');
 
 CREATE TABLE Restaurant (
     restaurantID SERIAL PRIMARY KEY,
@@ -75,19 +74,19 @@ VALUES
 
 CREATE TABLE Membership (
     membershipID SERIAL PRIMARY KEY,
-    customerID INT,
+    customerEmail VARCHAR(255),
     restaurantID INT,
     firstDate DATE,
     endDate DATE
 );
 
-INSERT INTO Membership (customerID, restaurantID, firstDate, endDate)
+INSERT INTO Membership (customerEmail, restaurantID, firstDate, endDate)
 VALUES
-(4, 2, '2025-02-22', '2025-04-22'),
-(1, 7, '2025-11-11', '2026-01-11'),
-(9, 6, '2028-07-11', '2028-09-11'),
-(8, 9, '2024-12-18', '2025-02-18'),
-(6, 1, '2026-07-31', '2026-09-30');
+('JamesWilson@email.com', 2, '2025-02-22', '2025-04-22'),
+('EmilySmith@email.com', 7, '2025-11-11', '2026-01-11'),
+('MiaAnderson@email.com', 6, '2028-07-11', '2028-09-11'),
+('BenjaminClark@example.com', 9, '2024-12-18', '2025-02-18'),
+('LiamBrown@email.com', 1, '2026-07-31', '2026-09-30');
 
 CREATE TABLE MenuItem (
     itemID SERIAL PRIMARY KEY,
@@ -162,7 +161,7 @@ VALUES
 
 CREATE TABLE CustomerOrder (
     orderID SERIAL PRIMARY KEY,
-    customerID INT,
+    customerEmail VARCHAR(255),
     orderDate DATE,
     total DECIMAL(10, 2)
 );
