@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
 
 function SignIn() {
@@ -10,29 +9,68 @@ function SignIn() {
     accountPin: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    email: false,
+    accountPin: false,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+
+    // Reset the errors when the user starts typing
+    setFormErrors({
+      ...formErrors,
+      email: false,
+      accountPin: false,
+    });
   };
 
   async function signInUser() {
-    const res = await axios.post('customers/login/', formData);
-
-    if(res.status !== 200)
-      throw new Error("unable to locate user")
-
+    try {
+      const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      console.log(data);
+      //console.log(data);
       return data;
+    } catch (error) {
+      console.log("error line 39");
+      if (error.response && error.response.data && error.response.data.message === "Email and pin not registered") {
+        setFormErrors({
+          ...formErrors,
+          email: true,
+        });
+      }
+      return false;
+    }
   }
 
-  const handleSignIn = (e) => {
-    //TODO do something when/after sign in is validated
-    signInUser();
-  }
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    const errors = {};
+    let hasError = false;
+
+    let logInUser = await signInUser();
+    console.log(logInUser);
+
+    for (const key in formData) {
+      if (formData[key].trim() === "") {
+        errors[key] = true;
+        hasError = true;
+      }
+    }
+
+    // Update the state with form errors
+    setFormErrors({
+      ...formErrors,
+      ...errors,
+    });
+
+    // TODO: Perform any other actions after sign in is validated
+  };
 
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
@@ -50,8 +88,11 @@ function SignIn() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
-              className="form-control"
+              className={`form-control ${formErrors.email ? "border-red-500" : ""}`}
             />
+            {formErrors.email && (
+              <p className="text-red-500 text-sm">Please enter a valid email</p>
+            )}
           </div>
           <div className="mb-8">
             <div className="mb-2">
@@ -63,12 +104,15 @@ function SignIn() {
               value={formData.accountPin}
               onChange={handleChange}
               placeholder="Account Pin Number"
-              className="form-control"
+              className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
             />
+            {formErrors.accountPin && (
+              <p className="text-red-500 text-sm">Please enter a valid Pin</p>
+            )}
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit" onClick={handleSignIn}>
+              <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
                 Sign In
               </button>
             </div>
