@@ -18,7 +18,7 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/ManageAccount" element={<ManageAccount/>} />
-        <Route path="/UpdateAccountInformation" element={<UpdateAccountInformation/>} />
+        <Route path="/UpdateAccountInformation" element={<UpdateAccountInformation />} />
       </Route>
     </Routes>
     </>
