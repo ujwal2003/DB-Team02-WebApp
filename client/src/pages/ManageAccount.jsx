@@ -47,7 +47,6 @@ function ManageAccount() {
               Membership
             </Link>
           </li>
-
           {/* Add more navigation links as needed */}
         </ul>
       </div>

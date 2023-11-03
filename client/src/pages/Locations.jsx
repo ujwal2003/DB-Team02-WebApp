@@ -1,0 +1,1 @@
+import LocationItems from '../components/LocationItems';

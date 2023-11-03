@@ -18,12 +18,16 @@ async function validateSignIn(req, res) {
     try {
         let {email, accountPin} = req.body;
         accountPin = parseInt(accountPin, 10);
+
+        const emailExists = await customersModel.queryUserEmail(email);
+        if(emailExists.length === 0)
+            return res.status(500).json({"error_login": `Email ${email} not found`});
         
         const userInfo = await customersModel.queryUserInfo(email, accountPin);
 
         if(userInfo.length === 1)
             return res.status(200).json(userInfo[0]);
-        return res.status(500).json({"error_login": `Email ${email} not found`});
+        return res.status(500).json({"error_login": `Invalid pin for ${email}`});
     } catch (error) {
         return res.status(500).json({"error_status": "sign in failed", "error_message": error.message});
     }
