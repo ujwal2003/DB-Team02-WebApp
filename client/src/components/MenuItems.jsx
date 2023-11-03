@@ -1,4 +1,4 @@
-import placeHolder from '../assets/placeHolder.png'
+import placeHolder from '../assets/placeholder.png'
 
 // Used to display Meals, Sides, and Drinks pages
 export default function MenuItems({ title, items }) {
