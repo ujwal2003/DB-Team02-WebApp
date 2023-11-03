@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
-import ManageAccount from "./ManageAccount";
 import axios from "axios";
 
 function SignIn() {
@@ -14,6 +13,7 @@ function SignIn() {
     email: false,
     accountPin: false,
   });
+  const [emailNotRegistered, setEmailNotRegistered] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +28,19 @@ function SignIn() {
       email: false,
       accountPin: false,
     });
+    setEmailNotRegistered(false);
   };
 
   async function signInUser() {
     try {
       const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      //console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
       console.log("error line 39");
-      if (error.response && error.response.data && error.response.data.message === "Email and pin not registered") {
+      if (error.response && error.response.data /*&& error.response.data.message === "Email and pin not registered"*/) {
+        console.log(error.response.data);
         setFormErrors({
           ...formErrors,
           email: true,
@@ -55,7 +57,7 @@ function SignIn() {
     let hasError = false;
 
     let logInUser = await signInUser();
-    console.log(logInUser);
+    // console.log(logInUser);
 
     for (const key in formData) {
       if (formData[key].trim() === "") {
@@ -118,11 +120,9 @@ function SignIn() {
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <Link to="/ManageAccount">
-                <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
-                  Sign In
-                </button>
-              </Link>
+              <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
+                Sign In
+              </button>
             </div>
           </div>
         </div>
