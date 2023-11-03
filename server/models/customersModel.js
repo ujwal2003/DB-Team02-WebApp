@@ -36,7 +36,7 @@ async function queryUserInfo(email, pin) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT email, firstname, lastname, phone
+            SELECT email, firstname, lastname, phone, membership
             FROM customer c
             WHERE c.email = '${email}' AND c.pin = ${pin};
         `);

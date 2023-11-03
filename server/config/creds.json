@@ -1,7 +1,7 @@
 {
-    "user": "",
+    "user": "postgres",
     "host": "localhost",
-    "password": "",
+    "password": "westWindSQL",
     "port": 5432,
-    "database": ""
+    "database": "hw2db"
 }
