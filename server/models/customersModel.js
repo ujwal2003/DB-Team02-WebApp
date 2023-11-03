@@ -17,6 +17,22 @@ async function insertNewCustomer(email, pin, fname, lname, phone) {
     }
 }
 
+async function queryUserInfo(email, pin) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT email, firstname, lastname, phone
+            FROM customer c
+            WHERE c.email = '${email}' AND c.pin = ${pin};
+        `);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 module.exports = {
-    insertNewCustomer
+    insertNewCustomer,
+    queryUserInfo
 }

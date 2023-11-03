@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
@@ -15,6 +17,22 @@ function SignIn() {
       [name]: value,
     });
   };
+
+  async function signInUser() {
+    const res = await axios.post('customers/login/', formData);
+
+    if(res.status !== 200)
+      throw new Error("unable to locate user")
+
+      const data = await res.data;
+      console.log(data);
+      return data;
+  }
+
+  const handleSignIn = (e) => {
+    //TODO do something when/after sign in is validated
+    signInUser();
+  }
 
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
@@ -50,7 +68,7 @@ function SignIn() {
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit">
+              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit" onClick={handleSignIn}>
                 Sign In
               </button>
             </div>

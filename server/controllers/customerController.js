@@ -14,6 +14,22 @@ async function registerNewUser(req, res) {
     }
 }
 
+async function validateSignIn(req, res) {
+    try {
+        let {email, accountPin} = req.body;
+        accountPin = parseInt(accountPin, 10);
+        
+        const userInfo = await customersModel.queryUserInfo(email, accountPin);
+
+        if(userInfo.length === 1)
+            return res.status(200).json(userInfo[0]);
+        return res.status(500).json({"error_login": `Email ${email} not found`});
+    } catch (error) {
+        return res.status(500).json({"error_status": "sign in failed", "error_message": error.message});
+    }
+}
+
 module.exports = {
-    registerNewUser
+    registerNewUser,
+    validateSignIn
 }
