@@ -38,9 +38,8 @@ function SignIn() {
       // console.log(data);
       return data;
     } catch (error) {
-      console.log("error line 39");
-      if (error.response && error.response.data /*&& error.response.data.message === "Email and pin not registered"*/) {
-        console.log(error.response.data);
+      console.log(error.response.data);
+      if (error.response && error.response.data && error.response.data.message === "Email and pin not registered") {
         setFormErrors({
           ...formErrors,
           email: true,
