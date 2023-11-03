@@ -37,6 +37,16 @@ function ManageAccount() {
               Profile
             </Link>
           </li>
+          <li className="mb-4">
+            <Link to="/orderHistory" className="text-[#05204A] font-bold">
+              Order History
+            </Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/rewards" className="text-[#05204A] font-bold">
+              Rewards
+            </Link>
+          </li>
           {/* Add more navigation links as needed */}
         </ul>
       </div>
