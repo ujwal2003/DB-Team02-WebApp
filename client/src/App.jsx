@@ -5,7 +5,11 @@ import Register from "./pages/Register";
 import SignIn from "./pages/signin";
 import ManageAccount from "./pages/ManageAccount";
 import UpdateAccountInformation from "./pages/UpdateAccountInformation";
-
+import UpdatePaymentInformation from "./pages/UpdatePaymentInformation";
+import Menu from "./pages/Menu";
+import Meals from "./pages/Meals";
+import Sides from "./pages/Sides";
+import Drinks from "./pages/Drinks";
 import './App.css';
 
 function App() {
@@ -18,7 +22,12 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/ManageAccount" element={<ManageAccount/>} />
-        <Route path="/UpdateAccountInformation" element={<UpdateAccountInformation />} />
+        <Route path="/UpdateAccountInformation" element={<UpdateAccountInformation/>} />
+        <Route path="/UpdatePaymentInformation" element={<UpdatePaymentInformation/>} />
+        <Route path="/Menu" element={<Menu/>} />
+        <Route path="/Menu/Meals" element={<Meals/>} />
+        <Route path="/Menu/Sides" element={<Sides/>} />
+        <Route path="/Menu/Drinks" element={<Drinks/>} />
       </Route>
     </Routes>
     </>
