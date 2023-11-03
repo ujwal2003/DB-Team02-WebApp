@@ -10,6 +10,7 @@ import Menu from "./pages/Menu";
 import Meals from "./pages/Meals";
 import Sides from "./pages/Sides";
 import Drinks from "./pages/Drinks";
+import Order from "./pages/Order";
 import './App.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/Menu/Meals" element={<Meals/>} />
         <Route path="/Menu/Sides" element={<Sides/>} />
         <Route path="/Menu/Drinks" element={<Drinks/>} />
+        <Route path="/Order" element={<Order/>} />
       </Route>
     </Routes>
     </>
