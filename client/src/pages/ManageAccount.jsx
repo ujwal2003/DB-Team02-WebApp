@@ -43,8 +43,8 @@ function ManageAccount() {
             </Link>
           </li>
           <li className="mb-4">
-            <Link to="/rewards" className="text-[#05204A] font-bold">
-              Rewards
+            <Link to="/Membership" className="text-[#05204A] font-bold">
+              Membership
             </Link>
           </li>
           {/* Add more navigation links as needed */}

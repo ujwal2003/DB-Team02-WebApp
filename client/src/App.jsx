@@ -11,6 +11,8 @@ import Meals from "./pages/Meals";
 import Sides from "./pages/Sides";
 import Drinks from "./pages/Drinks";
 import Order from "./pages/Order";
+import Membership from "./pages/Membership";
+
 import './App.css';
 
 function App() {
@@ -30,6 +32,7 @@ function App() {
         <Route path="/Menu/Sides" element={<Sides/>} />
         <Route path="/Menu/Drinks" element={<Drinks/>} />
         <Route path="/Order" element={<Order/>} />
+        <Route path="/Membership" element={<Membership/>}/>
       </Route>
     </Routes>
     </>
