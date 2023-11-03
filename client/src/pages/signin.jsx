@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
 
 function SignIn() {
@@ -10,29 +9,86 @@ function SignIn() {
     accountPin: "",
   });
 
+  const [formErrors, setFormErrors] = useState({
+    email: false,
+    accountPin: false,
+  });
+
+  const [emailNotRegistered, setEmailNotRegistered] = useState(false);
+  const [incorrectAccountPin, setIncorrectAccountPin] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+
+    // Reset the errors when the user starts typing
+    setFormErrors({
+      ...formErrors,
+      email: false,
+      accountPin: false,
+    });
+    setEmailNotRegistered(false);
+    setIncorrectAccountPin(false);
   };
 
   async function signInUser() {
-    const res = await axios.post('customers/login/', formData);
-
-    if(res.status !== 200)
-      throw new Error("unable to locate user")
-
+    try {
+      const res = await axios.post('customers/login/', formData);
       const data = await res.data;
       console.log(data);
       return data;
+    } catch (error) {
+      console.log(error.message);
+      console.log(error.response.data);
+
+      if (error.response.data.error_login === `Email ${formData.email} not found`) {
+        setFormErrors({
+          ...formErrors,
+          email: true,
+        });
+        setEmailNotRegistered(true);
+      } else if (error.response.data.error_login === `Invalid pin for ${formData.email}`) {
+        setFormErrors({
+          ...formErrors,
+          accountPin: true,
+        });
+        setIncorrectAccountPin(true);
+      }
+      return false;
+    }
   }
 
-  const handleSignIn = (e) => {
-    //TODO do something when/after sign in is validated
-    signInUser();
-  }
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    const errors = {};
+    let hasError = false;
+
+    for (const key in formData) {
+      if (formData[key].trim() === "") {
+        errors[key] = true;
+        hasError = true;
+      }
+    }
+
+    // Update the state with form errors
+    setFormErrors({
+      ...formErrors,
+      ...errors,
+    });
+
+    let logInUser = await signInUser();
+
+    if (logInUser) {
+      // Redirect to the ManageAccount page on successful sign-in
+      window.location.href = "/ManageAccount";
+    }
+
+    // TODO: Perform any other actions after sign in is validated
+  };
 
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
@@ -50,8 +106,14 @@ function SignIn() {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
-              className="form-control"
+              className={`form-control ${formErrors.email ? "border-red-500" : ""}`}
             />
+            {formErrors.email && (
+              <p className="text-red-500 text-sm">Please enter a valid email.</p>
+            )}
+            {emailNotRegistered && (
+              <p className="text-red-500 text-sm">Email not registered.</p>
+            )}
           </div>
           <div className="mb-8">
             <div className="mb-2">
@@ -63,12 +125,18 @@ function SignIn() {
               value={formData.accountPin}
               onChange={handleChange}
               placeholder="Account Pin Number"
-              className="form-control"
+              className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
             />
+            {formErrors.accountPin && (
+              <p className="text-red-500 text-sm">Please enter a valid pin.</p>
+            )}
+            {incorrectAccountPin ? (
+              <p className="text-red-500 text-sm">Incorrect account pin.</p>
+            ): (null)}
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A]  rounded-md text-white" type="submit" onClick={handleSignIn}>
+              <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
                 Sign In
               </button>
             </div>
