@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
+import ManageAccount from "./ManageAccount";
 import axios from "axios";
 
 function SignIn() {
@@ -69,6 +70,11 @@ function SignIn() {
       ...errors,
     });
 
+    if (logInUser) {
+      // Redirect to the ManageAccount page on successful sign-in
+      window.location.href = "/ManageAccount";
+    }
+
     // TODO: Perform any other actions after sign in is validated
   };
 
@@ -112,9 +118,11 @@ function SignIn() {
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
-              <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
-                Sign In
-              </button>
+              <Link to="/ManageAccount">
+                <button className="w-32 h-12 bg-[#05204A] rounded-md text-white" type="submit" onClick={handleSignIn}>
+                  Sign In
+                </button>
+              </Link>
             </div>
           </div>
         </div>
