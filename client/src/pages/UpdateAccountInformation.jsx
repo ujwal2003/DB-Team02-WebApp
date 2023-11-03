@@ -58,7 +58,7 @@ function UpdateAccountInformation() {
         <div className="bg-white py-14 px-40 bg-opacity-70">
           {showSuccessMessage ? (
             <div className="text-4xl font-semibold text-[#05204A] mb-4">
-              Congratulations! You have updated your account information :)
+              Congratulations! You have updated your account information
             </div>
           ) : (
             <>
