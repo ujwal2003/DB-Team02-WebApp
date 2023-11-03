@@ -13,7 +13,9 @@ function SignIn() {
     email: false,
     accountPin: false,
   });
+
   const [emailNotRegistered, setEmailNotRegistered] = useState(false);
+  const [incorrectAccountPin, setIncorrectAccountPin] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,21 +31,31 @@ function SignIn() {
       accountPin: false,
     });
     setEmailNotRegistered(false);
+    setIncorrectAccountPin(false);
   };
 
   async function signInUser() {
     try {
       const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      // console.log(data);
+      console.log(data);
       return data;
     } catch (error) {
+      console.log(error.message);
       console.log(error.response.data);
-      if (error.response && error.response.data && error.response.data.message === "Email and pin not registered") {
+
+      if (error.response.data.error_login === `Email ${formData.email} not found`) {
         setFormErrors({
           ...formErrors,
           email: true,
         });
+        setEmailNotRegistered(true);
+      } else if (error.response.data.error_login === `Invalid pin for ${formData.email}`) {
+        setFormErrors({
+          ...formErrors,
+          accountPin: true,
+        });
+        setIncorrectAccountPin(true);
       }
       return false;
     }
@@ -54,9 +66,6 @@ function SignIn() {
 
     const errors = {};
     let hasError = false;
-
-    let logInUser = await signInUser();
-    // console.log(logInUser);
 
     for (const key in formData) {
       if (formData[key].trim() === "") {
@@ -70,6 +79,8 @@ function SignIn() {
       ...formErrors,
       ...errors,
     });
+
+    let logInUser = await signInUser();
 
     if (logInUser) {
       // Redirect to the ManageAccount page on successful sign-in
@@ -98,7 +109,10 @@ function SignIn() {
               className={`form-control ${formErrors.email ? "border-red-500" : ""}`}
             />
             {formErrors.email && (
-              <p className="text-red-500 text-sm">Please enter a valid email</p>
+              <p className="text-red-500 text-sm">Please enter a valid email.</p>
+            )}
+            {emailNotRegistered && (
+              <p className="text-red-500 text-sm">Email not registered.</p>
             )}
           </div>
           <div className="mb-8">
@@ -114,8 +128,11 @@ function SignIn() {
               className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
             />
             {formErrors.accountPin && (
-              <p className="text-red-500 text-sm">Please enter a valid Pin</p>
+              <p className="text-red-500 text-sm">Please enter a valid pin.</p>
             )}
+            {incorrectAccountPin ? (
+              <p className="text-red-500 text-sm">Incorrect account pin.</p>
+            ): (null)}
           </div>
           <div className="mb-8">
             <div className="flex justify-center">
