@@ -12,6 +12,7 @@ import Sides from "./pages/Sides";
 import Drinks from "./pages/Drinks";
 import Order from "./pages/Order";
 import Membership from "./pages/Membership";
+import Checkout from "./pages/Checkout";
 import { OrderProvider } from './context/OrderContext';
 import './App.css';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/Menu/Drinks" element={<Drinks/>} />
         <Route path="/Order" element={<Order/>} />
         <Route path="/Membership" element={<Membership/>}/>
+        <Route path="/Checkout" element={<Checkout/>}/>
       </Route>
     </Routes>
     </OrderProvider>

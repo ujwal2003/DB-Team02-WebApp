@@ -1,6 +1,7 @@
 import placeHolder from '../assets/placeholder.png'
 import { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
+import { Link } from 'react-router-dom';
 
 function Order() {
     const { cart, removeFromCart } = useContext(OrderContext);
@@ -58,9 +59,9 @@ function Order() {
                 </div>
                 
                 <div className='flex justify-center pt-10'>
-                <button className="bg-[#644536] text-white px-4 py-4 w-1/4">
+                <Link to='/Checkout' className="bg-[#644536] text-white px-4 py-4 w-1/4 flex items-center justify-center">
                     CHECKOUT
-                </button>
+                </Link>
                 </div>
             </div>
         </div>
