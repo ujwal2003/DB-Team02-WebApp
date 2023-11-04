@@ -12,12 +12,12 @@ import Sides from "./pages/Sides";
 import Drinks from "./pages/Drinks";
 import Order from "./pages/Order";
 import Membership from "./pages/Membership";
-
+import { OrderProvider } from './context/OrderContext';
 import './App.css';
 
 function App() {
   return (
-    <>
+    <OrderProvider>
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to="/home" />} />
@@ -35,7 +35,7 @@ function App() {
         <Route path="/Membership" element={<Membership/>}/>
       </Route>
     </Routes>
-    </>
+    </OrderProvider>
   )
 }
 
