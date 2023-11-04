@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function SignIn() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     accountPin: "",
@@ -38,11 +40,11 @@ function SignIn() {
     try {
       const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
-      console.log(error.message);
-      console.log(error.response.data);
+      // console.log(error.message);
+      // console.log(error.response.data);
 
       if (error.response.data.error_login === `Email ${formData.email} not found`) {
         setFormErrors({
@@ -84,10 +86,9 @@ function SignIn() {
 
     if (logInUser) {
       // Redirect to the ManageAccount page on successful sign-in
-      window.location.href = "/ManageAccount";
+      // window.location.href = "/ManageAccount";
+      navigate("/ManageAccount", {state: logInUser});
     }
-
-    // TODO: Perform any other actions after sign in is validated
   };
 
   return (
