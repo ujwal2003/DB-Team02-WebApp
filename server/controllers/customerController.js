@@ -88,6 +88,12 @@ async function updateUserPaymentInfo(req, res) {
 
         cvv = parseInt(cvv, 10);
 
+        let infoExists = await customersModel.queryUserPaymentInfo(customerEmail);
+        if(infoExists.length === 0) {
+            let newInfo = await customersModel.insertNewPaymentInfo(customerEmail, cardNumber, cvv, cardName, expiration);
+            return res.status(201).json({"message": `Sucessfully updated payment information for ${customerEmail}`});
+        }
+
         let newInfo = await customersModel.updateUserPaymentInfo(customerEmail, cardNumber, cvv, cardName, expiration);
         return res.status(201).json({"message": `Sucessfully updated payment information for ${customerEmail}`});
     } catch (error) {
