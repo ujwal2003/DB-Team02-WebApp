@@ -4,5 +4,9 @@ const customerController = require("../controllers/customerController");
 
 router.post("/register", customerController.registerNewUser);
 router.post("/login", customerController.validateSignIn);
+router.post("/card", customerController.getUserPaymentInfo);
+router.post("/set_card", customerController.setUserPaymentInfo);
+router.post("/profile", customerController.updateUserAccount);
+router.post("/new_card", customerController.updateUserPaymentInfo);
 
 module.exports = router;
