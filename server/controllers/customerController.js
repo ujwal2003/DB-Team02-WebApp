@@ -33,7 +33,79 @@ async function validateSignIn(req, res) {
     }
 }
 
+async function getUserPaymentInfo(req, res) {
+    try {
+        let {email} = req.body;
+        const paymentInfoQuery = await customersModel.queryUserPaymentInfo(email);
+        if(paymentInfoQuery.length === 0)
+            return res.status(200).send("none");
+
+        let paymentInfo = paymentInfoQuery[0];
+        let expiryDate = `${paymentInfo.expiration.getMonth()+1}-${paymentInfo.expiration.getDate()}-${paymentInfo.expiration.getFullYear()}`;
+        paymentInfo.expiration = expiryDate;
+        return res.status(200).json(paymentInfo);
+    } catch (error) {
+        return res.status(500).json({"status": "could not retrieve payment info", "error": error.message});
+    }
+}
+
+async function setUserPaymentInfo(req, res) {
+    try {
+        let {email, number, cvv, name, expiry} = req.body;
+
+        let dateComponents = expiry.split('-');
+        [dateComponents[0], dateComponents[1]] = [dateComponents[1], dateComponents[0]];
+        dateComponents.reverse();
+        expiry = dateComponents.join("-");
+
+        let addInfo = await customersModel.insertNewPaymentInfo(email, number, cvv, name, expiry);
+        return res.status(201).json({"message": `Sucessfully added payment information for ${email}`});
+    } catch (error) {
+        return res.status(500).json({"status": "failed to update payment information", "error": error.message});
+    }
+}
+
+async function updateUserAccount(req, res) {
+    try {
+        let {oldEmail, newEmail, pin, fname, lname, phone, membership} = req.body;
+        pin = parseInt(pin, 10);
+
+        let newInfo = await customersModel.updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, membership);
+        return res.status(201).json({"message": `Sucessfully updated profile information for ${newEmail}`});
+    } catch (error) {
+        return res.status(500).json({"status": "failed to update user information", "error": error.message});
+    }
+}
+
+async function updateUserPaymentInfo(req, res) {
+    try {
+        let {customerEmail, cardNumber, cvv, cardName, expiration} = req.body;
+
+        let dateComponents = expiration.split('-');
+        [dateComponents[0], dateComponents[1]] = [dateComponents[1], dateComponents[0]];
+        dateComponents.reverse();
+        expiration = dateComponents.join("-");
+
+        cvv = parseInt(cvv, 10);
+
+        let infoExists = await customersModel.queryUserPaymentInfo(customerEmail);
+        if(infoExists.length === 0) {
+            let newInfo = await customersModel.insertNewPaymentInfo(customerEmail, cardNumber, cvv, cardName, expiration);
+            return res.status(201).json({"message": `Sucessfully updated payment information for ${customerEmail}`});
+        }
+
+        let newInfo = await customersModel.updateUserPaymentInfo(customerEmail, cardNumber, cvv, cardName, expiration);
+        return res.status(201).json({"message": `Sucessfully updated payment information for ${customerEmail}`});
+    } catch (error) {
+        return res.status(500).json({"status": "failed to update user information", "error": error.message});
+    }
+}
+
 module.exports = {
     registerNewUser,
-    validateSignIn
+    validateSignIn,
+    getUserPaymentInfo,
+    setUserPaymentInfo,
+    updateUserAccount,
+    updateUserPaymentInfo
 }

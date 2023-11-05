@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 function SignIn() {
+  const navigate = useNavigate();
+  const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     email: "",
     accountPin: "",
@@ -38,11 +43,11 @@ function SignIn() {
     try {
       const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
-      console.log(error.message);
-      console.log(error.response.data);
+      // console.log(error.message);
+      // console.log(error.response.data);
 
       if (error.response.data.error_login === `Email ${formData.email} not found`) {
         setFormErrors({
@@ -63,6 +68,7 @@ function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    custSignOut();
 
     const errors = {};
     let hasError = false;
@@ -84,10 +90,9 @@ function SignIn() {
 
     if (logInUser) {
       // Redirect to the ManageAccount page on successful sign-in
-      window.location.href = "/ManageAccount";
+      custSignIn(logInUser.email, logInUser.firstname, logInUser.lastname, logInUser.membership, logInUser.phone);
+      navigate("/ManageAccount");
     }
-
-    // TODO: Perform any other actions after sign in is validated
   };
 
   return (

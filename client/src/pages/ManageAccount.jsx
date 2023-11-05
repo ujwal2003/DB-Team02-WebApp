@@ -1,23 +1,46 @@
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 
 function ManageAccount() {
-  // Replace these with actual user data
-  const userInfo = {
-    firstName: "John",
-    lastName: "Doe",
-    customerId: "123456",
-    phone: "555-555-5555",
-    email: "johndoe@example.com",
-    membershipType: "Gold",
-  };
-  const paymentInfo = {
-    paymentID: "123",
-    cardNumber: "1234-1234-1234-1234",
-    cvv: "123",
-    cardName: "John Doe",
-    expiration: "08/24",
-  };
+  const {custInfo, custPaymentInfo, setCustPaymentInfo} = useContext(UserContext);
+
+  // if user has not signed in, redirect to signin
+  if(Object.keys(custInfo).length === 0) {
+    window.location.href = "/signin";
+    return;
+  }
+
+  useEffect(() => {
+    async function getPaymentInfo() {
+      try {
+        const res = await axios.post('customers/card', {"email": custInfo.email});
+        const data = await res.data;
+        console.log(data);
+        if(data !== "none") {
+          setCustPaymentInfo({
+            cardNumber: data.cardnumber,
+            cvv: data.cvv,
+            cardName: data.cardname,
+            expiration: data.expiration,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getPaymentInfo();
+  }, []);
+
+  const userInfo = custInfo;
+  const paymentInfo = custPaymentInfo;
+
+  console.log(custInfo);
+  console.log(custPaymentInfo);
+
 
   function formatName(userInfo) {
     return userInfo.firstName + ' ' + userInfo.lastName;
@@ -62,9 +85,9 @@ function ManageAccount() {
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Last Name:</strong> {userInfo.lastName}
           </div>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <strong className="text-xl text-[#644536]">Customer ID:</strong> {userInfo.customerId}
-          </div>
+          </div> */}
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Phone Number:</strong> {userInfo.phone}
           </div>
@@ -72,7 +95,7 @@ function ManageAccount() {
             <strong className="text-xl text-[#644536]">Email:</strong> {userInfo.email}
           </div>
           <div className="mb-6">
-            <strong className="text-xl text-[#644536]">Membership Type:</strong> {userInfo.membershipType}
+            <strong className="text-xl text-[#644536]">Membership:</strong> {userInfo.membershipType ? "yes" : "no"}
           </div>
           <Link to="/UpdateAccountInformation">
             <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
@@ -84,9 +107,9 @@ function ManageAccount() {
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
             Payment Information
           </h1>
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <strong className="text-xl text-[#644536]">Payment ID:</strong> {paymentInfo.paymentID}
-          </div>
+          </div> */}
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Card Number:</strong> {paymentInfo.cardNumber}
           </div>
