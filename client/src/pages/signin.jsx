@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
@@ -10,8 +9,9 @@ function SignIn() {
   const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
 
   useEffect(() => {
-    if(Object.keys(custInfo).length !== 0)
+    if(Object.keys(custInfo).length !== 0) {
       console.log(`User ${custInfo.email} signed out.`);
+    }
     custSignOut();
   }, []);
 
