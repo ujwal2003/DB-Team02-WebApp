@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS PaymentInformation;
-DROP TABLE IF EXISTS Membership;
+-- DROP TABLE IF EXISTS Membership;
 DROP TABLE IF EXISTS Restaurant;
 DROP TABLE IF EXISTS CustomerOrder;
 DROP TABLE IF EXISTS MenuItem;
@@ -12,25 +12,25 @@ CREATE TABLE Customer (
     pin INT,
     firstName VARCHAR(255),
     lastName VARCHAR(255),
-    phone VARCHAR(10)
+    phone VARCHAR(10),
+    membership BOOLEAN DEFAULT 'no'
 );
 
-INSERT INTO Customer (email, pin, firstName, lastName, phone)
+INSERT INTO Customer (email, pin, firstName, lastName, phone, membership)
 VALUES
-('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351'),
-('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073'),
-('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261'),
-('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655'),
-('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438'),
-('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753'),
-('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318'),
-('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071'),
-('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929'),
-('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663');
+('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351', 'yes'),
+('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073', 'no'),
+('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261', 'yes'),
+('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655', 'no'),
+('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438', 'yes'),
+('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753', 'yes'),
+('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318', 'no'),
+('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071', 'no'),
+('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929', 'yes'),
+('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663', 'yes');
 
 CREATE TABLE PaymentInformation (
-    paymentID SERIAL PRIMARY KEY,
-    customerEmail VARCHAR(255),
+    customerEmail VARCHAR(255) PRIMARY KEY,
     cardNumber VARCHAR(16),
     cvv INT,
     cardName VARCHAR(255),
@@ -72,21 +72,21 @@ VALUES
 ('Sushi Haven Express', '6475656533', 'Meadowview Terrace', 0.00);
 
 
-CREATE TABLE Membership (
-    membershipID SERIAL PRIMARY KEY,
-    customerEmail VARCHAR(255),
-    restaurantID INT,
-    firstDate DATE,
-    endDate DATE
-);
+-- CREATE TABLE Membership (
+--     membershipID SERIAL PRIMARY KEY,
+--     customerEmail VARCHAR(255),
+--     restaurantID INT,
+--     firstDate DATE,
+--     endDate DATE
+-- );
 
-INSERT INTO Membership (customerEmail, restaurantID, firstDate, endDate)
-VALUES
-('JamesWilson@email.com', 2, '2025-02-22', '2025-04-22'),
-('EmilySmith@email.com', 7, '2025-11-11', '2026-01-11'),
-('MiaAnderson@email.com', 6, '2028-07-11', '2028-09-11'),
-('BenjaminClark@example.com', 9, '2024-12-18', '2025-02-18'),
-('LiamBrown@email.com', 1, '2026-07-31', '2026-09-30');
+-- INSERT INTO Membership (customerEmail, restaurantID, firstDate, endDate)
+-- VALUES
+-- ('JamesWilson@email.com', 2, '2025-02-22', '2025-04-22'),
+-- ('EmilySmith@email.com', 7, '2025-11-11', '2026-01-11'),
+-- ('MiaAnderson@email.com', 6, '2028-07-11', '2028-09-11'),
+-- ('BenjaminClark@example.com', 9, '2024-12-18', '2025-02-18'),
+-- ('LiamBrown@email.com', 1, '2026-07-31', '2026-09-30');
 
 CREATE TABLE MenuItem (
     itemID SERIAL PRIMARY KEY,
