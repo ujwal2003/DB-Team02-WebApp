@@ -122,6 +122,9 @@ function ManageAccount() {
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Expiration:</strong> {paymentInfo.expiration}
           </div>
+          <div className="mb-6">
+            <strong className="text-xl text-[#644536]">Balance:</strong> {paymentInfo.expiration}
+          </div>
           <Link to ="/UpdatePaymentInformation">
             <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">
               Update Payment Information
