@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
 
 function SignIn() {
   const navigate = useNavigate();
+  const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
+
   const [formData, setFormData] = useState({
     email: "",
     accountPin: "",
@@ -65,6 +68,7 @@ function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    custSignOut();
 
     const errors = {};
     let hasError = false;
@@ -86,8 +90,8 @@ function SignIn() {
 
     if (logInUser) {
       // Redirect to the ManageAccount page on successful sign-in
-      // window.location.href = "/ManageAccount";
-      navigate("/ManageAccount", {state: logInUser});
+      custSignIn(logInUser.email, logInUser.firstname, logInUser.lastname, logInUser.membership, logInUser.phone);
+      navigate("/ManageAccount");
     }
   };
 

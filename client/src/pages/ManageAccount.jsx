@@ -1,62 +1,26 @@
 import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 function ManageAccount() {
-  const location = useLocation();
-  console.log(location.state);
+  const {custInfo, custPaymentInfo, setCustPaymentInfo} = useContext(UserContext);
 
-  // if no state was passed in, redirect to signin
-  if(location.state === null) {
+  // if user has not signed in, redirect to signin
+  if(Object.keys(custInfo).length === 0) {
     window.location.href = "/signin";
     return;
   }
 
-  const [paymentInfo, setPaymentInfo] = useState({
-    cardNumber: "Payment Method Not Set!",
-    cvv: "Payment Method Not Set!",
-    cardName: "Payment Method Not Set!",
-    expiration: "Payment Method Not Set!",
-  });
-
-  // dummy data
-  // comment out actual data, and uncomment this for testing
-  /* 
-    const userInfo = {
-      firstName: "John",
-      lastName: "Doe",
-      phone: "1234567890",
-      email: "JohDoe@email.com",
-      membershipType: true,
-    };
-
-    const paymentInfo = {
-      paymentID: "123",
-      cardNumber: "1234-1234-1234-1234",
-      cvv: "123",
-      cardName: "John Doe",
-      expiration: "08/24",
-    };
-  */
-
-  const userInfo = {
-    firstName: location.state.firstname,
-    lastName: location.state.lastname,
-    phone: location.state.phone,
-    email: location.state.email,
-    membershipType: location.state.membership,
-  };
-
   useEffect(() => {
     async function getPaymentInfo() {
       try {
-        const res = await axios.post('customers/card', {"email": location.state.email});
+        const res = await axios.post('customers/card', {"email": custInfo.email});
         const data = await res.data;
         console.log(data);
         if(data !== "none") {
-          setPaymentInfo({
+          setCustPaymentInfo({
             cardNumber: data.cardnumber,
             cvv: data.cvv,
             cardName: data.cardname,
@@ -70,6 +34,12 @@ function ManageAccount() {
 
     getPaymentInfo();
   }, []);
+
+  const userInfo = custInfo;
+  const paymentInfo = custPaymentInfo;
+
+  console.log(custInfo);
+  console.log(custPaymentInfo);
 
 
   function formatName(userInfo) {

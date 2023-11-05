@@ -14,10 +14,12 @@ import Order from "./pages/Order";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import { OrderProvider } from './context/OrderContext';
+import { UserProvider } from "./context/UserContext";
 import './App.css';
 
 function App() {
   return (
+    <UserProvider>
     <OrderProvider>
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -38,6 +40,7 @@ function App() {
       </Route>
     </Routes>
     </OrderProvider>
+    </UserProvider>
   )
 }
 
