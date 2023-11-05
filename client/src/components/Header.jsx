@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
+import { UserContext } from "../context/UserContext";
 
 function Header() {
     const { cart } = useContext(OrderContext);
+    const { custInfo } = useContext(UserContext);
     
     return (
     <header className="flex items-center justify-between p-4 border-b-2 border-[#644536] md:px-6">
@@ -37,9 +39,17 @@ function Header() {
         </Link>
 
         <Link to="/signin" className="text-[#644536] px-4 py-2 ml-4 font-bold">
-          <div className="flex items-center">
-            Sign In
-          </div>
+          {
+            Object.keys(custInfo).length === 0 ? (
+              <div className="flex items-center">
+                Sign In
+              </div>
+            ) : (
+              <div className="flex items-center">
+                Sign Out
+              </div>
+            )
+          }
         </Link>
 
         <Link to="/order" className="text-[#644536] px-4 py-2 ml-4 font-bold">
