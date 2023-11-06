@@ -15,6 +15,7 @@ import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
 import Locations from "./pages/Locations";
 import OrderHistory from "./pages/OrderHistory";
+import InterestingReports from "./pages/InterestingReports";
 import { OrderProvider } from './context/OrderContext';
 import { UserProvider } from "./context/UserContext";
 import './App.css';
@@ -41,6 +42,7 @@ function App() {
         <Route path="/Checkout" element={<Checkout/>}/>
         <Route path="/Locations" element={<Locations/>}></Route>
         <Route path="/OrderHistory" element={<OrderHistory/>}></Route>
+        <Route path="/InterestingReports" element={<InterestingReports/>}></Route>
       </Route>
     </Routes>
     </OrderProvider>

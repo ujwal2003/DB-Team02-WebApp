@@ -6,7 +6,7 @@ function Footer() {
       <div className="container mx-auto">
         <div className="flex justify-between">
           <p>@Fall 2023, Group 2</p>
-          <Link to="/reports" className="text-white">Reports</Link>
+          <Link to="/InterestingReports" className="text-white">Reports</Link>
         </div>
       </div>
     </footer>
