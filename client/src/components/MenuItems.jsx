@@ -1,7 +1,10 @@
 import placeHolder from '../assets/placeholder.png'
+import { useContext } from 'react';
+import { OrderContext } from '../context/OrderContext';
 
 // Used to display Meals, Sides, and Drinks pages
 export default function MenuItems({ title, items }) {
+    const { addToCart } = useContext(OrderContext);
 
     return (
       <div className="flex flex-col items-center">
@@ -25,6 +28,7 @@ export default function MenuItems({ title, items }) {
                     <span className="font-bold text-lg">${item.price}</span>
                     <button 
                     className="bg-[#537D8D] text-white py-2 px-4"
+                    onClick={() => addToCart(item)}
                     >
                     Add to Cart  
                     </button>

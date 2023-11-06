@@ -1,30 +1,22 @@
 import placeHolder from '../assets/placeholder.png'
-
-const orderItems = [
-    {
-        id: 1, 
-        name: 'Quesadilla',
-        price: 10.00,
-    },
-    {
-        id: 2,
-        name: 'Tacos',
-        price: 3.00, 
-    },
-];
-
-// Calculate totals
-const subtotal = orderItems.reduce((total, item) => total + item.price, 0); 
-const tax = subtotal * 0.0825; // 8.25% tax
-const total = subtotal + tax;
+import { useContext } from 'react';
+import { OrderContext } from '../context/OrderContext';
+import { Link } from 'react-router-dom';
 
 function Order() {
+    const { cart, removeFromCart } = useContext(OrderContext);
+
+    // Calculate totals
+    const subtotal = cart.reduce((total, item) => total + item.price, 0); 
+    const tax = subtotal * 0.0825; // 8.25% tax
+    const total = subtotal + tax;
+
     return (
         <div className="flex flex-col items-center text-[#644536]">
             <h1 className="text-[#644536] text-4xl font-bold mt-20">MY ORDER</h1>
 
-            {orderItems.map(item => (
-                <div key={item.id} className="p-6 w-screen">
+            {cart.map((item, index) => (
+                <div key={index} className="p-6 w-screen">
                     <div className='flex flex-row justify-between items-center'>
                     <div className='flex justify-center items-center space-x-12'>
                         <img 
@@ -39,8 +31,7 @@ function Order() {
                     <div>
                         <div className=''>${item.price}</div>
                         <div className='space-x-4'>
-                            <button className=' text-[#537D8D] underline'>delete</button>
-                            <button className=' text-[#537D8D] underline'>edit</button>
+                            <button onClick={() => removeFromCart(index)} className=' text-[#537D8D] underline'>delete</button>
                         </div>
                     </div>
                     </div>
@@ -68,9 +59,9 @@ function Order() {
                 </div>
                 
                 <div className='flex justify-center pt-10'>
-                <button className="bg-[#644536] text-white px-4 py-4 w-1/4">
+                <Link to='/Checkout' className="bg-[#644536] text-white px-4 py-4 w-1/4 flex items-center justify-center">
                     CHECKOUT
-                </button>
+                </Link>
                 </div>
             </div>
         </div>
