@@ -102,6 +102,12 @@ function ManageAccount() {
               Update Account Information
             </button>
           </Link>
+          <button className="bg-red-500 text-white font-bold py-2 px-4 rounded" onClick={() => {
+            if (window.confirm("Confirm Deletion of Account")) {
+              // Handle the account deletion logic here
+            }}}>
+    Delete Account
+  </button>
         </div>
         <div className="w-1/2">
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
