@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 function LocationList() {
-    const dummyLocations = [
+    {/*const dummyLocations = [
         {
           restaurantId: 1,
           restaurantName: "Restaurant A",
@@ -25,16 +25,42 @@ function LocationList() {
           street: "789 Oak St",
           revenue: 800,
         },
-      ];
+      ];*/}
     
+      
+    
+      // Filter the locations based on the search term
+      
+      const [locations, setRestaurantInfo] = useState([]);
+      useEffect(() => {
+        async function getLocationsInfo() {
+          try {
+            const res = await axios.get('restaurants/all');
+            const data = await res.data;
+            console.log(data);
+            if(data !== "none") {
+              setRestaurantInfo({
+                restaurantId: data.restaurantid,
+                name: data.name,
+                phone: data.phone,
+                street: data.street,
+                revenue: data.revenue,
+              });
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+    
+        getLocationsInfo();
+      }, []);
+      console.log(typeof locations);
+    const filteredLocations = locations.filter((location) =>
+        location.restaurantId.toString().includes(searchTerm)
+      );
       const [searchTerm, setSearchTerm] = useState("");
       const locationListStyle = "text-[#05204A] font-bold";
       const otherElementsStyle = "text-[#05204A] font-semibold";
-    
-      // Filter the locations based on the search term
-      const filteredLocations = dummyLocations.filter((location) =>
-        location.restaurantId.toString().includes(searchTerm)
-      );
     
   return (
     <div className="w-[90%] p-10 mt-8 flex">
