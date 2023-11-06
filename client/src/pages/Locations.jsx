@@ -1,39 +1,41 @@
-import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 function LocationList() {
-  const dummyLocations = [
-    {
-      restaurantId: 1,
-      restaurantName: "Restaurant A",
-      phone: "123-456-7890",
-      street: "123 Main St",
-      revenue: 1000,
-    },
-    {
-      restaurantId: 2,
-      restaurantName: "Restaurant B",
-      phone: "987-654-3210",
-      street: "456 Elm St",
-      revenue: 1500,
-    },
-    {
-      restaurantId: 3,
-      restaurantName: "Restaurant C",
-      phone: "555-555-5555",
-      street: "789 Oak St",
-      revenue: 800,
-    },
-  ];
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const locationListStyle = "text-[#05204A] font-bold";
-  const otherElementsStyle = "text-[#05204A] font-semibold";
-
-  // Filter the locations based on the search term
-  const filteredLocations = dummyLocations.filter((location) =>
-    location.restaurantId.toString().includes(searchTerm)
-  );
-
+    const dummyLocations = [
+        {
+          restaurantId: 1,
+          restaurantName: "Restaurant A",
+          phone: "123-456-7890",
+          street: "123 Main St",
+          revenue: 1000,
+        },
+        {
+          restaurantId: 2,
+          restaurantName: "Restaurant B",
+          phone: "987-654-3210",
+          street: "456 Elm St",
+          revenue: 1500,
+        },
+        {
+          restaurantId: 3,
+          restaurantName: "Restaurant C",
+          phone: "555-555-5555",
+          street: "789 Oak St",
+          revenue: 800,
+        },
+      ];
+    
+      const [searchTerm, setSearchTerm] = useState("");
+      const locationListStyle = "text-[#05204A] font-bold";
+      const otherElementsStyle = "text-[#05204A] font-semibold";
+    
+      // Filter the locations based on the search term
+      const filteredLocations = dummyLocations.filter((location) =>
+        location.restaurantId.toString().includes(searchTerm)
+      );
+    
   return (
     <div className="w-[90%] p-10 mt-8 flex">
       <div className="w-1/2">
