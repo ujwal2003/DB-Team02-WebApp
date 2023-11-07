@@ -1,10 +1,18 @@
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS PaymentInformation;
+DROP TABLE IF EXISTS Bank;
 DROP TABLE IF EXISTS Restaurant;
 DROP TABLE IF EXISTS CustomerOrder;
 DROP TABLE IF EXISTS MenuItem;
 DROP TABLE IF EXISTS RestaurantMenu;
 DROP TABLE IF EXISTS Cart;
+
+CREATE TABLE Bank (
+    accountID VARCHAR(255),
+    accountType VARCHAR(255),
+    balance DECIMAL (10, 2),
+    PRIMARY KEY (accountID, accountType)
+);
 
 CREATE TABLE Customer (
     email VARCHAR(255) PRIMARY KEY,
@@ -50,26 +58,51 @@ VALUES
 ('MiaAnderson@email.com', '8462496026328840', 513, 'Mia', '2026-06-12'),
 ('EthanWalker@email.com', '6415187195548769', 652, 'Ethan', '2027-03-25');
 
+INSERT INTO Bank (accountID, balance)
+VALUES
+('EmilySmith@email.com', 'personal', 11564.05),
+('DanielJohnson@email.com', 'personal', 9394.95),
+('OliviaDavis@email.com', 'personal', 8691.88),
+('JamesWilson@email.com', 'personal', 11575.41),
+('SophiaMartinez@email.com', 'personal', 10492.45),
+('LiamBrown@email.com', 'personal', 9227.76),
+('AvaTaylor@email.com', 'personal', 11498.04),
+('BenjaminClark@example.com', 'personal', 11314.89),
+('MiaAnderson@email.com', 'personal', 10304.61),
+('EthanWalker@email.com', 'personal', 11811.96);
+
 CREATE TABLE Restaurant (
     restaurantID SERIAL PRIMARY KEY,
     name VARCHAR(255),
     phone VARCHAR(10),
-    street VARCHAR(255),
-    revenue FLOAT
+    street VARCHAR(255)
 );
 
-INSERT INTO Restaurant (name, phone, street, revenue)
+INSERT INTO Restaurant (name, phone, street)
 VALUES
-('The Rustic Table', '6005103401', 'Willowbrook Lane', 0.00),
-('Savory Bites Cafe', '2276164313', 'Maplecrest Drive', 0.00),
-('Flavor Fusion Grill', '5076099924', 'Skylark Avenue', 0.00),
-('La Petite Boulangerie', '3816850026', 'Quail Ridge Road', 0.00),
-('Spice Street Kitchen', '5851822528', 'Bluebell Lane', 0.00),
-('Oceanview Oyster House', '9443488937', 'Elmwood Way', 0.00),
-('The Cozy Corner Cafe', '6455706792', 'Cedar Ridge Lane', 0.00),
-('Urban Grill & Bar', '8565650149', 'Oakdale Boulevard', 0.00),
-('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street', 0.00),
-('Sushi Haven Express', '6475656533', 'Meadowview Terrace', 0.00);
+('The Rustic Table', '6005103401', 'Willowbrook Lane'),
+('Savory Bites Cafe', '2276164313', 'Maplecrest Drive'),
+('Flavor Fusion Grill', '5076099924', 'Skylark Avenue'),
+('La Petite Boulangerie', '3816850026', 'Quail Ridge Road'),
+('Spice Street Kitchen', '5851822528', 'Bluebell Lane'),
+('Oceanview Oyster House', '9443488937', 'Elmwood Way'),
+('The Cozy Corner Cafe', '6455706792', 'Cedar Ridge Lane'),
+('Urban Grill & Bar', '8565650149', 'Oakdale Boulevard'),
+('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street'),
+('Sushi Haven Express', '6475656533', 'Meadowview Terrace');
+
+INSERT INTO Bank (accountID, balance)
+VALUES
+(1::VARCHAR(255), 'business', 113720.77),
+(2::VARCHAR(255), 'business', 120213.25),
+(3::VARCHAR(255), 'business', 117803.55),
+(4::VARCHAR(255), 'business', 118399.55),
+(5::VARCHAR(255), 'business', 112281.60),
+(6::VARCHAR(255), 'business', 118818.48),
+(7::VARCHAR(255), 'business', 111247.27),
+(8::VARCHAR(255), 'business', 116692.77),
+(9::VARCHAR(255), 'business', 113545.91),
+(10::VARCHAR(255), 'business', 120592.39);
 
 -- 0: meal, 1: side, 2: drink
 CREATE TABLE MenuItem (
@@ -156,7 +189,8 @@ CREATE TABLE CustomerOrder (
     orderID SERIAL PRIMARY KEY,
     customerEmail VARCHAR(255),
     orderDate DATE,
-    tip DECIMAL(10, 2)
+    tip DECIMAL(10, 2),
+    processed BOOLEAN
 );
 
 CREATE TABLE Cart (
