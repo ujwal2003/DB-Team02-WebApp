@@ -58,7 +58,7 @@ VALUES
 ('MiaAnderson@email.com', '8462496026328840', 513, 'Mia', '2026-06-12'),
 ('EthanWalker@email.com', '6415187195548769', 652, 'Ethan', '2027-03-25');
 
-INSERT INTO Bank (accountID, balance)
+INSERT INTO Bank (accountID, accountType, balance)
 VALUES
 ('EmilySmith@email.com', 'personal', 11564.05),
 ('DanielJohnson@email.com', 'personal', 9394.95),
@@ -91,7 +91,7 @@ VALUES
 ('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street'),
 ('Sushi Haven Express', '6475656533', 'Meadowview Terrace');
 
-INSERT INTO Bank (accountID, balance)
+INSERT INTO Bank (accountID, accountType, balance)
 VALUES
 (1::VARCHAR(255), 'business', 113720.77),
 (2::VARCHAR(255), 'business', 120213.25),
