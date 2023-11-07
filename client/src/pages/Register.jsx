@@ -11,6 +11,7 @@ function Register() {
     email: "",
     accountPin: "",
     phoneNumber: "",
+    zipCode: "",
   });
 
   async function registerUser() {
@@ -32,6 +33,7 @@ function Register() {
     email: false,
     accountPin: false,
     phoneNumber: false,
+    zipCode: false,
   });
 
   const handleChange = (e) => {
@@ -156,6 +158,22 @@ function Register() {
                 />
                 {formErrors.phoneNumber && (
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>
+                )}
+              </div>
+              <div className="mb-8">
+                <div className="mb-2">
+                  <label className="text-xl text-[#05204A]">Zip Code</label>
+                </div>
+                <input
+                  type="tel"
+                  name="zipCode"
+                  value={formData.zipCode}
+                  onChange={handleChange}
+                  placeholder="Zip Code"
+                  className={`form-control ${formErrors.zipCode ? "border-red-500" : ""}`}
+                />
+                {formErrors.zipCode && (
+                  <p className="text-red-500 text-sm">Please enter your Zip Code</p>
                 )}
               </div>
               <div className="mb-8">
