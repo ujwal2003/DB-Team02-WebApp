@@ -8,10 +8,8 @@ DROP TABLE IF EXISTS RestaurantMenu;
 DROP TABLE IF EXISTS Cart;
 
 CREATE TABLE Bank (
-    accountID VARCHAR(255),
-    accountType VARCHAR(255),
-    balance DECIMAL (10, 2),
-    PRIMARY KEY (accountID, accountType)
+    accountID VARCHAR(255) PRIMARY KEY,
+    balance DECIMAL(10, 2)
 );
 
 CREATE TABLE Customer (
@@ -21,21 +19,35 @@ CREATE TABLE Customer (
     lastName VARCHAR(255),
     phone VARCHAR(10),
     membership BOOLEAN DEFAULT 'no',
+    bankAccountID VARCHAR(255),
     active BOOLEAN DEFAULT 'yes'
 );
 
-INSERT INTO Customer (email, pin, firstName, lastName, phone, membership)
+INSERT INTO Customer (email, pin, firstName, lastName, phone, membership, bankAccountID)
 VALUES
-('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351', 'yes'),
-('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073', 'no'),
-('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261', 'yes'),
-('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655', 'no'),
-('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438', 'yes'),
-('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753', 'yes'),
-('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318', 'no'),
-('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071', 'no'),
-('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929', 'yes'),
-('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663', 'yes');
+('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351', 'yes', '9cXW2pJuXojaeMCvhlCtIA'),
+('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073', 'no', 'EMCNFF9sPcwxsEirgNsj5A'),
+('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261', 'yes', '9vir-UrDyahr-0N395KlXg'),
+('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655', 'no', 'e3qPx-ClRkQ1b6bBak30Tg'),
+('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438', 'yes', 'NLYzdQi0Satp_AMPi5I-eQ'),
+('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753', 'yes', 'd2mO08yOU3sZQQOgYl2NnQ'),
+('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318', 'no', 'wPNcEbQkH-DjDm7szCH-qA'),
+('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071', 'no', 'S-FavXCpDamFkvdUx36YfA'),
+('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929', 'yes', 'OpyrrkRg09Jbk_nv8OAABQ'),
+('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663', 'yes', 'dCP9Xj7lv4zDPI1cg3ixPw');
+
+INSERT INTO Bank (accountID, balance)
+VALUES
+('9cXW2pJuXojaeMCvhlCtIA', 11728.56),
+('EMCNFF9sPcwxsEirgNsj5A', 9822.43),
+('9vir-UrDyahr-0N395KlXg', 10540.92),
+('e3qPx-ClRkQ1b6bBak30Tg', 11137.27),
+('NLYzdQi0Satp_AMPi5I-eQ', 10951.95),
+('d2mO08yOU3sZQQOgYl2NnQ', 9919.38),
+('wPNcEbQkH-DjDm7szCH-qA', 9131.78),
+('S-FavXCpDamFkvdUx36YfA', 11619.93),
+('OpyrrkRg09Jbk_nv8OAABQ', 9568.88),
+('dCP9Xj7lv4zDPI1cg3ixPw', 8382.79);
 
 CREATE TABLE PaymentInformation (
     customerEmail VARCHAR(255) PRIMARY KEY,
@@ -58,51 +70,39 @@ VALUES
 ('MiaAnderson@email.com', '8462496026328840', 513, 'Mia', '2026-06-12'),
 ('EthanWalker@email.com', '6415187195548769', 652, 'Ethan', '2027-03-25');
 
-INSERT INTO Bank (accountID, accountType, balance)
-VALUES
-('EmilySmith@email.com', 'personal', 11564.05),
-('DanielJohnson@email.com', 'personal', 9394.95),
-('OliviaDavis@email.com', 'personal', 8691.88),
-('JamesWilson@email.com', 'personal', 11575.41),
-('SophiaMartinez@email.com', 'personal', 10492.45),
-('LiamBrown@email.com', 'personal', 9227.76),
-('AvaTaylor@email.com', 'personal', 11498.04),
-('BenjaminClark@example.com', 'personal', 11314.89),
-('MiaAnderson@email.com', 'personal', 10304.61),
-('EthanWalker@email.com', 'personal', 11811.96);
-
 CREATE TABLE Restaurant (
     restaurantID SERIAL PRIMARY KEY,
     name VARCHAR(255),
     phone VARCHAR(10),
-    street VARCHAR(255)
+    street VARCHAR(255),
+    bankAccountID VARCHAR(255)
 );
 
-INSERT INTO Restaurant (name, phone, street)
+INSERT INTO Restaurant (name, phone, street, bankAccountID)
 VALUES
-('The Rustic Table', '6005103401', 'Willowbrook Lane'),
-('Savory Bites Cafe', '2276164313', 'Maplecrest Drive'),
-('Flavor Fusion Grill', '5076099924', 'Skylark Avenue'),
-('La Petite Boulangerie', '3816850026', 'Quail Ridge Road'),
-('Spice Street Kitchen', '5851822528', 'Bluebell Lane'),
-('Oceanview Oyster House', '9443488937', 'Elmwood Way'),
-('The Cozy Corner Cafe', '6455706792', 'Cedar Ridge Lane'),
-('Urban Grill & Bar', '8565650149', 'Oakdale Boulevard'),
-('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street'),
-('Sushi Haven Express', '6475656533', 'Meadowview Terrace');
+('The Rustic Table', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
+('Savory Bites Cafe', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
+('Flavor Fusion Grill', '5076099924', 'Skylark Avenue', '4GcSTfqkB-f6H-EiTjb7MA'),
+('La Petite Boulangerie', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
+('Spice Street Kitchen', '5851822528', 'Bluebell Lane', 'nGq37Atmqxtkk2pT-T-9XA'),
+('Oceanview Oyster House', '9443488937', 'Elmwood Way', 'hge8VnXcCnkdtkqcm28sHA'),
+('The Cozy Corner Cafe', '6455706792', 'Cedar Ridge Lane', 'NR-tUZUai36m6Nl0nMso2Q'),
+('Urban Grill & Bar', '8565650149', 'Oakdale Boulevard', '_VDHAHkBz3BQ1yIx7sogPQ'),
+('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street', 's7CHJngo0FCg2VVFCgh5Rw'),
+('Sushi Haven Express', '6475656533', 'Meadowview Terrace', 'q9oO2fRskl6sfo0E7xWlsg');
 
-INSERT INTO Bank (accountID, accountType, balance)
+INSERT INTO Bank (accountID, balance)
 VALUES
-(1::VARCHAR(255), 'business', 113720.77),
-(2::VARCHAR(255), 'business', 120213.25),
-(3::VARCHAR(255), 'business', 117803.55),
-(4::VARCHAR(255), 'business', 118399.55),
-(5::VARCHAR(255), 'business', 112281.60),
-(6::VARCHAR(255), 'business', 118818.48),
-(7::VARCHAR(255), 'business', 111247.27),
-(8::VARCHAR(255), 'business', 116692.77),
-(9::VARCHAR(255), 'business', 113545.91),
-(10::VARCHAR(255), 'business', 120592.39);
+('XS8uRWWCaRYWVzB7cOrZig', 113720.77),
+('usTiA20eC8PQV1YjYZgpDw', 120213.25),
+('4GcSTfqkB-f6H-EiTjb7MA', 117803.55),
+('NzhL8Gq3KF51atHzGKjVeQ', 118399.55),
+('nGq37Atmqxtkk2pT-T-9XA', 112281.60),
+('hge8VnXcCnkdtkqcm28sHA', 118818.48),
+('NR-tUZUai36m6Nl0nMso2Q', 111247.27),
+('_VDHAHkBz3BQ1yIx7sogPQ', 116692.77),
+('s7CHJngo0FCg2VVFCgh5Rw', 113545.91),
+('q9oO2fRskl6sfo0E7xWlsg', 120592.39);
 
 -- 0: meal, 1: side, 2: drink
 CREATE TABLE MenuItem (
