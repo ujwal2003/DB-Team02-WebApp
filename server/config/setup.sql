@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS PaymentInformation;
--- DROP TABLE IF EXISTS Membership;
 DROP TABLE IF EXISTS Restaurant;
 DROP TABLE IF EXISTS CustomerOrder;
 DROP TABLE IF EXISTS MenuItem;
@@ -13,7 +12,8 @@ CREATE TABLE Customer (
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     phone VARCHAR(10),
-    membership BOOLEAN DEFAULT 'no'
+    membership BOOLEAN DEFAULT 'no',
+    active BOOLEAN DEFAULT 'yes'
 );
 
 INSERT INTO Customer (email, pin, firstName, lastName, phone, membership)
@@ -71,61 +71,51 @@ VALUES
 ('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street', 0.00),
 ('Sushi Haven Express', '6475656533', 'Meadowview Terrace', 0.00);
 
-
--- CREATE TABLE Membership (
---     membershipID SERIAL PRIMARY KEY,
---     customerEmail VARCHAR(255),
---     restaurantID INT,
---     firstDate DATE,
---     endDate DATE
--- );
-
--- INSERT INTO Membership (customerEmail, restaurantID, firstDate, endDate)
--- VALUES
--- ('JamesWilson@email.com', 2, '2025-02-22', '2025-04-22'),
--- ('EmilySmith@email.com', 7, '2025-11-11', '2026-01-11'),
--- ('MiaAnderson@email.com', 6, '2028-07-11', '2028-09-11'),
--- ('BenjaminClark@example.com', 9, '2024-12-18', '2025-02-18'),
--- ('LiamBrown@email.com', 1, '2026-07-31', '2026-09-30');
-
+-- 0: meal, 1: side, 2: drink
 CREATE TABLE MenuItem (
     itemID SERIAL PRIMARY KEY,
     name VARCHAR(255),
-    description TEXT
+    description TEXT,
+    type INT
 );
 
-INSERT INTO MenuItem (name, description)
+INSERT INTO MenuItem (name, description, type)
 VALUES
-('Hawaiian Pizza', 'A pizza topped with ham, pineapple, and mozzarella cheese, offering a sweet and savory combination.'),
-('Rustic Truffle Mac n Cheese', 'Creamy macaroni and cheese infused with truffle oil, topped with crispy bacon bits and fresh chives'),
-('Savory Spinach Stuffed Chicken', 'Tender chicken breasts stuffed with a flavorful spinach and feta cheese blend, served with garlic mashed potatoes and asparagus.'),
-('Mango Tango Shrimp Tacos', 'Grilled shrimp marinated in zesty mango sauce, served in soft corn tortillas with a refreshing avocado and mango salsa.'),
-('Spicy Thai Basil Noodles', 'Stir-fried rice noodles with minced chicken, Thai basil, and fiery chili sauce.'),
-('Mediterranean Quinoa Salad', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.'),
-('Tandoori Tofu Skewers', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.'),
-('Beef and Broccoli Stir-Fry', 'Sliced beef and broccoli florets wok-tossed in a savory ginger-soy sauce, served over steamed jasmine rice.'),
-('Creamy Lobster Bisque', 'Rich and velvety lobster bisque, garnished with a dollop of sour cream and fresh chives.'),
-('Vegetable Tikka Masala', 'A vibrant vegetarian dish featuring roasted mixed vegetables in a creamy tomato and coconut curry sauce, served with basmati rice.'),
-('Crispy Panko-Crusted Salmon', 'Salmon fillet coated in seasoned panko breadcrumbs and baked until golden brown, served with lemon butter sauce and garlic mashed potatoes.'),
-('Caprese Panini', 'A classic Italian sandwich filled with ripe tomatoes, fresh mozzarella, basil leaves, and a drizzle of balsamic glaze, pressed in crispy ciabatta.'),
-('Greek Souvlaki Platter', 'Grilled marinated chicken skewers, served with fluffy pita bread, Tzatziki sauce, and a Greek salad.'),
-('Cajun Jambalaya', 'A spicy blend of Andouille sausage, shrimp, and chicken simmered with bell peppers, onions, and rice in a Cajun tomato sauce.'),
-('Raspberry Almond Tart', 'A delicate almond pastry crust filled with luscious raspberry preserves and topped with toasted almond slivers.'),
-('Balsamic Glazed Portobello Mushrooms', 'Roasted portobello mushrooms drizzled with a sweet balsamic reduction and served with garlic parmesan mashed potatoes.'),
-('Southwest Black Bean Salad', 'A zesty salad featuring black beans, corn, avocado, and cherry tomatoes, tossed in a cilantro-lime dressing.'),
-('Penne alla Vodka', 'Penne pasta in a creamy tomato and vodka sauce, sprinkled with fresh basil and grated Parmesan cheese.'),
-('Spinach and Artichoke Stuffed Mushrooms', 'Mushroom caps filled with a creamy spinach and artichoke dip, baked until bubbly and golden.'),
-('Hawaiian Poke Bowl', 'A fresh and healthy bowl with diced ahi tuna, avocado, cucumber, and mango over sushi rice, drizzled with soy ginger dressing.'),
-('Eggplant Parmesan', 'Slices of breaded and fried eggplant layered with marinara sauce and mozzarella cheese, served with spaghetti.'),
-('Blackberry Mascarpone Crepes', 'Thin crepes filled with sweet mascarpone cheese and fresh blackberries, dusted with powdered sugar.'),
-('Vegan Chickpea Curry', 'A hearty chickpea curry with a blend of aromatic spices, served with basmati rice and naan bread.'),
-('Apple Cinnamon Bread Pudding', 'Warm and comforting bread pudding with layers of cinnamon-spiced apples, topped with a vanilla bourbon sauce.'),
-('Chocolate Lava Cake', 'A decadent dessert with a warm, molten chocolate center, dusted with powdered sugar and served with a scoop of vanilla ice cream.'),
-('Crispy Duck Confit', 'Duck leg slow-cooked until tender and then crisped to perfection, served with a cherry red wine reduction and sweet potato puree.'),
-('Veggie Lovers Pizza', 'A thin-crust pizza topped with a colorful medley of roasted vegetables, mozzarella cheese, and a pesto drizzle.'),
-('Stuffed Bell Peppers', 'Bell peppers filled with a savory mixture of ground beef, rice, tomatoes, and herbs, baked to perfection and topped with melted cheese.'),
-('Blueberry Pancake Stack', 'A tall stack of fluffy blueberry pancakes, topped with a dollop of whipped cream and drizzled with warm maple syrup.'),
-('Pineapple Upside-Down Cake', 'A classic dessert with caramelized pineapple rings and maraschino cherries atop a moist, buttery cake, served warm with a scoop of vanilla ice cream.');
+('Hawaiian Pizza', 'A pizza topped with ham, pineapple, and mozzarella cheese, offering a sweet and savory combination.', 0),
+('Rustic Truffle Mac n Cheese', 'Creamy macaroni and cheese infused with truffle oil, topped with crispy bacon bits and fresh chives', 0),
+('Savory Spinach Stuffed Chicken', 'Tender chicken breasts stuffed with a flavorful spinach and feta cheese blend, served with garlic mashed potatoes and asparagus.', 0),
+('Mango Tango Shrimp Tacos', 'Grilled shrimp marinated in zesty mango sauce, served in soft corn tortillas with a refreshing avocado and mango salsa.', 0),
+('Spicy Thai Basil Noodles', 'Stir-fried rice noodles with minced chicken, Thai basil, and fiery chili sauce.', 0),
+('Mediterranean Quinoa Salad', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.', 1),
+('Tandoori Tofu Skewers', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.', 1),
+('Beef and Broccoli Stir-Fry', 'Sliced beef and broccoli florets wok-tossed in a savory ginger-soy sauce, served over steamed jasmine rice.', 0),
+('Creamy Lobster Bisque', 'Rich and velvety lobster bisque, garnished with a dollop of sour cream and fresh chives.', 1),
+('Vegetable Tikka Masala', 'A vibrant vegetarian dish featuring roasted mixed vegetables in a creamy tomato and coconut curry sauce, served with basmati rice.', 0),
+('Crispy Panko-Crusted Salmon', 'Salmon fillet coated in seasoned panko breadcrumbs and baked until golden brown, served with lemon butter sauce and garlic mashed potatoes.', 0),
+('Caprese Panini', 'A classic Italian sandwich filled with ripe tomatoes, fresh mozzarella, basil leaves, and a drizzle of balsamic glaze, pressed in crispy ciabatta.', 1),
+('Greek Souvlaki Platter', 'Grilled marinated chicken skewers, served with fluffy pita bread, Tzatziki sauce, and a Greek salad.', 1),
+('Cajun Jambalaya', 'A spicy blend of Andouille sausage, shrimp, and chicken simmered with bell peppers, onions, and rice in a Cajun tomato sauce.', 0),
+('Raspberry Almond Tart', 'A delicate almond pastry crust filled with luscious raspberry preserves and topped with toasted almond slivers.', 1),
+('Balsamic Glazed Portobello Mushrooms', 'Roasted portobello mushrooms drizzled with a sweet balsamic reduction and served with garlic parmesan mashed potatoes.', 1),
+('Southwest Black Bean Salad', 'A zesty salad featuring black beans, corn, avocado, and cherry tomatoes, tossed in a cilantro-lime dressing.', 1),
+('Penne alla Vodka', 'Penne pasta in a creamy tomato and vodka sauce, sprinkled with fresh basil and grated Parmesan cheese.', 2),
+('Spinach and Artichoke Stuffed Mushrooms', 'Mushroom caps filled with a creamy spinach and artichoke dip, baked until bubbly and golden.', 0),
+('Hawaiian Poke Bowl', 'A fresh and healthy bowl with diced ahi tuna, avocado, cucumber, and mango over sushi rice, drizzled with soy ginger dressing.', 1),
+('Eggplant Parmesan', 'Slices of breaded and fried eggplant layered with marinara sauce and mozzarella cheese, served with spaghetti.', 0),
+('Blackberry Mascarpone Crepes', 'Thin crepes filled with sweet mascarpone cheese and fresh blackberries, dusted with powdered sugar.', 1),
+('Vegan Chickpea Curry', 'A hearty chickpea curry with a blend of aromatic spices, served with basmati rice and naan bread.', 0),
+('Apple Cinnamon Bread Pudding', 'Warm and comforting bread pudding with layers of cinnamon-spiced apples, topped with a vanilla bourbon sauce.', 1),
+('Chocolate Lava Cake', 'A decadent dessert with a warm, molten chocolate center, dusted with powdered sugar and served with a scoop of vanilla ice cream.', 1),
+('Crispy Duck Confit', 'Duck leg slow-cooked until tender and then crisped to perfection, served with a cherry red wine reduction and sweet potato puree.', 0),
+('Veggie Lovers Pizza', 'A thin-crust pizza topped with a colorful medley of roasted vegetables, mozzarella cheese, and a pesto drizzle.', 0),
+('Stuffed Bell Peppers', 'Bell peppers filled with a savory mixture of ground beef, rice, tomatoes, and herbs, baked to perfection and topped with melted cheese.', 1),
+('Blueberry Pancake Stack', 'A tall stack of fluffy blueberry pancakes, topped with a dollop of whipped cream and drizzled with warm maple syrup.', 1),
+('Pineapple Upside-Down Cake', 'A classic dessert with caramelized pineapple rings and maraschino cherries atop a moist, buttery cake, served warm with a scoop of vanilla ice cream.', 1),
+('Mango Tango Smoothie', 'A refreshing tropical delight, the Mango Tango Smoothie combines ripe mangoes, yogurt, and a touch of honey for a sweet and creamy treat with a hint of tanginess.', 2),
+('Minty Mojito', 'The Minty Mojito is a classic cocktail made with fresh mint leaves, lime juice, sugar, and white rum. It''s a zesty and refreshing drink, perfect for a hot summer day.', 2),
+('Chai Latte', 'A cozy and aromatic beverage, the Chai Latte is a blend of black tea, warm spices like cinnamon and cardamom, and steamed milk. It offers a soothing and spiced flavor profile.', 2),
+('Watermelon Cooler', 'A hydrating and summery drink, the Watermelon Cooler is made by blending fresh watermelon chunks with a squeeze of lime and a hint of agave syrup. It''s a fantastic thirst quencher.', 2),
+('Irish Coffee', 'A classic after-dinner drink, Irish Coffee combines hot coffee with a shot of Irish whiskey, sugar, and a dollop of whipped cream. It''s a warming and indulgent beverage with a delightful caffeine kick.', 2);
 
 CREATE TABLE RestaurantMenu (
     restaurantID INT,
@@ -157,13 +147,16 @@ VALUES
 (7, 3, 7.50),
 (10, 12, 2.15),
 (1, 28, 5.50),
-(4, 9, 3.33);
+(4, 9, 3.33),
+(2, 13, 4.55),
+(7, 15, 6.85),
+(7, 13, 3.55);
 
 CREATE TABLE CustomerOrder (
     orderID SERIAL PRIMARY KEY,
     customerEmail VARCHAR(255),
     orderDate DATE,
-    total DECIMAL(10, 2)
+    tip DECIMAL(10, 2)
 );
 
 CREATE TABLE Cart (
