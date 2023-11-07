@@ -61,7 +61,7 @@ function ManageAccount() {
             </Link>
           </li>
           <li className="mb-4">
-            <Link to="/orderHistory" className="text-[#05204A] font-bold">
+            <Link to="/OrderHistory" className="text-[#05204A] font-bold">
               Order History
             </Link>
           </li>
@@ -102,6 +102,12 @@ function ManageAccount() {
               Update Account Information
             </button>
           </Link>
+          <button className="bg-red-500 text-white font-bold py-2 px-4 rounded" onClick={() => {
+            if (window.confirm("Confirm Deletion of Account")) {
+              // Handle the account deletion logic here
+            }}}>
+    Delete Account
+  </button>
         </div>
         <div className="w-1/2">
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
@@ -121,6 +127,9 @@ function ManageAccount() {
           </div>
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Expiration:</strong> {paymentInfo.expiration}
+          </div>
+          <div className="mb-6">
+            <strong className="text-xl text-[#644536]">Balance:</strong> {paymentInfo.expiration}
           </div>
           <Link to ="/UpdatePaymentInformation">
             <button className="bg-[#05204A] text-white font-bold py-2 px-4 rounded">

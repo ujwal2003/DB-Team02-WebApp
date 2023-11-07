@@ -13,6 +13,8 @@ import Drinks from "./pages/Drinks";
 import Order from "./pages/Order";
 import Membership from "./pages/Membership";
 import Checkout from "./pages/Checkout";
+import Locations from "./pages/Locations";
+import OrderHistory from "./pages/OrderHistory";
 import { OrderProvider } from './context/OrderContext';
 import { UserProvider } from "./context/UserContext";
 import './App.css';
@@ -37,6 +39,8 @@ function App() {
         <Route path="/Order" element={<Order/>} />
         <Route path="/Membership" element={<Membership/>}/>
         <Route path="/Checkout" element={<Checkout/>}/>
+        <Route path="/Locations" element={<Locations/>}></Route>
+        <Route path="/OrderHistory" element={<OrderHistory/>}></Route>
       </Route>
     </Routes>
     </OrderProvider>

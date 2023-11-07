@@ -12,7 +12,7 @@ function Home() {
         <h1 className="text-7xl font-bold text-[#05204A] mb-4">Title</h1>
         <p className="text-xl text-[#05204A] mb-8">Description</p>
         
-        <Link to='/menu' className="bg-[#537D8D] px-4 py-2 text-white">Order Now</Link>
+        <Link to='/Locations' className="bg-[#537D8D] px-4 py-2 text-white">Order Now</Link>
         
         <p className="text-gray-400 mt-4">Free Delivery for Members!</p>
         </div>
