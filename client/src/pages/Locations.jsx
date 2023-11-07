@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { OrderContext } from '../context/OrderContext';
+
 
 function LocationList() {
   const [restaurants, setRestaurantInfo] = useState([]);
+  const {addLocation} = useContext(OrderContext);
   useEffect(() => {
     async function getLocationsInfo() {
       try {
@@ -52,9 +55,14 @@ function LocationList() {
                   <p className={otherElementsStyle}>Street: {location.street}</p>
                   <p className={otherElementsStyle}>Revenue: ${location.revenue}</p>
                 </div>
-                <button className="bg-[#05204A] text-white p-2 rounded" onClick={() => orderHere(location)}>
+                <Link to={`/Menu`}>
+                  <button className="bg-[#05204A] text-white p-2 rounded" onClick={() => addLocation(location)}>
+                    Order here!
+                  </button>
+                </Link>
+                {/*<button className="bg-[#05204A] text-white p-2 rounded" onClick={() => orderHere(location)}>
                   Order here!
-                </button>
+                </button>*/}
               </li>
             ))}
           </ul>

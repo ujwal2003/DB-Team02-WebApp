@@ -10,6 +10,8 @@ const tipOptions = [
 
 function Checkout() {
     const { cart } = useContext(OrderContext);
+    // setting Location for pickup
+    const { location } = useContext(OrderContext);
 
     // Calculate totals
     const subtotal = cart.reduce((total, item) => total + item.price, 0);
