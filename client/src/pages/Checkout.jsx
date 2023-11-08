@@ -47,8 +47,11 @@ function Checkout() {
 
             <div className='w-1/2 border border-[#644536] p-6'>
                 <div>
-                    <div className='text-2xl font-bold '>PICKUP LOCATION</div>
-                    <div>{location.name}</div>
+                    <div className='text-2xl font-bold '>Pickup Location Details</div>
+                    <div className='text-font-semibold'>Restaurant Name: {location.name}</div>
+                    <div className='text-font-semibold'>Restaurant ID: {location.restaurantid}</div>
+                    <div className='text-font-semibold'>Phone Number: {location.phone}</div>
+                    <div className='text-font-semibold'>Location: {location.street}, Houston, TX, 77057</div>
                 </div>
 
                 <hr className="border border-[#644536] my-4" />
