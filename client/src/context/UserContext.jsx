@@ -11,7 +11,7 @@ export function UserProvider({children}) {
         expiration: "Payment Method Not Set!",
     });
 
-    const custSignIn = (custEmail, fname, lname, member, phoneNum) => {
+    const custSignIn = (custEmail, fname, lname, member, phoneNum, zipCode) => {
         // console.log("triggered");
         setCustInfo({
             firstName: fname,
@@ -19,6 +19,7 @@ export function UserProvider({children}) {
             phone: phoneNum,
             email: custEmail,
             membershipType: member,
+            zip: zipCode
         });
     };
 
