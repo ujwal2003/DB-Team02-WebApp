@@ -34,7 +34,7 @@ export function UserProvider({children}) {
     };
 
     return (
-        <UserContext.Provider value={{custInfo, custPaymentInfo, setCustPaymentInfo, custSignIn, custSignOut}}>
+        <UserContext.Provider value={{custInfo, custPaymentInfo, setCustInfo, setCustPaymentInfo, custSignIn, custSignOut}}>
             {children}
         </UserContext.Provider>
     );
