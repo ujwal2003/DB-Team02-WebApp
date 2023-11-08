@@ -85,9 +85,9 @@ function ManageAccount() {
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Last Name:</strong> {userInfo.lastName}
           </div>
-          {/* <div className="mb-6">
-            <strong className="text-xl text-[#644536]">Customer ID:</strong> {userInfo.customerId}
-          </div> */}
+          <div className="mb-6">
+            <strong className="text-xl text-[#644536]">Zip Code:</strong> {userInfo.zip}
+          </div>
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">Phone Number:</strong> {userInfo.phone}
           </div>
