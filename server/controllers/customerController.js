@@ -1,13 +1,23 @@
 const customersModel = require('../models/customersModel');
+const utilityFunctions = require('../utility');
 
 async function registerNewUser(req, res) {
     try {
-        let {firstName, lastName, email, accountPin, phoneNumber} = req.body;
+        let {firstName, lastName, email, accountPin, phoneNumber, zipCode} = req.body;
+
+        const alreadyRegistered = await customersModel.queryUserEmail(email);
+        if(alreadyRegistered.length === 1)
+            return res.status(500).json({"error_registration": `${email} has already been registered`});
+
         accountPin = parseInt(accountPin, 10);
+        zipCode = parseInt(zipCode, 10);
         if(phoneNumber.length !== 10)
             return res.status(500).json({"error_status": "invalid phone number", "error_message": error.message});
 
-        const register = customersModel.insertNewCustomer(email, accountPin, firstName, lastName, phoneNumber);
+        let bankAcctID = utilityFunctions.getRandomString();
+        let acctBalance = utilityFunctions.getRandomWithinRange(8125.25, 12188.50);
+
+        const register = customersModel.insertNewCustomer(email, accountPin, firstName, lastName, phoneNumber, zipCode, bankAcctID, acctBalance);
         return res.status(201).json({"message": `Succesfully Registered ${firstName} ${lastName}`});
     } catch (error) {
         return res.status(500).json({"error_status": "registration failed", "error_message": error.message});

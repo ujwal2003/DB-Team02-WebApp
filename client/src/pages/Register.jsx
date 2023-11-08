@@ -15,15 +15,20 @@ function Register() {
   });
 
   async function registerUser() {
-    const res = await axios.post('customers/register/', formData);
-
-    if(res.status !== 201) {
-      throw new Error("unable to register");
+    try {
+      const res = await axios.post('customers/register/', formData);
+  
+      if(res.status !== 201) {
+        throw new Error("unable to register");
+      }
+  
+      const data = await res.data;
+      console.log(data);
+      return data;
+    } catch (error) {
+      if(error.response.data.error_registration === `${formData.email} has already been registered`)
+      alert("this email has already been registered, please sign in!");
     }
-
-    const data = await res.data;
-    console.log(data);
-    return data;
   }
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);

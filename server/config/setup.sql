@@ -18,23 +18,24 @@ CREATE TABLE Customer (
     firstName VARCHAR(255),
     lastName VARCHAR(255),
     phone VARCHAR(10),
+    zipcode INT,
     membership BOOLEAN DEFAULT 'no',
     bankAccountID VARCHAR(255),
     active BOOLEAN DEFAULT 'yes'
 );
 
-INSERT INTO Customer (email, pin, firstName, lastName, phone, membership, bankAccountID)
+INSERT INTO Customer (email, pin, firstName, lastName, phone, zipcode, membership, bankAccountID)
 VALUES
-('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351', 'yes', '9cXW2pJuXojaeMCvhlCtIA'),
-('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073', 'no', 'EMCNFF9sPcwxsEirgNsj5A'),
-('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261', 'yes', '9vir-UrDyahr-0N395KlXg'),
-('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655', 'no', 'e3qPx-ClRkQ1b6bBak30Tg'),
-('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438', 'yes', 'NLYzdQi0Satp_AMPi5I-eQ'),
-('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753', 'yes', 'd2mO08yOU3sZQQOgYl2NnQ'),
-('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318', 'no', 'wPNcEbQkH-DjDm7szCH-qA'),
-('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071', 'no', 'S-FavXCpDamFkvdUx36YfA'),
-('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929', 'yes', 'OpyrrkRg09Jbk_nv8OAABQ'),
-('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663', 'yes', 'dCP9Xj7lv4zDPI1cg3ixPw');
+('EmilySmith@email.com', 7483, 'Emily', 'Smith', '8043249351', 46784, 'yes', '9cXW2pJuXojaeMCvhlCtIA'),
+('DanielJohnson@email.com', 3269, 'Daniel', 'Johnson', '8247179073', 25273, 'no', 'EMCNFF9sPcwxsEirgNsj5A'),
+('OliviaDavis@email.com', 5821, 'Olivia', 'Davis', '7828849261', 72758, 'yes', '9vir-UrDyahr-0N395KlXg'),
+('JamesWilson@email.com', 9174, 'James', 'Wilson', '4058399655', 95071, 'no', 'e3qPx-ClRkQ1b6bBak30Tg'),
+('SophiaMartinez@email.com', 4036, 'Sophia', 'Martinez', '5233062438', 25068, 'yes', 'NLYzdQi0Satp_AMPi5I-eQ'),
+('LiamBrown@email.com', 1598, 'Liam', 'Brown', '3487579753', 96717, 'yes', 'd2mO08yOU3sZQQOgYl2NnQ'),
+('AvaTaylor@email.com', 6742, 'Ava', 'Taylor', '7527147318', 36703, 'no', 'wPNcEbQkH-DjDm7szCH-qA'),
+('BenjaminClark@example.com', 2357, 'Benjamin', 'Clark', '2580205071', 39720, 'no', 'S-FavXCpDamFkvdUx36YfA'),
+('MiaAnderson@email.com', 8690, 'Mia', 'Anderson', '7860639929', 21426, 'yes', 'OpyrrkRg09Jbk_nv8OAABQ'),
+('EthanWalker@email.com', 5102, 'Ethan', 'Walker', '7678716663', 58521, 'yes', 'dCP9Xj7lv4zDPI1cg3ixPw');
 
 INSERT INTO Bank (accountID, balance)
 VALUES
@@ -189,6 +190,7 @@ CREATE TABLE CustomerOrder (
     orderID SERIAL PRIMARY KEY,
     customerEmail VARCHAR(255),
     orderDate DATE,
+    orderTime TIME,
     tip DECIMAL(10, 2),
     processed BOOLEAN
 );
