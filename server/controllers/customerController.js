@@ -77,10 +77,10 @@ async function setUserPaymentInfo(req, res) {
 
 async function updateUserAccount(req, res) {
     try {
-        let {oldEmail, newEmail, pin, fname, lname, phone, membership} = req.body;
+        let {oldEmail, newEmail, pin, fname, lname, phone, membership, zipCode} = req.body;
         pin = parseInt(pin, 10);
 
-        let newInfo = await customersModel.updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, membership);
+        let newInfo = await customersModel.updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, membership, zipCode);
         return res.status(201).json({"message": `Sucessfully updated profile information for ${newEmail}`});
     } catch (error) {
         return res.status(500).json({"status": "failed to update user information", "error": error.message});

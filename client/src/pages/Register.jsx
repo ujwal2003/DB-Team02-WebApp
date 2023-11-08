@@ -77,7 +77,7 @@ function Register() {
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
       <div className="absolute inset-0 backdrop-blur-sm"></div>
       <div className="container mx-auto text-center relative flex items-center justify-center h-full">
-        <div className="bg-white py-14 px-40 bg-opacity-70">
+        <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full">
           {showSuccessMessage ? (
             <div className="text-3xl font-semibold text-[#05204A] mb-4">
               Congratulations! You successfully created your account, you may now <Link to="/signin"><u>sign in!</u></Link>

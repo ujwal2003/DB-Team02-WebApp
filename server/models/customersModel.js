@@ -83,7 +83,7 @@ async function insertNewPaymentInfo(customerEmail, cardNumber, cvv, cardName, ex
     }
 }
 
-async function updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, membership) {
+async function updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, membership, zip) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
@@ -94,7 +94,8 @@ async function updateCustomer(oldEmail, newEmail, pin, fname, lname, phone, memb
                 firstname = '${fname}',
                 lastname = '${lname}',
                 phone = '${phone}',
-                membership = '${membership}'
+                membership = '${membership}',
+                zipcode = ${zip}
             WHERE email = '${oldEmail}';
 
             UPDATE paymentinformation 
