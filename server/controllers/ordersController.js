@@ -1,5 +1,19 @@
-//TODO import the orders model
+const ordersModel = require('../models/ordersModel');
 
-//TODO specify the controller logic
+async function addToCart(req, res) {
+    //TODO implementation
+}
 
-//TODO export all the functions
+async function addTip(req, res) {
+    //TODO implementation
+}
+
+async function processOrder(req, res) {
+    //TODO implementation
+}
+
+module.exports = {
+    addToCart,
+    addTip,
+    processOrder
+}
