@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AlternateImage from "../assets/alternate-mexican-food.png";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function UpdatePaymentInformation() {
+    const {custInfo} = useContext(UserContext);
     const [formData, setFormData] = useState({
-        paymentId: "",
+        // paymentId: "",
         cardNumber: "",
         cvv: "",
         cardName: "",
@@ -26,8 +30,24 @@ function UpdatePaymentInformation() {
           [name]: value,
         });
       };
+
+      async function updateUserPaymentInfo() {
+        try {
+          const res = await axios.post('customers/new_card/', {
+              customerEmail: custInfo.email,
+              cardNumber: formData.cardNumber,
+              cvv: formData.cvv,
+              cardName: formData.cardName,
+              expiration: formData.expiration
+          });
+          const data = await res;
+          return data;
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      }
     
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the form from submitting (to avoid page reload)
     
         // Check for empty fields
@@ -43,8 +63,14 @@ function UpdatePaymentInformation() {
         if (hasError) {
           setFormErrors(errors);
         } else {
-          // You can add your account creation logic here if needed
-          console.log(formData)
+          // send to db
+          formData.cardName = formData.cardName.replace(/'/g, "''");
+          let dateParts = formData.expiration.split('-');
+          dateParts.splice(1, 0, '01');
+          formData.expiration = dateParts.join('-');
+
+          let updatedData = await updateUserPaymentInfo();
+          console.log(formData);
     
           // Display the success message
           setShowSuccessMessage(true);
@@ -58,13 +84,13 @@ function UpdatePaymentInformation() {
             <div className="bg-white py-14 px-40 bg-opacity-70">
               {showSuccessMessage ? (
                 <div className="text-4xl font-semibold text-[#05204A] mb-4">
-                  Congratulations! You have updated your payment information
+                  Payment information updated!
                 </div>
               ) : (
                 <>
                   <h1 className="text-7xl font-semibold text-[#05204A] mb-4">Update Payment Information</h1>
 
-                  <div className="mb-8">
+                  {/* <div className="mb-8">
                     <div className="mb-2">
                       <label className="text-xl text-[#05204A]">Payment ID</label>
                     </div>
@@ -79,7 +105,7 @@ function UpdatePaymentInformation() {
                     {formErrors.paymentId && (
                       <p className="text-red-500 text-sm">Please enter your payment ID</p>
                     )}
-                  </div>
+                  </div> */}
 
                   <div className="mb-8">
                     <div className="mb-2">
