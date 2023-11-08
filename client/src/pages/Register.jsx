@@ -184,7 +184,7 @@ function Register() {
               <div className="mb-8">
                 <div className="flex justify-center">
                   <button
-                    className="w-32 h-12 bg-[#05204A] rounded-md text-white"
+                    className="w-32 h-12 bg-[#537D8D] rounded-md text-white"
                     type="submit"
                     onClick={handleSubmit}
                   >
