@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Order() {
     const { cart, removeFromCart } = useContext(OrderContext);
+    const { location } = useContext(OrderContext);
 
     // Calculate totals
     const subtotal = cart.reduce((total, item) => total + item.price, 0); 
@@ -39,7 +40,6 @@ function Order() {
                     <hr className="border border-[#644536] my-4" />
                 </div>
             ))}
-
             <div className="mt-6 p-4 rounded-lg border w-screen mb-10">
                 <div className="flex justify-between text-lg mb-2">
                     <span>Subtotal</span>
@@ -56,8 +56,10 @@ function Order() {
                 <div className="flex justify-between text-xl font-bold mb-2">
                     <span>Total</span>
                     <span>${total.toFixed(2)}</span>
+                </div><div className="flex justify-between text-xl font-bold mb-2">
+                    <span>Pickup Location:</span>
+                    <span>{location.name}</span>
                 </div>
-                
                 <div className='flex justify-center pt-10'>
                 <Link to='/Checkout' className="bg-[#644536] text-white px-4 py-4 w-1/4 flex items-center justify-center">
                     CHECKOUT

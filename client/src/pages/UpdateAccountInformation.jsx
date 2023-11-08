@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AlternateImage from "../assets/alternate-mexican-food.png";
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 function UpdateAccountInformation() {
+  const {custInfo, custSignOut} = useContext(UserContext);
+  // console.log(custInfo);
+
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
+    firstName: custInfo.firstName,
+    lastName: custInfo.lastName,
+    email: custInfo.email,
     accountPin: "",
-    phoneNumber: "",
+    phoneNumber: custInfo.phone,
+    zip: custInfo.zip
   });
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -18,6 +24,7 @@ function UpdateAccountInformation() {
     email: false,
     accountPin: false,
     phoneNumber: false,
+    zip: false,
   });
 
   const handleChange = (e) => {
@@ -28,14 +35,33 @@ function UpdateAccountInformation() {
     });
   };
 
-  const handleSubmit = (e) => {
+  async function updateUserAcctInfo() {
+    try {
+      const res = await axios.post('customers/profile/', {
+        oldEmail: custInfo.email,
+        newEmail: formData.email,
+        pin: formData.accountPin,
+        fname: formData.firstName,
+        lname: formData.lastName,
+        phone: formData.phoneNumber,
+        membership: custInfo.membershipType,
+        zipCode: formData.zip
+      });
+      const data = await res;
+      return data;
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from submitting (to avoid page reload)
 
     // Check for empty fields
     const errors = {};
     let hasError = false;
     for (const key in formData) {
-      if (formData[key].trim() === "") {
+      if (formData[key].toString().trim() === "") {
         errors[key] = true;
         hasError = true;
       }
@@ -44,7 +70,10 @@ function UpdateAccountInformation() {
     if (hasError) {
       setFormErrors(errors);
     } else {
-      // You can add your account creation logic here if needed
+      // update account info
+      let updatedData = await updateUserAcctInfo();
+      custSignOut();
+      // console.log(formData);
 
       // Display the success message
       setShowSuccessMessage(true);
@@ -58,7 +87,7 @@ function UpdateAccountInformation() {
         <div className="bg-white py-14 px-40 bg-opacity-70">
           {showSuccessMessage ? (
             <div className="text-4xl font-semibold text-[#05204A] mb-4">
-              Congratulations! You have updated your account information
+              Information updated, please <Link to="/ManageAccount"><u>sign in again</u></Link>
             </div>
           ) : (
             <>
@@ -120,7 +149,7 @@ function UpdateAccountInformation() {
                   name="accountPin"
                   value={formData.accountPin}
                   onChange={handleChange}
-                  placeholder="Account Pin Number"
+                  placeholder="Enter 4-digit Pin"
                   className={`form-control ${formErrors.accountPin ? "border-red-500" : ""}`}
                 />
                 {formErrors.accountPin && (
@@ -138,6 +167,22 @@ function UpdateAccountInformation() {
                   onChange={handleChange}
                   placeholder="Phone Number"
                   className={`form-control ${formErrors.phoneNumber ? "border-red-500" : ""}`}
+                />
+                {formErrors.phoneNumber && (
+                  <p className="text-red-500 text-sm">Please enter your Phone Number</p>
+                )}
+              </div>
+              <div className="mb-8">
+                <div className="mb-2">
+                  <label className="text-xl text-[#05204A]">Zip Code</label>
+                </div>
+                <input
+                  type="tel"
+                  name="zipCode"
+                  value={formData.zip}
+                  onChange={handleChange}
+                  placeholder="Zip Code"
+                  className={`form-control ${formErrors.zip ? "border-red-500" : ""}`}
                 />
                 {formErrors.phoneNumber && (
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>

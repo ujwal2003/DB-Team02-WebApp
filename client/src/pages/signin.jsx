@@ -96,7 +96,7 @@ function SignIn() {
 
     if (logInUser) {
       // Redirect to the ManageAccount page on successful sign-in
-      custSignIn(logInUser.email, logInUser.firstname, logInUser.lastname, logInUser.membership, logInUser.phone);
+      custSignIn(logInUser.email, logInUser.firstname, logInUser.lastname, logInUser.membership, logInUser.phone, logInUser.zipcode);
       navigate("/ManageAccount");
     }
   };

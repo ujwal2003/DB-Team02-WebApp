@@ -11,18 +11,24 @@ function Register() {
     email: "",
     accountPin: "",
     phoneNumber: "",
+    zipCode: "",
   });
 
   async function registerUser() {
-    const res = await axios.post('customers/register/', formData);
-
-    if(res.status !== 201) {
-      throw new Error("unable to register");
+    try {
+      const res = await axios.post('customers/register/', formData);
+  
+      if(res.status !== 201) {
+        throw new Error("unable to register");
+      }
+  
+      const data = await res.data;
+      console.log(data);
+      return data;
+    } catch (error) {
+      if(error.response.data.error_registration === `${formData.email} has already been registered`)
+      alert("this email has already been registered, please sign in!");
     }
-
-    const data = await res.data;
-    console.log(data);
-    return data;
   }
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -32,6 +38,7 @@ function Register() {
     email: false,
     accountPin: false,
     phoneNumber: false,
+    zipCode: false,
   });
 
   const handleChange = (e) => {
@@ -156,6 +163,22 @@ function Register() {
                 />
                 {formErrors.phoneNumber && (
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>
+                )}
+              </div>
+              <div className="mb-8">
+                <div className="mb-2">
+                  <label className="text-xl text-[#05204A]">Zip Code</label>
+                </div>
+                <input
+                  type="tel"
+                  name="zipCode"
+                  value={formData.zipCode}
+                  onChange={handleChange}
+                  placeholder="Zip Code"
+                  className={`form-control ${formErrors.zipCode ? "border-red-500" : ""}`}
+                />
+                {formErrors.zipCode && (
+                  <p className="text-red-500 text-sm">Please enter your Zip Code</p>
                 )}
               </div>
               <div className="mb-8">
