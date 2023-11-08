@@ -48,7 +48,7 @@ function Checkout() {
             <div className='w-1/2 border border-[#644536] p-6'>
                 <div>
                     <div className='text-2xl font-bold '>PICKUP LOCATION</div>
-                    <div>*insert location here*</div>
+                    <div>{location.name}</div>
                 </div>
 
                 <hr className="border border-[#644536] my-4" />

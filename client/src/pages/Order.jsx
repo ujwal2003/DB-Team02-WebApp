@@ -58,7 +58,7 @@ function Order() {
                     <span>${total.toFixed(2)}</span>
                 </div><div className="flex justify-between text-xl font-bold mb-2">
                     <span>Pickup Location:</span>
-                    <span>Location Name</span>
+                    <span>{location.name}</span>
                 </div>
                 <div className='flex justify-center pt-10'>
                 <Link to='/Checkout' className="bg-[#644536] text-white px-4 py-4 w-1/4 flex items-center justify-center">
