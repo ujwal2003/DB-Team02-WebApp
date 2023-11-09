@@ -104,9 +104,9 @@ function SignIn() {
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
       <div className="absolute inset-0 backdrop-blur-sm"></div>
-      <div className="container mx-auto text-center relative flex items-center justify-center h-full">
-        <div className="bg-white py-14 px-40 bg-opacity-70">
-          <h1 className="text-7xl font-bold text-[#05204A] mb-4">Sign In</h1>
+      <div className="container mx-auto text-center relative flex items-center justify-center h-screen">
+      <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full overflow-y-auto">
+          <h1 className="text-3xl md:text-7xl font-bold text-[#05204A] mb-4">Sign In</h1>
           <div className="mb-8">
             <div className="mb-2">
               <label className="text-xl text-[#05204A]">Email</label>

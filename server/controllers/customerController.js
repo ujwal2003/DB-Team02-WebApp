@@ -1,6 +1,15 @@
 const customersModel = require('../models/customersModel');
 const utilityFunctions = require('../utility');
 
+async function getAllCustomers(req, res) {
+    try {
+        const customers = await customersModel.queryCustomersTable();
+        return res.status(200).json(customers);
+    } catch (error) {
+        return res.status(500).json({"error_status": "failed", "error_message": error.message});
+    }
+}
+
 async function registerNewUser(req, res) {
     try {
         let {firstName, lastName, email, accountPin, phoneNumber, zipCode} = req.body;
@@ -117,5 +126,6 @@ module.exports = {
     getUserPaymentInfo,
     setUserPaymentInfo,
     updateUserAccount,
-    updateUserPaymentInfo
+    updateUserPaymentInfo,
+    getAllCustomers
 }
