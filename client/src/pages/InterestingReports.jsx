@@ -8,6 +8,7 @@ function InterestingReports() {
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
+  const [customers, setCustomerInfo] = useState([]);
 
   useEffect(() => {
     async function getLocationsInfo() {
