@@ -119,6 +119,23 @@ function InterestingReports() {
           </button>
         </div>
       )}
+      {showRestaurantMenu && !joinClicked && (
+        <div className="w-full">
+          <h2>Showing All Restaurants in the DB</h2>
+          <ul>
+            {restaurants.map((restaurant, index) => (
+              <li key={index}>
+                <p style={{ textAlign: "center"}}>
+                <strong>Restaurant ID:</strong> {restaurant.restaurantid}<br />
+                  Restaurant Name: {restaurant.name}<br />
+                  Phone Number: {restaurant.phone}<br />
+                </p>
+                {/* Add more restaurant information fields as needed */}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
       {showRestaurantMenu && joinClicked && (
         <div className="w-full">
           <h2>Enter Restaurant ID:</h2>
