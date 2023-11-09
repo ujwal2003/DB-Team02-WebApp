@@ -91,10 +91,10 @@ async function updateUserPaymentInfo(req, res) {
     try {
         let {customerEmail, cardNumber, cvv, cardName, expiration} = req.body;
 
-        let dateComponents = expiration.split('-');
-        [dateComponents[0], dateComponents[1]] = [dateComponents[1], dateComponents[0]];
-        dateComponents.reverse();
-        expiration = dateComponents.join("-");
+        // let dateComponents = expiration.split('-');
+        // [dateComponents[0], dateComponents[1]] = [dateComponents[1], dateComponents[0]];
+        // dateComponents.reverse();
+        // expiration = dateComponents.join("-");
 
         cvv = parseInt(cvv, 10);
 

@@ -91,10 +91,10 @@ function UpdateAccountInformation() {
             </div>
           ) : (
             <>
-              <h1 className="text-7xl font-semibold text-[#05204A] mb-4">Update Account Information</h1>
-              <div className="mb-8">
+              <h1 className="text-4xl font-semibold text-[#05204A] mb-4">Update Account Information</h1>
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">First Name</label>
+                  <label className="text-l text-[#05204A]">First Name</label>
                 </div>
                 <input
                   type="text"
@@ -108,9 +108,9 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please enter your first name</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Last Name</label>
+                  <label className="text-l text-[#05204A]">Last Name</label>
                 </div>
                 <input
                   type="text"
@@ -124,9 +124,9 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please enter your last name</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Email</label>
+                  <label className="text-l text-[#05204A]">Email</label>
                 </div>
                 <input
                   type="email"
@@ -140,9 +140,9 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please enter your email</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Account Pin Number</label>
+                  <label className="text-l text-[#05204A]">Account Pin Number</label>
                 </div>
                 <input
                   type="text"
@@ -156,9 +156,9 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please create a 4 digit pin</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Phone Number</label>
+                  <label className="text-l text-[#05204A]">Phone Number</label>
                 </div>
                 <input
                   type="tel"
@@ -172,9 +172,9 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Zip Code</label>
+                  <label className="text-l text-[#05204A]">Zip Code</label>
                 </div>
                 <input
                   type="tel"
@@ -188,7 +188,7 @@ function UpdateAccountInformation() {
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="flex justify-center">
                   <button
                     className="w-32 h-12 bg-[#05204A] rounded-md text-white"
