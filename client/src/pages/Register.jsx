@@ -76,16 +76,16 @@ function Register() {
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
       <div className="absolute inset-0 backdrop-blur-sm"></div>
-      <div className="container mx-auto text-center relative flex items-center justify-center h-full">
-        <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full">
+      <div className="container mx-auto text-center relative flex items-center justify-center h-screen">
+        <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full overflow-y-auto">
           {showSuccessMessage ? (
             <div className="text-3xl font-semibold text-[#05204A] mb-4">
               Congratulations! You successfully created your account, you may now <Link to="/signin"><u>sign in!</u></Link>
             </div>
           ) : (
             <>
-              <h1 className="text-4xl font-bold text-[#05204A] mb-2">Create an Account</h1>
-              <div className="mb-6">
+              <h1 className="text-3xl md:text-7xl font-bold text-[#05204A] mb-4">Create an Account</h1>
+              <div className="mb-8">
                 <div className="mb-2">
                   <label className="text-l text-[#05204A]">First Name</label>
                 </div>
