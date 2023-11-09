@@ -4,8 +4,10 @@ import React, { useState, useEffect } from "react";
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
-  const [restaurantID, setRestaurantID] = useState(""); // State to store the restaurant ID
-  const [restaurants, setRestaurantInfo] = useState([]); // State to store restaurant information
+  const [restaurantID, setRestaurantID] = useState("");
+  const [restaurants, setRestaurantInfo] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
+  const [searchedMenuItems, setSearchedMenuItems] = useState([]);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -28,14 +30,15 @@ function InterestingReports() {
     if (buttonName === "Restaurants") {
       setShowRestaurantMenu(true);
       setJoinClicked(false);
-      setRestaurantID(""); // Clear restaurant ID when "Restaurants" button is clicked
-      // No need to fetch data again as we already fetched it when the component mounted
+      setRestaurantID("");
+      setSearchedMenuItems([]); // Clear searched menu items
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
     } else {
       setShowRestaurantMenu(false);
       setJoinClicked(false);
       setRestaurantID("");
+      setSearchedMenuItems([]);
       alert("Under development for phase 2");
     }
   };
@@ -52,6 +55,27 @@ function InterestingReports() {
         });
     }
   };
+
+  // Function to fetch menu items based on restaurant ID
+  const fetchMenuItems = async () => {
+    try {
+      const res = await axios.get(`/restaurants/menu/${restaurantID}`);
+      const data = await res.data;
+      if (data !== "none") {
+        setSearchedMenuItems(data);
+      } else {
+        setSearchedMenuItems([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (restaurantID && joinClicked) {
+      fetchMenuItems();
+    }
+  }, [restaurantID, joinClicked]);
 
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
@@ -105,22 +129,20 @@ function InterestingReports() {
             placeholder="Restaurant ID"
           />
           <button className="bg-[#537D8D] text-white " onClick={handleRestaurantIDSearch}>Search</button>
-          {/* Display the restaurant data here based on the search results */}
         </div>
       )}
 
-      {showRestaurantMenu && !joinClicked && (
+      {showRestaurantMenu && joinClicked && searchedMenuItems.length > 0 && (
         <div className="w-full">
-          <h2>Showing All Restaurants in the DB</h2>
+          <h2>Restaurant Menu Items</h2>
           <ul>
-            {restaurants.map((restaurant, index) => (
+            {searchedMenuItems.map((menuItem, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center"}}>
-                <strong>Restaurant ID:</strong> {restaurant.restaurantid}<br />
-                  Restaurant Name: {restaurant.name}<br />
-                  Phone Number: {restaurant.phone}<br />
+                <p style={{ textAlign: "center" }}>
+                  Menu Item Name: {menuItem.name}<br />
+                  Price: {menuItem.price}<br />
+                  {/* Add more menu item information fields as needed */}
                 </p>
-                {/* Add more restaurant information fields as needed */}
               </li>
             ))}
           </ul>
