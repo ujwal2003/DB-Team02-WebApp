@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [showExpensiveDishes, setShowExpensiveDishes] = useState(false);
-  const [showWealthiesetRestaurants, setShowWealthiestRestaurants] = useState(false);
+  const [showWealthiestRestaurants, setShowWealthiestRestaurants] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
@@ -46,10 +46,11 @@ function InterestingReports() {
     // Fetch most expensive dishes when the component mounts
     getExpensiveDishes();
   }, []);
+
   useEffect(() => {
     async function getRichestRestaurants() {
       try {
-        const res = await axios.get('restaurants/expensive');
+        const res = await axios.get('restaurants/wealth');
         const data = await res.data;
         if (data !== "none") {
           setRichestRestaurants(data);
@@ -59,7 +60,7 @@ function InterestingReports() {
       }
     }
 
-    // Fetch most expensive dishes when the component mounts
+    // Fetch wealthiest restaurants when the component mounts
     getRichestRestaurants();
   }, []);
 
@@ -67,11 +68,18 @@ function InterestingReports() {
     if (buttonName === "Restaurants") {
       setShowRestaurantMenu(true);
       setShowExpensiveDishes(false); // Hide expensive dishes
+      setShowWealthiestRestaurants(false);
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
+      setJoinClicked(false);
+    } else if (buttonName === "Restaurants By Wealth") {
+      setShowWealthiestRestaurants(true);
+      setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
@@ -79,6 +87,7 @@ function InterestingReports() {
     } else {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
+      setShowWealthiestRestaurants(false);
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
@@ -186,6 +195,22 @@ function InterestingReports() {
                   Dish Name: {dish.dish_name}<br />
                   Price: {dish.price}<br />
                   {/* Add more dish information fields as needed */}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {showWealthiestRestaurants && (
+        <div className="w-full">
+          <h2>Restaurants Ordered By Highest Revenue</h2>
+          <ul>
+            {richestRestaurants.map((res, index) => (
+              <li key={index}>
+                <p style={{ textAlign: "center" }}>
+                  Restaurant Name: {res.name}<br />
+                  Revenue: {res.wealth}<br />
+                  {/* Add more restaurant information fields as needed */}
                 </p>
               </li>
             ))}
