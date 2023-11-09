@@ -51,13 +51,8 @@ function ManageAccount() {
       <div className="bg-[#9DC087] w-1/8 p-8">
         <ul>
           <li className="mb-4">
-            <Link to="/dashboard" className="text-[#05204A] font-bold">
-              Dashboard
-            </Link>
-          </li>
-          <li className="mb-4">
-            <Link to="/profile" className="text-[#05204A] font-bold">
-              Profile
+            <Link to="/AboutMe" className="text-[#05204A] font-bold">
+              About Me
             </Link>
           </li>
           <li className="mb-4">
