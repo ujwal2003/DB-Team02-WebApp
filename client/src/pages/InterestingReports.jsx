@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [showExpensiveDishes, setShowExpensiveDishes] = useState(false);
+  const [showWealthiesetRestaurants, setShowWealthiestRestaurants] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
+  const [richestRestaurants, setRichestRestaurants] = useState([]);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -43,6 +45,22 @@ function InterestingReports() {
 
     // Fetch most expensive dishes when the component mounts
     getExpensiveDishes();
+  }, []);
+  useEffect(() => {
+    async function getRichestRestaurants() {
+      try {
+        const res = await axios.get('restaurants/expensive');
+        const data = await res.data;
+        if (data !== "none") {
+          setRichestRestaurants(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // Fetch most expensive dishes when the component mounts
+    getRichestRestaurants();
   }, []);
 
   const handleButtonClick = (buttonName) => {
@@ -115,6 +133,9 @@ function InterestingReports() {
       </button>
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Most Expensive Dishes")}>
         Most Expensive Dishes
+      </button>
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants By Wealth")}>
+        Restaurants By Wealth
       </button>
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
