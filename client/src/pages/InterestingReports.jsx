@@ -1,62 +1,93 @@
-import React, { useState, useEffect } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 function InterestingReports() {
-  const [showJoinButtons, setShowJoinButtons] = useState(false);
-  const [restaurantMenuData, setRestaurantMenuData] = useState([]);
+  const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
+  const [joinClicked, setJoinClicked] = useState(false);
+  const [restaurantID, setRestaurantID] = useState(""); // State to store the restaurant ID
 
-  useEffect(() => {
-    if (showJoinButtons) {
-      // Simulated dummy data
-      const dummyData = [
-        { restaurantID: 1, menuItemID: 101, price: 10.99 },
-        { restaurantID: 2, menuItemID: 102, price: 9.99 },
-        { restaurantID: 3, menuItemID: 103, price: 12.99 },
-      ];
-
-      setRestaurantMenuData(dummyData);
+  const handleButtonClick = (buttonName) => {
+    if (buttonName === "Restaurants") {
+      setShowRestaurantMenu(true);
+    } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
+      setJoinClicked(true);
+    } else {
+      setShowRestaurantMenu(false);
+      setJoinClicked(false);
+      setRestaurantID(""); // Clear restaurant ID on other button clicks
+      alert("Under development for phase 2");
     }
-  }, [showJoinButtons]);
+  };
 
-  const handleFirstRowButtonClick = () => {
-    setShowJoinButtons(true);
-  }
+  const handleRestaurantIDSearch = () => {
+    // Implement the logic to search for restaurant data based on the entered ID.
+    if (restaurantID) {
+      // Make an API call or perform a search operation with the restaurantID
+      // and then display the results.
+      // You can use the Axios library for making HTTP requests.
+      axios.get(`/api/restaurants/${restaurantID}`)
+        .then((response) => {
+          // Handle the response and update the UI accordingly.
+        })
+        .catch((error) => {
+          // Handle any errors that occur during the API request.
+        });
+    }
+  };
 
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
-      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]" onClick={handleFirstRowButtonClick}>
-        Table 1
+      <button
+        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]"
+        onClick={() => handleButtonClick("Restaurants")}
+      >
+        Restaurants
       </button>
-      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={handleFirstRowButtonClick}>
-        Table 2
+      <button
+        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
+        onClick={() => handleButtonClick("Customers")}
+      >
+        Customers
       </button>
-      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={handleFirstRowButtonClick}>
-        Table 3
+      <button
+        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
+        onClick={() => handleButtonClick("Orders")}
+      >
+        Orders
       </button>
-      {showJoinButtons && (
+      {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
-          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]">
-            Join with Table 1
+          <button
+            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
+            onClick={() => handleButtonClick("Join with Menu Items")}
+          >
+            Join with Menu Items
           </button>
-          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]">
-            Join with Table 2
+          <button
+            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
+            onClick={() => handleButtonClick("Join with Cart")}
+          >
+            Join with Cart
           </button>
-          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]">
-            Join with Table 3
+          <button
+            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
+            onClick={() => handleButtonClick("Join with Orders")}
+          >
+            Join with Orders
           </button>
         </div>
       )}
-      {restaurantMenuData.length > 0 && (
+      {showRestaurantMenu && joinClicked && (
         <div className="w-full">
-          <h2>Restaurant Menu Data</h2>
-          <ul>
-            {restaurantMenuData.map((item, index) => (
-              <li key={index}>
-                <p>Restaurant ID: {item.restaurantID}</p>
-                <p>Menu Item ID: {item.menuItemID}</p>
-                <p>Price: {item.price}</p>
-              </li>
-            ))}
-          </ul>
+          <h2>Enter Restaurant ID:</h2>
+          <input
+            type="text"
+            value={restaurantID}
+            onChange={(e) => setRestaurantID(e.target.value)}
+            placeholder="Restaurant ID"
+          />
+          <button className="bg-[#537D8D] text-white " onClick={handleRestaurantIDSearch}>Search</button>
+          {/* Display the restaurant data here based on the search results */}
         </div>
       )}
     </div>
