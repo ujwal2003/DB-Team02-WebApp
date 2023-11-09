@@ -1,30 +1,48 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [restaurantID, setRestaurantID] = useState(""); // State to store the restaurant ID
+  const [restaurants, setRestaurantInfo] = useState([]); // State to store restaurant information
+
+  useEffect(() => {
+    async function getLocationsInfo() {
+      try {
+        const res = await axios.get('restaurants/all');
+        const data = await res.data;
+        if (data !== "none") {
+          setRestaurantInfo(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // Fetch all restaurants when the component mounts
+    getLocationsInfo();
+  }, []);
 
   const handleButtonClick = (buttonName) => {
     if (buttonName === "Restaurants") {
       setShowRestaurantMenu(true);
+      setJoinClicked(false);
+      setRestaurantID(""); // Clear restaurant ID when "Restaurants" button is clicked
+      // No need to fetch data again as we already fetched it when the component mounted
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
     } else {
       setShowRestaurantMenu(false);
       setJoinClicked(false);
-      setRestaurantID(""); // Clear restaurant ID on other button clicks
+      setRestaurantID("");
       alert("Under development for phase 2");
     }
   };
 
   const handleRestaurantIDSearch = () => {
-    // Implement the logic to search for restaurant data based on the entered ID.
     if (restaurantID) {
-      // Make an API call or perform a search operation with the restaurantID
-      // and then display the results.
-      // You can use the Axios library for making HTTP requests.
+      // Implement the logic to search for restaurant data based on the entered ID.
       axios.get(`/api/restaurants/${restaurantID}`)
         .then((response) => {
           // Handle the response and update the UI accordingly.
@@ -88,6 +106,24 @@ function InterestingReports() {
           />
           <button className="bg-[#537D8D] text-white " onClick={handleRestaurantIDSearch}>Search</button>
           {/* Display the restaurant data here based on the search results */}
+        </div>
+      )}
+
+      {showRestaurantMenu && !joinClicked && (
+        <div className="w-full">
+          <h2>Showing All Restaurants in the DB</h2>
+          <ul>
+            {restaurants.map((restaurant, index) => (
+              <li key={index}>
+                <p style={{ textAlign: "center"}}>
+                <strong>Restaurant ID:</strong> {restaurant.restaurantid}<br />
+                  Restaurant Name: {restaurant.name}<br />
+                  Phone Number: {restaurant.phone}<br />
+                </p>
+                {/* Add more restaurant information fields as needed */}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
