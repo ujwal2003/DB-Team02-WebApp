@@ -28,8 +28,18 @@ async function getRestaurantMenu(req, res) {
     }
 }
 
+async function getMostExpensiveDishForEach(req, res) {
+    try {
+        const expensiveDishes = await restaurantModel.queryMaxPriceDish();
+        return res.status(200).json(expensiveDishes);
+    } catch (error) {
+        return res.status(500).json({"error_message": error.message});
+    }
+}
+
 module.exports = {
     getRestaurants,
     getNumRestaurantDishes,
-    getRestaurantMenu
+    getRestaurantMenu,
+    getMostExpensiveDishForEach
 }

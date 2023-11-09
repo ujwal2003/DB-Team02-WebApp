@@ -45,8 +45,28 @@ async function queryMenuOfRestaurant(restaurantID) {
     }
 }
 
+async function queryMaxPriceDish() {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            select r2.restaurantid, res.name as "restaurant_name", mi.name as "dish_name", mi.itemid as "dish_id", maxPrice.price
+            from (select r.restaurantid, MAX(r.price) as "price"
+                    from restaurantmenu r
+                    group by r.restaurantid) maxPrice, restaurantmenu r2, menuitem mi, restaurant res
+            where maxPrice.price = r2.price and maxPrice.restaurantid = r2.restaurantid
+                    and r2.menuitemid = mi.itemid and res.restaurantid = r2.restaurantid
+            order by restaurantid;
+        `);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 module.exports = {
     queryWholeRestaurantTable,
     queryRestaurantsDishesCount,
-    queryMenuOfRestaurant
+    queryMenuOfRestaurant,
+    queryMaxPriceDish
 }
