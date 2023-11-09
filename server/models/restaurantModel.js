@@ -64,9 +64,25 @@ async function queryMaxPriceDish() {
     }
 }
 
+async function queryRestaurantsByWealth() {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            select r.restaurantid, r."name", b.balance as "wealth"
+            from restaurant r join bank b on r.bankaccountid = b.accountid
+            order by b.balance;
+        `);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 module.exports = {
     queryWholeRestaurantTable,
     queryRestaurantsDishesCount,
     queryMenuOfRestaurant,
-    queryMaxPriceDish
+    queryMaxPriceDish,
+    queryRestaurantsByWealth
 }
