@@ -81,14 +81,14 @@ function UpdatePaymentInformation() {
         <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${AlternateImage})` }}>
           <div className="absolute inset-0 backdrop-blur-sm"></div>
           <div className="container mx-auto text-center relative flex items-center justify-center h-full">
-            <div className="bg-white py-14 px-40 bg-opacity-70">
+            <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full">
               {showSuccessMessage ? (
                 <div className="text-4xl font-semibold text-[#05204A] mb-4">
                   Payment information updated!
                 </div>
               ) : (
                 <>
-                  <h1 className="text-7xl font-semibold text-[#05204A] mb-4">Update Payment Information</h1>
+                  <h1 className="text-4xl font-semibold text-[#05204A] mb-4">Update Payment Information</h1>
 
                   {/* <div className="mb-8">
                     <div className="mb-2">
@@ -107,9 +107,9 @@ function UpdatePaymentInformation() {
                     )}
                   </div> */}
 
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <div className="mb-2">
-                      <label className="text-xl text-[#05204A]">Card Number</label>
+                      <label className="text-l text-[#05204A]">Card Number</label>
                     </div>
                     <input
                       type="text"
@@ -124,9 +124,9 @@ function UpdatePaymentInformation() {
                     )}
                   </div>
 
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <div className="mb-2">
-                      <label className="text-xl text-[#05204A]">CVV</label>
+                      <label className="text-l text-[#05204A]">CVV</label>
                     </div>
                     <input
                       type="text"
@@ -141,9 +141,9 @@ function UpdatePaymentInformation() {
                     )}
                   </div>
 
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <div className="mb-2">
-                      <label className="text-xl text-[#05204A]">Card Name</label>
+                      <label className="text-l text-[#05204A]">Card Name</label>
                     </div>
                     <input
                       type="text"
@@ -158,9 +158,9 @@ function UpdatePaymentInformation() {
                     )}
                   </div>
 
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <div className="mb-2">
-                      <label className="text-xl text-[#05204A]">Expiration</label>
+                      <label className="text-l text-[#05204A]">Expiration</label>
                     </div>
                     <input
                       type="month"
@@ -175,7 +175,7 @@ function UpdatePaymentInformation() {
                     )}
                   </div>
 
-                  <div className="mb-8">
+                  <div className="mb-4">
                     <div className="flex justify-center">
                       <button
                         className="w-32 h-12 bg-[#05204A] rounded-md text-white"
