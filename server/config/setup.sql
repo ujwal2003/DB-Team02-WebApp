@@ -199,6 +199,5 @@ CREATE TABLE Cart (
     cartItemID SERIAL PRIMARY KEY,
     orderID INT,
     menuItemID INT,
-    restaurantID INT,
-    quantity INT
+    restaurantID INT
 );

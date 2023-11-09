@@ -1,5 +1,6 @@
 const {pool} = require("../config/db");
 
+//* add to cart methods
 async function queryExistingCustomerOrder(email) {
     try {
         const client = await pool.connect();
@@ -30,14 +31,14 @@ async function queryExistingCartItem(orderID, itemID) {
     }
 }
 
-async function insertItemIntoCart(orderID, restaurantID, itemID, quantity) {
+async function insertItemIntoCart(orderID, restaurantID, itemID) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
             BEGIN;
-            INSERT INTO Cart (orderID, menuItemID, restaurantID, quantity)
+            INSERT INTO Cart (orderID, menuItemID, restaurantID)
             VALUES
-            (${orderID}, ${itemID}, ${restaurantID}, ${quantity});
+            (${orderID}, ${itemID}, ${restaurantID});
             COMMIT;
         `);
         client.release();
@@ -48,11 +49,19 @@ async function insertItemIntoCart(orderID, restaurantID, itemID, quantity) {
 }
 
 //TODO update existing cart item (quantity increase or decrease)
+// async function updateCartItemQuantity(orderID)
 
-async function insertNewUserOrder(email) {
+async function insertNewUserOrder(email, orderDate, orderTime) {
     try {
         const client = await pool.connect();
-        const res = await client.query(``);
+        const res = await client.query(`
+            BEGIN;
+            INSERT INTO customerorder (customeremail, orderdate, ordertime, tip, processed)
+            VALUES
+            ('${email}', '${orderDate}', '${orderTime}', 0.00, 'no')
+            RETURNING orderid;
+            COMMIT;
+        `);
         client.release();
         return res.rows;
     } catch (error) {
@@ -60,6 +69,10 @@ async function insertNewUserOrder(email) {
     }
 }
 
+//* remove from cart methods
+//TODO implementation
+
+//* add tip method
 async function updateOrderWithTip(orderID, tip) {
     try {
         const client = await pool.connect();
@@ -71,6 +84,7 @@ async function updateOrderWithTip(orderID, tip) {
     }
 }
 
+//* process order methods
 async function validatePaymentMethod(email, cardNumber, zipCode) {
     try {
         const client = await pool.connect();
