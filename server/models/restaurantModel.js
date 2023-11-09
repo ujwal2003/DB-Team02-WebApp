@@ -34,9 +34,9 @@ async function queryMenuOfRestaurant(restaurantID) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT r.restaurantid, r."name" AS "restaurant_name", m.itemid, m."name" AS "item", m.price 
-            FROM restaurant r JOIN menuitem m ON r.restaurantid = m.restaurantid
-            WHERE r.restaurantid = ${restaurantID};
+            select m.name, r.price, m.description
+            from restaurantmenu r join menuitem m on r.menuitemid = m.itemid
+            where r.restaurantid = ${restaurantID};
         `);
         client.release();
         return res.rows;
