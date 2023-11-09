@@ -18,10 +18,10 @@ async function queryRestaurantsDishesCount() {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT r.restaurantid, r."name", COUNT(*) AS "dishes"
-            FROM restaurant r JOIN menuitem m ON r.restaurantid = m.restaurantid 
-            GROUP BY r.restaurantid
-            ORDER BY r.restaurantid;
+            SELECT r.restaurantid, r."name" , COUNT(r2.menuitemid)
+            from restaurant r join restaurantmenu r2 on r.restaurantid = r2.restaurantid
+            group by r.restaurantid
+            order by r.restaurantid;
         `);
         client.release();
         return res.rows;
