@@ -4,7 +4,9 @@ async function queryExistingCustomerOrder(email) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            
+            SELECT c.orderid
+            FROM customerorder c
+            WHERE c.email = '${email}' AND c.processed = 'no';
         `);
         client.release();
         return res.rows;
@@ -16,7 +18,11 @@ async function queryExistingCustomerOrder(email) {
 async function queryExistingCartItem(orderID, itemID) {
     try {
         const client = await pool.connect();
-        const res = await client.query(``);
+        const res = await client.query(`
+            SELECT *
+            FROM cart c
+            WHERE c.orderid = ${orderID} AND c.menuitemid = ${itemID};
+        `);
         client.release();
         return res.rows;
     } catch (error) {
@@ -24,16 +30,24 @@ async function queryExistingCartItem(orderID, itemID) {
     }
 }
 
-async function insertItemIntoCart(orderID, itemID, price) {
+async function insertItemIntoCart(orderID, restaurantID, itemID, quantity) {
     try {
         const client = await pool.connect();
-        const res = await client.query(``);
+        const res = await client.query(`
+            BEGIN;
+            INSERT INTO Cart (orderID, menuItemID, restaurantID, quantity)
+            VALUES
+            (${orderID}, ${itemID}, ${restaurantID}, ${quantity});
+            COMMIT;
+        `);
         client.release();
         return res.rows;
     } catch (error) {
         console.error(error.message);
     }
 }
+
+//TODO update existing cart item (quantity increase or decrease)
 
 async function insertNewUserOrder(email) {
     try {
@@ -68,6 +82,7 @@ async function validatePaymentMethod(email, cardNumber, zipCode) {
     }
 }
 
+//TODO change these three functions, join and group by each restaurant that customer ordered from
 async function queryUserBankAccount(email) {
     try {
         const client = await pool.connect();

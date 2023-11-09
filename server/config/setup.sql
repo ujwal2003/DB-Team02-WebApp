@@ -199,6 +199,6 @@ CREATE TABLE Cart (
     cartItemID SERIAL PRIMARY KEY,
     orderID INT,
     menuItemID INT,
-    quantity INT,
-    subtotal DECIMAL(10, 2)
+    restaurantID INT,
+    quantity INT
 );
