@@ -1,39 +1,104 @@
 const {pool} = require("../config/db");
 
 async function queryExistingCustomerOrder(email) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            
+        `);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function queryExistingCartItem(orderID, itemID) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function insertItemIntoCart(orderID, itemID, price) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function insertNewUserOrder(email) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function updateOrderWithTip(orderID, tip) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function validatePaymentMethod(email, cardNumber, zipCode) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function queryUserBankAccount(email) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function queryRestaurantBankAccount(restaurantID) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 async function updateBankAndOrder(userBankID, restaurantBankID, userPayment, restaurantGain, orderID) {
-    //TODO implementation
+    try {
+        const client = await pool.connect();
+        const res = await client.query(``);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 module.exports = {
