@@ -1,5 +1,18 @@
 const {pool} = require("../config/db");
 
+async function queryCustomersTable() {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT * FROM customer;
+        `);
+        client.release();
+        return res.rows;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 async function insertNewCustomer(email, pin, fname, lname, phone, zip, bankAccountID, balance) {
     try {
         const client = await pool.connect();
@@ -137,5 +150,6 @@ module.exports = {
     queryUserPaymentInfo,
     insertNewPaymentInfo,
     updateCustomer,
-    updateUserPaymentInfo
+    updateUserPaymentInfo,
+    queryCustomersTable
 }
