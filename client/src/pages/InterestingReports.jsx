@@ -79,23 +79,17 @@ function InterestingReports() {
 
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
-      <button
-        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]"
-        onClick={() => handleButtonClick("Restaurants")}
-      >
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants")}>
         Restaurants
       </button>
-      <button
-        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-        onClick={() => handleButtonClick("Customers")}
-      >
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Customers")}>
         Customers
       </button>
-      <button
-        className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-        onClick={() => handleButtonClick("Orders")}
-      >
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
         Orders
+      </button>
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
+        Most Expensive Dishes
       </button>
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
