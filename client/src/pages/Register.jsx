@@ -76,18 +76,18 @@ function Register() {
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${HeroImage})` }}>
       <div className="absolute inset-0 backdrop-blur-sm"></div>
-      <div className="container mx-auto text-center relative flex items-center justify-center h-full">
-        <div className="bg-white py-14 px-40 bg-opacity-70">
+      <div className="container mx-auto text-center relative flex items-center justify-center h-screen">
+        <div className="bg-white py-14 px-40 bg-opacity-70 max-h-full overflow-y-auto">
           {showSuccessMessage ? (
             <div className="text-3xl font-semibold text-[#05204A] mb-4">
               Congratulations! You successfully created your account, you may now <Link to="/signin"><u>sign in!</u></Link>
             </div>
           ) : (
             <>
-              <h1 className="text-7xl font-bold text-[#05204A] mb-4">Create an Account</h1>
+              <h1 className="text-3xl md:text-7xl font-bold text-[#05204A] mb-4">Create an Account</h1>
               <div className="mb-8">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">First Name</label>
+                  <label className="text-l text-[#05204A]">First Name</label>
                 </div>
                 <input
                   type="text"
@@ -101,9 +101,9 @@ function Register() {
                   <p className="text-red-500 text-sm">Please enter your first name</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Last Name</label>
+                  <label className="text-l text-[#05204A]">Last Name</label>
                 </div>
                 <input
                   type="text"
@@ -117,9 +117,9 @@ function Register() {
                   <p className="text-red-500 text-sm">Please enter your last name</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Email</label>
+                  <label className="text-l text-[#05204A]">Email</label>
                 </div>
                 <input
                   type="email"
@@ -133,9 +133,9 @@ function Register() {
                   <p className="text-red-500 text-sm">Please enter your email</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Account Pin Number</label>
+                  <label className="text-l text-[#05204A]">Account Pin Number</label>
                 </div>
                 <input
                   type="text"
@@ -149,9 +149,9 @@ function Register() {
                   <p className="text-red-500 text-sm">Please create a 4 digit pin</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Phone Number</label>
+                  <label className="text-l text-[#05204A]">Phone Number</label>
                 </div>
                 <input
                   type="tel"
@@ -165,9 +165,9 @@ function Register() {
                   <p className="text-red-500 text-sm">Please enter your Phone Number</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="mb-2">
-                  <label className="text-xl text-[#05204A]">Zip Code</label>
+                  <label className="text-l text-[#05204A]">Zip Code</label>
                 </div>
                 <input
                   type="tel"
@@ -181,10 +181,10 @@ function Register() {
                   <p className="text-red-500 text-sm">Please enter your Zip Code</p>
                 )}
               </div>
-              <div className="mb-8">
+              <div className="mb-4">
                 <div className="flex justify-center">
                   <button
-                    className="w-32 h-12 bg-[#05204A] rounded-md text-white"
+                    className="w-32 h-12 bg-[#537D8D] rounded-md text-white"
                     type="submit"
                     onClick={handleSubmit}
                   >
