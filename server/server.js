@@ -21,6 +21,9 @@ app.use("/restaurants", restaurantRouter);
 const customersRouter = require('./routes/customersRoutes');
 app.use("/customers", customersRouter);
 
+const ordersRouter = require('./routes/ordersRoutes');
+app.use("/order", ordersRouter);
+
 // start server
 app.listen(port, () => {
     console.log(`connected to server on port ${port}.`);

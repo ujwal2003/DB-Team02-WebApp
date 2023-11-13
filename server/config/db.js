@@ -1,5 +1,5 @@
 const Pool = require('pg').Pool;
-const creds = require('./creds.json');
+const creds = require('../../creds.json');
 const fs = require('fs');
 const path = require('path');
 

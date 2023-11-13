@@ -5,5 +5,7 @@ const restaurantController = require('../controllers/restaurantController');
 router.get("/all", restaurantController.getRestaurants);
 router.get("/menu/:id", restaurantController.getRestaurantMenu);
 router.get("/dishes", restaurantController.getNumRestaurantDishes);
+router.get("/expensive", restaurantController.getMostExpensiveDishForEach);
+router.get("/wealth", restaurantController.getRestaurantWealth);
 
 module.exports = router;
