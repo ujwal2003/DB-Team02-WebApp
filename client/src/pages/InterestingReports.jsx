@@ -5,6 +5,7 @@ function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [showExpensiveDishes, setShowExpensiveDishes] = useState(false);
   const [showWealthiestRestaurants, setShowWealthiestRestaurants] = useState(false);
+  const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
@@ -12,6 +13,7 @@ function InterestingReports() {
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
+  const [allCustomers, setCustomers] = useState([]);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -28,6 +30,22 @@ function InterestingReports() {
 
     // Fetch all restaurants when the component mounts
     getLocationsInfo();
+  }, []);
+  useEffect(() => {
+    async function getCustomersInfo() {
+      try {
+        const res = await axios.get('customers/all');
+        const data = await res.data;
+        if (data !== "none") {
+          setCustomers(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // Fetch all customers when the component mounts
+    getCustomersInfo();
   }, []);
 
   useEffect(() => {
@@ -70,6 +88,7 @@ function InterestingReports() {
       setShowExpensiveDishes(false); // Hide expensive dishes
       setShowWealthiestRestaurants(false);
       setJoinClicked(false);
+      setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
     } else if (buttonName === "Most Expensive Dishes") {
@@ -77,8 +96,16 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
+      setShowAllCustomers(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setJoinClicked(false);
+      setShowAllCustomers(false);
+    } else if (buttonName === "Customers") {
+      setShowAllCustomers(true);
+      setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
@@ -88,6 +115,7 @@ function InterestingReports() {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
       setShowWealthiestRestaurants(false);
+      setShowAllCustomers(false);
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
@@ -194,6 +222,23 @@ function InterestingReports() {
                 <p style={{ textAlign: "center" }}>
                   Dish Name: {dish.dish_name}<br />
                   Price: {dish.price}<br />
+                  {/* Add more dish information fields as needed */}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {showAllCustomers && (
+        <div className="w-full">
+          <h2>All Customers</h2>
+          <ul>
+            {allCustomers.map((customers, index) => (
+              <li key={index}>
+                <p style={{ textAlign: "center" }}>
+                  First Name: {customers.firstname}<br />
+                  Last Name: {customers.lastname}<br />
+                  Email: {customers.email}<br />
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
