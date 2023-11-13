@@ -101,5 +101,6 @@ async function updateTipAttribute(email, tip) {
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
-    deleteFromCart
+    deleteFromCart,
+    updateTipAttribute
 }
