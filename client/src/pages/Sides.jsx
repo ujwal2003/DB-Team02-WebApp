@@ -1,17 +1,18 @@
 import MenuItems from '../components/MenuItems';
+import { useContext } from "react";
+import { OrderContext } from '../context/OrderContext';
 
 export default function Sides() {
+  const {sides} = useContext(OrderContext);   
 
-  const sides = [
-    {
-      id: 1,
-      name: 'Nachos',
-      price: 10.00,
-      description: 'Classic mexican nachos'
-    }
-    //...other sides
-  ];
-
-  return <MenuItems title="SIDES" items={sides} />;
+  return <>
+  {
+    sides.length === 0 
+    ? 
+    <div>No sides found</div> 
+    :
+    <MenuItems title="SIDES" items={sides} />
+  }
+  </>
 
 }

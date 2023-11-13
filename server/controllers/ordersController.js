@@ -28,6 +28,28 @@ async function addToCart(req, res) {
     }
 }
 
+async function removeFromCart(req, res) {
+    try {
+        let {email, menuItemID, restaurantID} = req.body;
+        const removeItem = await ordersModel.deleteFromCart(email, menuItemID, restaurantID);
+
+        if(!removeItem.SQL_success)
+            return res.status(500).json({"success": false, "error": addItem.error});
+
+        return res.status(200).json({
+            "success": true, 
+            "result": `removed ${menuItemID} (from restaurant ${restaurantID}) from the cart of ${email}`,
+            "data": removeItem
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
-    addToCart
+    addToCart,
+    removeFromCart
 }
