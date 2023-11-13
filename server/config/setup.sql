@@ -81,8 +81,8 @@ CREATE TABLE Restaurant (
 
 INSERT INTO Restaurant (name, phone, street, bankAccountID)
 VALUES
-('Taco Fuego', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
-('', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
+('The Rustic Table', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
+('Savory Bites Cafe', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
 ('Flavor Fusion Grill', '5076099924', 'Skylark Avenue', '4GcSTfqkB-f6H-EiTjb7MA'),
 ('La Petite Boulangerie', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
 ('Spice Street Kitchen', '5851822528', 'Bluebell Lane', 'nGq37Atmqxtkk2pT-T-9XA'),
@@ -113,78 +113,43 @@ CREATE TABLE MenuItem (
     type INT
 );
 
--- Insert additional Hispanic dishes
 INSERT INTO MenuItem (name, description, type)
 VALUES
-    ('Queso Fundido', 'Melted cheese with chorizo or other toppings, served with tortillas.', 0),
-    ('Tamale', 'Steamed corn dough filled with various ingredients, wrapped in a corn husk.', 0),
-    ('Guacamole', 'Mashed avocado mixed with tomatoes, onions, cilantro, and lime juice.', 0),
-    ('Sopes', 'Thick corn tortillas with raised edges, topped with beans, meat, lettuce, and cheese.', 0),
-    ('Camarones a la Diabla', 'Spicy shrimp cooked in a flavorful red chili sauce.', 0),
-    ('Tostadas', 'Crispy fried tortillas topped with beans, lettuce, meat, and salsa.', 0),
-    ('Caldo de Res', 'Hearty beef soup with vegetables and rice.', 0),
-    ('Papas Rellenas', 'Mashed potato balls stuffed with seasoned meat, then fried.', 0),
-    ('Cactus Salad', 'Refreshing salad made with nopales (cactus), tomatoes, and onions.', 0),
-    ('Chiles en Nogada', 'Poblano peppers stuffed with picadillo (a mixture of meat and fruits), topped with walnut cream sauce.', 0),
-    ('Tacos al Pastor', 'Marinated pork served on tortillas with pineapple and cilantro.', 0),
-    ('Ceviche', 'Fresh seafood cured in citrus juices, typically served with avocado and cilantro.', 0),
-    ('Arroz con Pollo', 'Chicken and rice dish with a flavorful mix of spices.', 0),
-    ('Chiles Rellenos', 'Poblano peppers stuffed with cheese or meat, then battered and fried.', 0),
-    ('Mole Poblano', 'Rich and flavorful sauce made with chocolate and various spices, served with chicken.', 0),
-    ('Empanadas', 'Flaky pastry filled with meats, cheeses, or sweets.', 0),
-    ('Pupusas', 'Thick corn tortillas stuffed with cheese, beans, and/or meat.', 0),
-    ('Cochinita Pibil', 'Slow-roasted pork marinated in achiote and citrus, often served with pickled onions.', 0),
-    ('Enchiladas', 'Rolled tortillas filled with meat, beans, or cheese, topped with chili sauce.', 0),
-    ('Arepas', 'Cornmeal patties filled with various ingredients, popular in Colombian and Venezuelan cuisine.', 0);
-
--- Insert additional Hispanic sides or desserts
-INSERT INTO MenuItem (name, description, type)
-VALUES
-    ('Arroz y Frijoles', 'Classic combination of rice and beans.', 1),
-    ('Ensalada de Frutas', 'Fresh fruit salad with a light dressing.', 1),
-    ('Yucca Fries', 'Crispy fries made from yucca root.', 1),
-    ('Chicharrón de Queso', 'Fried cheese crisps or chips.', 1),
-    ('Platanos con Crema', 'Fried plantains served with sour cream.', 1),
-    ('Sopaipillas', 'Fried pastry dough, often sprinkled with cinnamon sugar.', 1),
-    ('Mexican Street Corn (Elote)', 'Grilled corn on the cob topped with mayo, cheese, and chili powder.', 1),
-    ('Papas a la Huancaina', 'Peruvian dish of sliced potatoes in a spicy cheese sauce.', 1),
-    ('Coconut Rice', 'Sweet and fragrant rice cooked with coconut milk.', 1),
-    ('Pastelón', 'Sweet plantain lasagna with layers of meat and cheese.', 1),
-    ('Churros', 'Fried dough pastries, often coated in cinnamon sugar, served with chocolate sauce.', 1),
-    ('Flan', 'Creamy caramel custard dessert.', 1),
-    ('Tres Leches Cake', 'Sponge cake soaked in three types of milk and topped with whipped cream.', 1),
-    ('Arroz con Leche', 'Sweet rice pudding flavored with cinnamon and vanilla.', 1),
-    ('Buñuelos', 'Fried dough balls, often dusted with powdered sugar.', 1),
-    ('Dulce de Leche', 'Sweet caramel-like sauce made from condensed milk.', 1),
-    ('Pastel de Tres Chocolates', 'Triple chocolate layered cake.', 1),
-    ('Plátanos Maduros', 'Ripe plantains, sweet and caramelized when fried.', 1),
-    ('Natilla', 'Colombian custard dessert, often served during Christmas.', 1),
-    ('Cocada', 'Coconut and sugar candy or dessert, often in the form of bars or balls.', 1);
-
--- Insert additional Hispanic drinks
-INSERT INTO MenuItem (name, description, type)
-VALUES
-    ('Jamaica Margarita', 'Margarita with a twist, flavored with hibiscus tea.', 2),
-    ('Cucumber Agua Fresca', 'Refreshing drink made with cucumber, lime, and sugar.', 2),
-    ('Café de Olla', 'Traditional Mexican spiced coffee brewed with cinnamon and piloncillo (unrefined sugar).', 2),
-    ('Tequila Sunrise', 'Cocktail made with tequila, orange juice, and grenadine.', 2),
-    ('Champurrado', 'Thick and warm chocolate-based drink, often enjoyed during the holidays.', 2),
-    ('Mango Lassi', 'Smoothie made with mango, yogurt, and spices.', 2),
-    ('Pisco Sour', 'South American cocktail made with pisco, lime juice, and egg white.', 2),
-    ('Aguas Frescas', 'Various fruit-infused drinks, such as watermelon or cantaloupe.', 2),
-    ('Café con Leche', 'Coffee with steamed milk.', 2),
-    ('Horchata Latte', 'Latte made with horchata instead of regular milk.', 2),
-    ('Horchata', 'Sweet rice milk beverage flavored with cinnamon and vanilla.', 2),
-    ('Agua de Jamaica', 'Hibiscus tea, sweetened and served over ice.', 2),
-    ('Tamarindo Agua Fresca', 'Sweet and tangy tamarind drink, often served cold.', 2),
-    ('Michelada', 'Beer cocktail with lime juice, assorted sauces, spices, and peppers.', 2),
-    ('Margarita', 'Classic cocktail made with tequila, triple sec, and lime juice.', 2),
-    ('Piña Colada', 'Refreshing tropical cocktail made with pineapple juice and coconut cream.', 2),
-    ('Jarritos', 'Mexican fruit-flavored sodas.', 2),
-    ('Café Cubano', 'Strong and sweet Cuban espresso.', 2),
-    ('Atole', 'Hot masa-based beverage often flavored with cinnamon and vanilla.', 2),
-    ('Mexican Hot Chocolate', 'Warm chocolate drink with cinnamon and sometimes chili.', 2);
-
+('Hawaiian Pizza', 'A pizza topped with ham, pineapple, and mozzarella cheese, offering a sweet and savory combination.', 0),
+('Rustic Truffle Mac n Cheese', 'Creamy macaroni and cheese infused with truffle oil, topped with crispy bacon bits and fresh chives', 0),
+('Savory Spinach Stuffed Chicken', 'Tender chicken breasts stuffed with a flavorful spinach and feta cheese blend, served with garlic mashed potatoes and asparagus.', 0),
+('Mango Tango Shrimp Tacos', 'Grilled shrimp marinated in zesty mango sauce, served in soft corn tortillas with a refreshing avocado and mango salsa.', 0),
+('Spicy Thai Basil Noodles', 'Stir-fried rice noodles with minced chicken, Thai basil, and fiery chili sauce.', 0),
+('Mediterranean Quinoa Salad', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.', 1),
+('Tandoori Tofu Skewers', 'A wholesome blend of quinoa, cherry tomatoes, cucumbers, Kalamata olives, and feta cheese, drizzled with a lemon herb dressing.', 1),
+('Beef and Broccoli Stir-Fry', 'Sliced beef and broccoli florets wok-tossed in a savory ginger-soy sauce, served over steamed jasmine rice.', 0),
+('Creamy Lobster Bisque', 'Rich and velvety lobster bisque, garnished with a dollop of sour cream and fresh chives.', 1),
+('Vegetable Tikka Masala', 'A vibrant vegetarian dish featuring roasted mixed vegetables in a creamy tomato and coconut curry sauce, served with basmati rice.', 0),
+('Crispy Panko-Crusted Salmon', 'Salmon fillet coated in seasoned panko breadcrumbs and baked until golden brown, served with lemon butter sauce and garlic mashed potatoes.', 0),
+('Caprese Panini', 'A classic Italian sandwich filled with ripe tomatoes, fresh mozzarella, basil leaves, and a drizzle of balsamic glaze, pressed in crispy ciabatta.', 1),
+('Greek Souvlaki Platter', 'Grilled marinated chicken skewers, served with fluffy pita bread, Tzatziki sauce, and a Greek salad.', 1),
+('Cajun Jambalaya', 'A spicy blend of Andouille sausage, shrimp, and chicken simmered with bell peppers, onions, and rice in a Cajun tomato sauce.', 0),
+('Raspberry Almond Tart', 'A delicate almond pastry crust filled with luscious raspberry preserves and topped with toasted almond slivers.', 1),
+('Balsamic Glazed Portobello Mushrooms', 'Roasted portobello mushrooms drizzled with a sweet balsamic reduction and served with garlic parmesan mashed potatoes.', 1),
+('Southwest Black Bean Salad', 'A zesty salad featuring black beans, corn, avocado, and cherry tomatoes, tossed in a cilantro-lime dressing.', 1),
+('Penne alla Vodka', 'Penne pasta in a creamy tomato and vodka sauce, sprinkled with fresh basil and grated Parmesan cheese.', 2),
+('Spinach and Artichoke Stuffed Mushrooms', 'Mushroom caps filled with a creamy spinach and artichoke dip, baked until bubbly and golden.', 0),
+('Hawaiian Poke Bowl', 'A fresh and healthy bowl with diced ahi tuna, avocado, cucumber, and mango over sushi rice, drizzled with soy ginger dressing.', 1),
+('Eggplant Parmesan', 'Slices of breaded and fried eggplant layered with marinara sauce and mozzarella cheese, served with spaghetti.', 0),
+('Blackberry Mascarpone Crepes', 'Thin crepes filled with sweet mascarpone cheese and fresh blackberries, dusted with powdered sugar.', 1),
+('Vegan Chickpea Curry', 'A hearty chickpea curry with a blend of aromatic spices, served with basmati rice and naan bread.', 0),
+('Apple Cinnamon Bread Pudding', 'Warm and comforting bread pudding with layers of cinnamon-spiced apples, topped with a vanilla bourbon sauce.', 1),
+('Chocolate Lava Cake', 'A decadent dessert with a warm, molten chocolate center, dusted with powdered sugar and served with a scoop of vanilla ice cream.', 1),
+('Crispy Duck Confit', 'Duck leg slow-cooked until tender and then crisped to perfection, served with a cherry red wine reduction and sweet potato puree.', 0),
+('Veggie Lovers Pizza', 'A thin-crust pizza topped with a colorful medley of roasted vegetables, mozzarella cheese, and a pesto drizzle.', 0),
+('Stuffed Bell Peppers', 'Bell peppers filled with a savory mixture of ground beef, rice, tomatoes, and herbs, baked to perfection and topped with melted cheese.', 1),
+('Blueberry Pancake Stack', 'A tall stack of fluffy blueberry pancakes, topped with a dollop of whipped cream and drizzled with warm maple syrup.', 1),
+('Pineapple Upside-Down Cake', 'A classic dessert with caramelized pineapple rings and maraschino cherries atop a moist, buttery cake, served warm with a scoop of vanilla ice cream.', 1),
+('Mango Tango Smoothie', 'A refreshing tropical delight, the Mango Tango Smoothie combines ripe mangoes, yogurt, and a touch of honey for a sweet and creamy treat with a hint of tanginess.', 2),
+('Minty Mojito', 'The Minty Mojito is a classic cocktail made with fresh mint leaves, lime juice, sugar, and white rum. It''s a zesty and refreshing drink, perfect for a hot summer day.', 2),
+('Chai Latte', 'A cozy and aromatic beverage, the Chai Latte is a blend of black tea, warm spices like cinnamon and cardamom, and steamed milk. It offers a soothing and spiced flavor profile.', 2),
+('Watermelon Cooler', 'A hydrating and summery drink, the Watermelon Cooler is made by blending fresh watermelon chunks with a squeeze of lime and a hint of agave syrup. It''s a fantastic thirst quencher.', 2),
+('Irish Coffee', 'A classic after-dinner drink, Irish Coffee combines hot coffee with a shot of Irish whiskey, sugar, and a dollop of whipped cream. It''s a warming and indulgent beverage with a delightful caffeine kick.', 2);
 
 CREATE TABLE RestaurantMenu (
     restaurantID INT,
