@@ -6,7 +6,7 @@ import { OrderContext } from '../context/OrderContext';
 
 function LocationList() {
   const [restaurants, setRestaurantInfo] = useState([]);
-  const {addLocation} = useContext(OrderContext);
+  const {addLocation, addMeals, addSides, addDrinks} = useContext(OrderContext);
   useEffect(() => {
     async function getLocationsInfo() {
       try {
@@ -27,6 +27,27 @@ function LocationList() {
   const locationListStyle = "text-[#05204A] font-bold";
   const otherElementsStyle = "text-[#05204A] font-semibold";
 
+  const setupOrderContext = (location, restaurantId) => {
+    addLocation(location)
+
+    async function getMenuInfo() {
+      try {
+        const res = await axios.get(`restaurants/menu/${restaurantId}`);
+        const data = await res.data;
+        if (data !== "none") {
+          console.log(data)
+          addMeals(data.filter(item => item.type === 0))
+          addSides(data.filter(item => item.type === 1))
+          addDrinks(data.filter(item => item.type === 2))
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getMenuInfo()
+
+  }
+
   const filteredLocations = restaurants.filter((location) => {
     return location.restaurantid.toString().includes(searchTerm);
   });
@@ -34,7 +55,7 @@ function LocationList() {
   return (
     <div className="w-[90%] p-10 mt-8 flex">
       <div className="w-1/2">
-        <h1 className={locationListStyle + " text-7xl mb-4"}>Location List</h1>
+        <h1 className={locationListStyle + " text-7xl mb-4"}>Choose a Location to View Our Menu</h1>
         <div className="mb-4">
           <input
             type="text"
@@ -56,7 +77,7 @@ function LocationList() {
                   <p className={otherElementsStyle}>Revenue: ${location.revenue}</p>
                 </div>
                 <Link to={`/Menu`}>
-                  <button className="bg-[#05204A] text-white p-2 rounded" onClick={() => addLocation(location)}>
+                  <button className="bg-[#05204A] text-white p-2 rounded" onClick={() => setupOrderContext(location, location.restaurantid)}>
                     Order here!
                   </button>
                 </Link>
