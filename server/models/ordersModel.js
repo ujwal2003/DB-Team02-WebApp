@@ -51,7 +51,6 @@ async function insertCustomerOrderAndCart(email, date, time, dishID, restaurantI
 async function deleteFromCart(email, dishID, restaurantID) {
     try {
         const client = await pool.connect();
-        client.release();
         const res = await client.query(`
             BEGIN;
 
@@ -73,6 +72,7 @@ async function deleteFromCart(email, dishID, restaurantID) {
             
             COMMIT;
         `);
+        client.release();
         return {"SQL_success": true, "result": res.rows};
     } catch (error) {
         console.error(error.message);
@@ -80,8 +80,22 @@ async function deleteFromCart(email, dishID, restaurantID) {
     }
 }
 
-async function updateTipAttribute(email) {
-
+async function updateTipAttribute(email, tip) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            BEGIN;
+            UPDATE customerorder 
+            SET tip = ${tip}
+            WHERE customeremail = '${email}' AND processed = false;
+            COMMIT;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
 }
 
 module.exports = {
