@@ -3,5 +3,5 @@
     "host": "localhost",
     "password": "",
     "port": 5432,
-    "database": "hw2db"
+    "database": ""
 }
