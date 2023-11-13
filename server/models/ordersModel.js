@@ -80,6 +80,10 @@ async function deleteFromCart(email, dishID, restaurantID) {
     }
 }
 
+async function updateTipAttribute(email) {
+
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
