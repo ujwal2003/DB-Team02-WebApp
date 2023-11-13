@@ -194,8 +194,9 @@ VALUES
 (7, 15, 6.85),
 (7, 13, 3.55),
 (1, 6, 5.99),
-(1, 7, 6.99);
-
+(1, 7, 6.99),
+(2, 8, 6.99),
+(2, 13, 4.99);
 CREATE TABLE CustomerOrder (
     orderID SERIAL PRIMARY KEY,
     customerEmail VARCHAR(255),
