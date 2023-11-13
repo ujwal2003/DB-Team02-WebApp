@@ -74,7 +74,6 @@ function LocationList() {
                   <p className={otherElementsStyle}>Restaurant Name: {location.name}</p>
                   <p className={otherElementsStyle}>Phone: {location.phone}</p>
                   <p className={otherElementsStyle}>Street: {location.street}</p>
-                  <p className={otherElementsStyle}>Revenue: ${location.revenue}</p>
                 </div>
                 <Link to={`/Menu`}>
                   <button className="bg-[#05204A] text-white p-2 rounded" onClick={() => setupOrderContext(location, location.restaurantid)}>
