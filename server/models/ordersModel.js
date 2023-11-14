@@ -119,10 +119,15 @@ async function queryCartSubtotal(email) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT SUM(r.price) AS "subtotal"
-            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
-                JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
-            WHERE c.processed = false AND c.customeremail = '${email}';
+            SELECT SUM(cost) AS "subtotal"
+            FROM (
+                SELECT SUM(r.price) AS "cost"
+                FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                    JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+                WHERE c.processed = false AND c.customeremail = '${email}'
+                UNION 
+                SELECT tip FROM customerorder c3 WHERE c3.customeremail = '${email}' AND c3.processed = false
+            ) costs; 
         `);
         client.release();
         return {"SQL_success": true, "result": res.rows};

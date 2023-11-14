@@ -122,6 +122,9 @@ async function getUserOrderSubtotal(req, res) {
         if(!getSubTotal.SQL_success)
             return res.status(500).json({"success": false, "error": getSubTotal.error});
 
+        let tax = parseFloat(getSubTotal.result[0].subtotal) * 0.0825;
+        getSubTotal.result[0] = {...getSubTotal.result[0], "tax": tax};
+
         return res.status(200).json({
             "success": true,
             "result": `retrieved subtotal for unprocessed order of ${email}`,
