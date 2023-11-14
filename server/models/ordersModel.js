@@ -115,10 +115,28 @@ async function queryCurrentCart(email) {
     }
 }
 
+async function queryCartSubtotal(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT SUM(r.price) AS "subtotal"
+            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+            WHERE c.processed = false AND c.customeremail = '${email}';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
     deleteFromCart,
     updateTipAttribute,
-    queryCurrentCart
+    queryCurrentCart,
+    queryCartSubtotal
 }
