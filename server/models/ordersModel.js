@@ -4,7 +4,7 @@ async function queryUnprocessedOrder(email) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT orderid
+            SELECT *
             FROM customerorder c
             WHERE c.customeremail = '${email}' and c.processed = 'no';
         `);
@@ -98,9 +98,91 @@ async function updateTipAttribute(email, tip) {
     }
 }
 
+async function queryCurrentCart(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT c2.orderid, c.customeremail, r.menuitemid, r.restaurantid, r.price
+            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+            JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+            WHERE c.processed = false AND c.customeremail = '${email}';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
+async function queryCartSubtotal(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT SUM(cost) AS "subtotal"
+            FROM (
+                SELECT SUM(r.price) AS "cost"
+                FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                    JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+                WHERE c.processed = false AND c.customeremail = '${email}'
+            ) costs; 
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
+async function updateBankBalanceAttribute(email, customerTotal) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            BEGIN;
+
+            UPDATE bank 
+            SET balance = balance - ${customerTotal}
+            WHERE accountid IN (
+                SELECT b.accountid
+                FROM customer c JOIN bank b ON c.bankaccountid = b.accountid 
+                    JOIN customerorder c2 ON c2.customeremail = c.email 
+                WHERE c2.customeremail = '${email}' AND c2.processed = false
+            );
+
+            UPDATE bank 
+            SET balance = balance + total_due
+            FROM (
+                SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_due
+                FROM (SELECT r.restaurantid, sum(r.price) AS "total_due"
+                      FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                        JOIN restaurantmenu r ON c2.menuitemid = r.menuitemid AND c2.restaurantid = r.restaurantid 
+                      WHERE c.processed = false AND c.customeremail = '${email}'
+                      GROUP BY r.restaurantid) rbill JOIN restaurant r2 ON rbill.restaurantid = r2.restaurantid
+                                                JOIN bank b ON b.accountid = r2.bankaccountid
+            ) AS owed
+            WHERE bank.accountid = owed.accountid;
+
+            UPDATE customerorder 
+            SET processed = true 
+            WHERE customeremail = '${email}' AND processed = false;
+
+            COMMIT;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
     deleteFromCart,
-    updateTipAttribute
+    updateTipAttribute,
+    queryCurrentCart,
+    queryCartSubtotal,
+    updateBankBalanceAttribute
 }

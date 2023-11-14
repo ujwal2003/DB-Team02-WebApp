@@ -57,7 +57,7 @@ async function addTip(req, res) {
         const addTip = await ordersModel.updateTipAttribute(email, tip);
 
         if(!addTip.SQL_success)
-            return res.status(500).json({"success": true, "error": addTip.error});
+            return res.status(500).json({"success": false, "error": addTip.error});
 
         return res.status(200).json({
             "success": true,
@@ -72,8 +72,115 @@ async function addTip(req, res) {
     }
 }
 
+async function getUnprocessedUserCart(req, res) {
+    try {
+        let {email} = req.body;
+        const getCart = await ordersModel.queryCurrentCart(email);
+
+        if(!getCart.SQL_success)
+            return res.status(500).json({"success": false, "error": getCart.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved unprocessed cart of ${email}`,
+            "data": getCart
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
+async function getUnprocessedUserOrder(req, res) {
+    try {
+        let {email} = req.body;
+        const getOrder = await ordersModel.queryUnprocessedOrder(email);
+
+        if(!getOrder.SQL_success)
+            return res.status(500).json({"success": false, "error": getOrder.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved unproccessed order of ${email}`,
+            "data": getOrder
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
+async function getUserOrderSubtotal(req, res) {
+    try {
+        let {email} = req.body;
+        const getSubTotal = await ordersModel.queryCartSubtotal(email);
+
+        if(!getSubTotal.SQL_success)
+            return res.status(500).json({"success": false, "error": getSubTotal.error});
+
+        let tax = parseFloat(getSubTotal.result[0].subtotal) * 0.0825;
+        getSubTotal.result[0] = {...getSubTotal.result[0], "tax": tax};
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved subtotal for unprocessed order of ${email}`,
+            "data": getSubTotal
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
+async function processOrder(req, res) {
+    try {
+        let {email} = req.body;
+
+        const getSubTotal = await ordersModel.queryCartSubtotal(email);
+        if(!getSubTotal.SQL_success)
+            return res.status(500).json({"success": false, "error": getSubTotal.error});
+
+        let tax = parseFloat(getSubTotal.result[0].subtotal) * 0.0825;
+        getSubTotal.result[0] = {...getSubTotal.result[0], "tax": tax};
+
+        const getOrderTip = await ordersModel.queryUnprocessedOrder(email);
+        if(!getOrderTip.SQL_success)
+            return res.status(500).json({"success": false, "error": getOrderTip.error});
+
+        let tip = parseFloat(getOrderTip.result[0].tip);
+
+        let userTotal = parseFloat(getSubTotal.result[0].subtotal) + tax + tip;
+        const processOrder = await ordersModel.updateBankBalanceAttribute(email, userTotal);
+
+        if(!processOrder.SQL_success)
+            return res.status(500).json({"success": false, "error": processOrder.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `succesfully processed order of ${email}`,
+            "data": processOrder
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
-    addTip
+    addTip,
+    getUnprocessedUserCart,
+    getUnprocessedUserOrder,
+    getUserOrderSubtotal,
+    processOrder
 }
