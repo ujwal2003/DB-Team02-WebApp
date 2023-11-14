@@ -98,9 +98,27 @@ async function updateTipAttribute(email, tip) {
     }
 }
 
+async function queryCurrentCart(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT c2.orderid, c.customeremail, r.menuitemid, r.restaurantid, r.price
+            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+            JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+            WHERE c.processed = false AND c.customeremail = '${email}';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
     deleteFromCart,
-    updateTipAttribute
+    updateTipAttribute,
+    queryCurrentCart
 }
