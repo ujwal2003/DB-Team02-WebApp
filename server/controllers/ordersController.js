@@ -49,7 +49,31 @@ async function removeFromCart(req, res) {
     }
 }
 
+async function addTip(req, res) {
+    try {
+        let {email, tip} = req.body;
+        tip = parseFloat(tip);
+
+        const addTip = await ordersModel.updateTipAttribute(email, tip);
+
+        if(!addTip.SQL_success)
+            return res.status(500).json({"success": true, "error": addTip.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `tip of $${tip} to order of ${email}`,
+            "data": addTip
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
-    removeFromCart
+    removeFromCart,
+    addTip
 }
