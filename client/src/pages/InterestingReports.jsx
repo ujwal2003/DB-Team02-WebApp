@@ -198,16 +198,15 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && !joinClicked && (
         <div className="w-full">
-          <h2>Showing All Restaurants in the DB</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Showing All Restaurants in the DB</h2>
           <ul>
             {restaurants.map((restaurant, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center"}}>
-                <strong>Restaurant ID:</strong> {restaurant.restaurantid}<br />
-                  Restaurant Name: {restaurant.name}<br />
-                  Phone Number: {restaurant.phone}<br />
+                <p style={{ fontWeight: '400', textAlign: "center"}}>
+                <span style={{ color: 'green' }}> Restaurant ID:</span> {restaurant.restaurantid}<br />
+                <span style={{ color: 'green' }}> Restaurant Name:</span> {restaurant.name}<br />
+                <span style={{ color: 'green' }}> Phone Number:</span> {restaurant.phone}<br />
                 </p>
-                {/* Add more restaurant information fields as needed */}
               </li>
             ))}
           </ul>
@@ -215,14 +214,13 @@ function InterestingReports() {
       )}
       {showExpensiveDishes && (
         <div className="w-full">
-          <h2>Most Expensive Dishes</h2>
+        <h2 style={{ fontWeight: '600', color: '#0066cc' }}> The priciest dish at each restaurant!</h2>
           <ul>
             {expensiveDishes.map((dish, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Dish Name: {dish.dish_name}<br />
-                  Price: {dish.price}<br />
-                  {/* Add more dish information fields as needed */}
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> Dish Name:</span> {dish.dish_name}<br />
+                <span style={{ color: 'green' }}> Price:</span> {dish.price}<br />
                 </p>
               </li>
             ))}
@@ -231,14 +229,14 @@ function InterestingReports() {
       )}
       {showAllCustomers && (
         <div className="w-full">
-          <h2>All Customers</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
           <ul>
             {allCustomers.map((customers, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  First Name: {customers.firstname}<br />
-                  Last Name: {customers.lastname}<br />
-                  Email: {customers.email}<br />
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
+                <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
+                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
@@ -248,13 +246,13 @@ function InterestingReports() {
       )}
       {showWealthiestRestaurants && (
         <div className="w-full">
-          <h2>Restaurants Ordered By Highest Revenue</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Restaurants Ordered By Highest Revenue</h2>
           <ul>
             {richestRestaurants.map((res, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Restaurant Name: {res.name}<br />
-                  Revenue: {res.wealth}<br />
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> Restaurant Name:</span> {res.name}<br />
+                <span style={{ color: 'green' }}> Revenue:</span> {res.wealth}<br />
                   {/* Add more restaurant information fields as needed */}
                 </p>
               </li>
@@ -264,7 +262,7 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && joinClicked && (
         <div className="w-full">
-          <h2>Enter Restaurant ID:</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Enter Restaurant ID:</h2>
           <input
             type="text"
             value={restaurantID}
@@ -276,13 +274,13 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && joinClicked && searchedMenuItems.length > 0 && (
         <div className="w-full">
-          <h2>Restaurant Menu Items</h2>
+          <h2 style = {{color: 'blue'}}>Restaurant Menu Items</h2>
           <ul>
             {searchedMenuItems.map((menuItem, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Menu Item Name: {menuItem.name}<br />
-                  Price: {menuItem.price}<br />
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}>Menu Item Name: </span> {menuItem.name}<br />
+                <span style={{ color: 'green' }}>Price:</span> {menuItem.price}<br />
                   {/* Add more menu item information fields as needed */}
                 </p>
               </li>
