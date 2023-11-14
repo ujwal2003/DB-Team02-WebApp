@@ -93,9 +93,31 @@ async function getUnprocessedUserCart(req, res) {
     }
 }
 
+async function getUnprocessedUserOrder(req, res) {
+    try {
+        let {email} = req.body;
+        const getOrder = await ordersModel.queryUnprocessedOrder(email);
+
+        if(!getOrder)
+            return res.status(500).json({"success": false, "error": getOrder.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved unproccessed order of ${email}`,
+            "data": getOrder
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
     addTip,
-    getUnprocessedUserCart
+    getUnprocessedUserCart,
+    getUnprocessedUserOrder
 }
