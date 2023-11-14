@@ -57,7 +57,7 @@ async function addTip(req, res) {
         const addTip = await ordersModel.updateTipAttribute(email, tip);
 
         if(!addTip.SQL_success)
-            return res.status(500).json({"success": true, "error": addTip.error});
+            return res.status(500).json({"success": false, "error": addTip.error});
 
         return res.status(200).json({
             "success": true,
@@ -72,8 +72,30 @@ async function addTip(req, res) {
     }
 }
 
+async function getUnprocessedUserCart(req, res) {
+    try {
+        let {email} = req.body;
+        const getCart = await ordersModel.queryCurrentCart(email);
+
+        if(!getCart.SQL_success)
+            return res.status(500).json({"success": false, "error": getCart.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved unprocessed cart of ${email}`,
+            "data": getCart
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
-    addTip
+    addTip,
+    getUnprocessedUserCart
 }
