@@ -4,7 +4,7 @@ async function queryUnprocessedOrder(email) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT orderid
+            SELECT *
             FROM customerorder c
             WHERE c.customeremail = '${email}' and c.processed = 'no';
         `);
