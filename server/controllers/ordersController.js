@@ -98,7 +98,7 @@ async function getUnprocessedUserOrder(req, res) {
         let {email} = req.body;
         const getOrder = await ordersModel.queryUnprocessedOrder(email);
 
-        if(!getOrder)
+        if(!getOrder.SQL_success)
             return res.status(500).json({"success": false, "error": getOrder.error});
 
         return res.status(200).json({
@@ -114,10 +114,32 @@ async function getUnprocessedUserOrder(req, res) {
     }
 }
 
+async function getUserOrderSubtotal(req, res) {
+    try {
+        let {email} = req.body;
+        const getSubTotal = await ordersModel.queryCartSubtotal(email);
+
+        if(!getSubTotal.SQL_success)
+            return res.status(500).json({"success": false, "error": getSubTotal.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved subtotal for unprocessed order of ${email}`,
+            "data": getSubTotal
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
     addTip,
     getUnprocessedUserCart,
-    getUnprocessedUserOrder
+    getUnprocessedUserOrder,
+    getUserOrderSubtotal
 }
