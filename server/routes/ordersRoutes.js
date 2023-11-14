@@ -9,5 +9,6 @@ router.patch('/tip', ordersController.addTip);
 router.post('/load', ordersController.getUnprocessedUserCart);
 router.post('/get', ordersController.getUnprocessedUserOrder);
 router.post('/subtotal', ordersController.getUserOrderSubtotal);
+router.patch('/checkout', ordersController.processOrder);
 
 module.exports = router;

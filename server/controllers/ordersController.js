@@ -163,7 +163,7 @@ async function processOrder(req, res) {
 
         return res.status(200).json({
             "success": true,
-            "result": `retrieved subtotal for unprocessed order of ${email}`,
+            "result": `succesfully processed order of ${email}`,
             "data": processOrder
         });
 
@@ -181,5 +181,6 @@ module.exports = {
     addTip,
     getUnprocessedUserCart,
     getUnprocessedUserOrder,
-    getUserOrderSubtotal
+    getUserOrderSubtotal,
+    processOrder
 }

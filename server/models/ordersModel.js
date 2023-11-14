@@ -163,6 +163,10 @@ async function updateBankBalanceAttribute(email, customerTotal) {
             ) AS owed
             WHERE bank.accountid = owed.accountid;
 
+            UPDATE customerorder 
+            SET processed = true 
+            WHERE customeremail = '${email}' AND processed = false;
+
             COMMIT;
         `);
         client.release();
