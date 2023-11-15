@@ -143,7 +143,7 @@ VALUES
     ('Champurrado', 'Thick and warm chocolate-based drink, often enjoyed during the holidays.', 2),
     ('Mango Lassi', 'Smoothie made with mango, yogurt, and spices.', 2),
     ('Pisco Sour', 'South American cocktail made with pisco, lime juice, and egg white.', 2),
-    ('Aguas Frescas', 'Various fruit-infused drinks, such as watermelon or cantaloupe.', 2),
+    ('Aguas Fresca de Coco', 'Fresh coconut milk with milk and cream.', 2),
     ('Café con Leche', 'Coffee with steamed milk.', 2),
     ('Horchata Lattee', 'Latte made with horchata instead of regular milk.', 2);
 
