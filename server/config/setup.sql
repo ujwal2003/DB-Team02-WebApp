@@ -144,8 +144,8 @@ VALUES
     ('Mango Lassi', 'Smoothie made with mango, yogurt, and spices.', 2),
     ('Pisco Sour', 'South American cocktail made with pisco, lime juice, and egg white.', 2),
     ('Aguas Fresca de Coco', 'Fresh coconut milk with milk and cream.', 2),
-    ('Café con Leche', 'Coffee with steamed milk.', 2),
-    ('Horchata Lattee', 'Latte made with horchata instead of regular milk.', 2);
+    ('Pinacolada', 'Popular Puero Rican cocktail made with pineapple just, rum, and coconut.', 2),
+    ('Horchata', 'Sweet vanilla rice milk', 2);
 
 
 CREATE TABLE RestaurantMenu (
