@@ -122,20 +122,20 @@ VALUES
     ('Sopes', 'Thick corn tortillas with raised edges, topped with beans, meat, lettuce, and cheese.', 0),
     ('Camarones a la Diabla', 'Spicy shrimp cooked in a flavorful red chili sauce.', 0),
     ('Tostadas', 'Crispy fried tortillas topped with beans, lettuce, meat, and salsa.', 0),
-    ('Caldo de Res', 'Hearty beef soup with vegetables and rice.', 0),
+    ('Menudo', 'Hearty beef soup with vegetables and rice.', 0),
     ('Papas Rellenas', 'Mashed potato balls stuffed with seasoned meat, then fried.', 0),
     ('Cactus Salad', 'Refreshing salad made with nopales (cactus), tomatoes, and onions.', 0),
     ('Chiles en Nogada', 'Poblano peppers stuffed with picadillo (a mixture of meat and fruits), topped with walnut cream sauce.', 0),
     ('Arroz y Frijoles', 'Classic combination of rice and beans.', 1),
     ('Ensalada de Frutas', 'Fresh fruit salad with a light dressing.', 1),
     ('Yucca Fries', 'Crispy fries made from yucca root.', 1),
-    ('Chicharrón de Queso', 'Fried cheese crisps or chips.', 1),
+    ('Ensalada de Papas', 'Fresh home made potato salad.', 1),
     ('Platanos con Crema', 'Fried plantains served with sour cream.', 1),
     ('Sopaipillas', 'Fried pastry dough, often sprinkled with cinnamon sugar.', 1),
     ('Mexican Street Corn (Elote)', 'Grilled corn on the cob topped with mayo, cheese, and chili powder.', 1),
-    ('Papas a la Huancaina', 'Peruvian dish of sliced potatoes in a spicy cheese sauce.', 1),
-    ('Coconut Rice', 'Sweet and fragrant rice cooked with coconut milk.', 1),
-    ('Pastelón', 'Sweet plantain lasagna with layers of meat and cheese.', 1),
+    ('Cesar Salad', 'Classic Cesar Salad with crutons, fresh sauce, and parmesean cheese.', 1),
+    ('Arroz con Leche', 'Rice pudding with sweetened condensed milk and cinnamon.', 1),
+    ('Chips and Salsa', 'Chips with green, red, and  avocado cream salsa.', 1),
     ('Jamaica Margarita', 'Margarita with a twist, flavored with hibiscus tea.', 2),
     ('Cucumber Agua Fresca', 'Refreshing drink made with cucumber, lime, and sugar.', 2),
     ('Café de Olla', 'Traditional Mexican spiced coffee brewed with cinnamon and piloncillo (unrefined sugar).', 2),
@@ -143,9 +143,9 @@ VALUES
     ('Champurrado', 'Thick and warm chocolate-based drink, often enjoyed during the holidays.', 2),
     ('Mango Lassi', 'Smoothie made with mango, yogurt, and spices.', 2),
     ('Pisco Sour', 'South American cocktail made with pisco, lime juice, and egg white.', 2),
-    ('Aguas Frescas', 'Various fruit-infused drinks, such as watermelon or cantaloupe.', 2),
-    ('Café con Leche', 'Coffee with steamed milk.', 2),
-    ('Horchata Latte', 'Latte made with horchata instead of regular milk.', 2);
+    ('Aguas Fresca de Coco', 'Fresh coconut milk with milk and cream.', 2),
+    ('Pinacolada', 'Popular Puero Rican cocktail made with pineapple just, rum, and coconut.', 2),
+    ('Horchata', 'Sweet vanilla rice milk', 2);
 
 
 CREATE TABLE RestaurantMenu (
