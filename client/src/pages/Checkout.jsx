@@ -14,7 +14,7 @@ function Checkout() {
     const { location } = useContext(OrderContext);
 
     // Calculate totals
-    const subtotal = cart.reduce((total, item) => total + item.price, 0);
+    const subtotal = cart.reduce((total, item) => total + parseInt(item.price), 0);
     const tax = subtotal * 0.0825; // 8.25% tax
     const originalTotal = subtotal + tax;
 

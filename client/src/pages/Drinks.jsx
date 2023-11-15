@@ -1,17 +1,18 @@
 import MenuItems from '../components/MenuItems';
+import { useContext } from "react";
+import { OrderContext } from '../context/OrderContext';
 
 export default function Drinks() {
+  const {drinks} = useContext(OrderContext);
 
-  const drinks = [
-    {
-      id: 1,
-      name: 'Margarita',
-      price: 8.99,
-      description: 'Classic lime margarita'
-    }
-    //...other drinks
-  ];
-
-  return <MenuItems title="DRINKS" items={drinks} />;
+  return <>
+  {
+    drinks.length === 0 
+    ? 
+    <div>No drinks found</div> 
+    :
+    <MenuItems title="DRINKS" items={drinks} />
+  }
+  </>
 
 }

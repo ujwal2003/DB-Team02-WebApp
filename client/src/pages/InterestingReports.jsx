@@ -5,6 +5,7 @@ function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
   const [showExpensiveDishes, setShowExpensiveDishes] = useState(false);
   const [showWealthiestRestaurants, setShowWealthiestRestaurants] = useState(false);
+  const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
@@ -12,6 +13,7 @@ function InterestingReports() {
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
+  const [allCustomers, setCustomers] = useState([]);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -28,6 +30,22 @@ function InterestingReports() {
 
     // Fetch all restaurants when the component mounts
     getLocationsInfo();
+  }, []);
+  useEffect(() => {
+    async function getCustomersInfo() {
+      try {
+        const res = await axios.get('customers/all');
+        const data = await res.data;
+        if (data !== "none") {
+          setCustomers(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // Fetch all customers when the component mounts
+    getCustomersInfo();
   }, []);
 
   useEffect(() => {
@@ -70,6 +88,7 @@ function InterestingReports() {
       setShowExpensiveDishes(false); // Hide expensive dishes
       setShowWealthiestRestaurants(false);
       setJoinClicked(false);
+      setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
     } else if (buttonName === "Most Expensive Dishes") {
@@ -77,8 +96,16 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
+      setShowAllCustomers(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setJoinClicked(false);
+      setShowAllCustomers(false);
+    } else if (buttonName === "Customers") {
+      setShowAllCustomers(true);
+      setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
@@ -88,6 +115,7 @@ function InterestingReports() {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
       setShowWealthiestRestaurants(false);
+      setShowAllCustomers(false);
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
@@ -170,16 +198,17 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && !joinClicked && (
         <div className="w-full">
-          <h2>Showing All Restaurants in the DB</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Showing All Restaurants in the DB</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all restaurants information:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM restaurant r ORDER BY r.restaurantid;"</p>
           <ul>
             {restaurants.map((restaurant, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center"}}>
-                <strong>Restaurant ID:</strong> {restaurant.restaurantid}<br />
-                  Restaurant Name: {restaurant.name}<br />
-                  Phone Number: {restaurant.phone}<br />
+                <p style={{ fontWeight: '400', textAlign: "center"}}>
+                <span style={{ color: 'green' }}> Restaurant ID:</span> {restaurant.restaurantid}<br />
+                <span style={{ color: 'green' }}> Restaurant Name:</span> {restaurant.name}<br />
+                <span style={{ color: 'green' }}> Phone Number:</span> {restaurant.phone}<br />
                 </p>
-                {/* Add more restaurant information fields as needed */}
               </li>
             ))}
           </ul>
@@ -187,13 +216,39 @@ function InterestingReports() {
       )}
       {showExpensiveDishes && (
         <div className="w-full">
-          <h2>Most Expensive Dishes</h2>
+        <h2 style={{ fontWeight: '600', color: '#0066cc' }}> The priciest dish at each restaurant!</h2>
+        <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the priciest dish:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT r2.restaurantid, res.name AS "restaurant_name", mi.name AS "dish_name", mi.itemid AS "dish_id", maxPrice.price
+            FROM (SELECT r.restaurantid, MAX(r.price) AS "price"
+                    FROM restaurantmenu r
+                    GROUP BY r.restaurantid) maxPrice, restaurantmenu r2, menuitem mi, restaurant res
+            WHERE maxPrice.price = r2.price AND maxPrice.restaurantid = r2.restaurantid
+                    AND r2.menuitemid = mi.itemid AND res.restaurantid = r2.restaurantid
+            ORDER BY restaurantid;"</p>
           <ul>
             {expensiveDishes.map((dish, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Dish Name: {dish.dish_name}<br />
-                  Price: {dish.price}<br />
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> Dish Name:</span> {dish.dish_name}<br />
+                <span style={{ color: 'green' }}> Price:</span> {dish.price}<br />
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {showAllCustomers && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM customer;"</p>
+          <ul>
+            {allCustomers.map((customers, index) => (
+              <li key={index}>
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
+                <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
+                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
@@ -203,13 +258,17 @@ function InterestingReports() {
       )}
       {showWealthiestRestaurants && (
         <div className="w-full">
-          <h2>Restaurants Ordered By Highest Revenue</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Restaurants Ordered By Highest Revenue</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to order by highest revenue:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT" r.restaurantid, r."name", b.balance AS "wealth"
+            FROM restaurant r JOIN bank b ON r.bankaccountid = b.accountid
+            ORDER BY b.balance;"</p>
           <ul>
             {richestRestaurants.map((res, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Restaurant Name: {res.name}<br />
-                  Revenue: {res.wealth}<br />
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> Restaurant Name:</span> {res.name}<br />
+                <span style={{ color: 'green' }}> Revenue:</span> {res.wealth}<br />
                   {/* Add more restaurant information fields as needed */}
                 </p>
               </li>
@@ -219,7 +278,7 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && joinClicked && (
         <div className="w-full">
-          <h2>Enter Restaurant ID:</h2>
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Enter Restaurant ID:</h2>
           <input
             type="text"
             value={restaurantID}
@@ -231,13 +290,17 @@ function InterestingReports() {
       )}
       {showRestaurantMenu && joinClicked && searchedMenuItems.length > 0 && (
         <div className="w-full">
-          <h2>Restaurant Menu Items</h2>
+          <h2 style = {{color: 'blue'}}>Restaurant Menu Items</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get restaurant menu based off of id:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT m.name, r.price, m.type, m.description, m.itemid, r.restaurantid
+            FROM restaurantmenu r join menuitem m on r.menuitemid = m.itemid
+            where r.restaurantid = ${restaurantID};"</p>
           <ul>
             {searchedMenuItems.map((menuItem, index) => (
               <li key={index}>
-                <p style={{ textAlign: "center" }}>
-                  Menu Item Name: {menuItem.name}<br />
-                  Price: {menuItem.price}<br />
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}>Menu Item Name: </span> {menuItem.name}<br />
+                <span style={{ color: 'green' }}>Price:</span> {menuItem.price}<br />
                   {/* Add more menu item information fields as needed */}
                 </p>
               </li>
