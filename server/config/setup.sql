@@ -133,7 +133,7 @@ VALUES
     ('Platanos con Crema', 'Fried plantains served with sour cream.', 1),
     ('Sopaipillas', 'Fried pastry dough, often sprinkled with cinnamon sugar.', 1),
     ('Mexican Street Corn (Elote)', 'Grilled corn on the cob topped with mayo, cheese, and chili powder.', 1),
-    ('Papas a la Huancaina', 'Peruvian dish of sliced potatoes in a spicy cheese sauce.', 1),
+    ('Cesar Salad', 'Classic Cesar Salad with crutons, fresh sauce, and parmesean cheese.', 1),
     ('Coconut Rice', 'Sweet and fragrant rice cooked with coconut milk.', 1),
     ('Pastelón', 'Sweet plantain lasagna with layers of meat and cheese.', 1),
     ('Jamaica Margarita', 'Margarita with a twist, flavored with hibiscus tea.', 2),
