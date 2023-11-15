@@ -135,7 +135,7 @@ VALUES
     ('Mexican Street Corn (Elote)', 'Grilled corn on the cob topped with mayo, cheese, and chili powder.', 1),
     ('Cesar Salad', 'Classic Cesar Salad with crutons, fresh sauce, and parmesean cheese.', 1),
     ('Arroz con Leche', 'Rice pudding with sweetened condensed milk and cinnamon.', 1),
-    ('Pastelón', 'Sweet plantain lasagna with layers of meat and cheese.', 1),
+    ('Chips and Salsa', 'Chips with green, red, and  avocado cream salsa.', 1),
     ('Jamaica Margarita', 'Margarita with a twist, flavored with hibiscus tea.', 2),
     ('Cucumber Agua Fresca', 'Refreshing drink made with cucumber, lime, and sugar.', 2),
     ('Café de Olla', 'Traditional Mexican spiced coffee brewed with cinnamon and piloncillo (unrefined sugar).', 2),
