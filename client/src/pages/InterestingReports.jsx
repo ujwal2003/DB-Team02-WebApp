@@ -199,6 +199,8 @@ function InterestingReports() {
       {showRestaurantMenu && !joinClicked && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Showing All Restaurants in the DB</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all restaurants information:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM restaurant r ORDER BY r.restaurantid;"</p>
           <ul>
             {restaurants.map((restaurant, index) => (
               <li key={index}>
@@ -215,6 +217,14 @@ function InterestingReports() {
       {showExpensiveDishes && (
         <div className="w-full">
         <h2 style={{ fontWeight: '600', color: '#0066cc' }}> The priciest dish at each restaurant!</h2>
+        <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the priciest dish:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT r2.restaurantid, res.name AS "restaurant_name", mi.name AS "dish_name", mi.itemid AS "dish_id", maxPrice.price
+            FROM (SELECT r.restaurantid, MAX(r.price) AS "price"
+                    FROM restaurantmenu r
+                    GROUP BY r.restaurantid) maxPrice, restaurantmenu r2, menuitem mi, restaurant res
+            WHERE maxPrice.price = r2.price AND maxPrice.restaurantid = r2.restaurantid
+                    AND r2.menuitemid = mi.itemid AND res.restaurantid = r2.restaurantid
+            ORDER BY restaurantid;"</p>
           <ul>
             {expensiveDishes.map((dish, index) => (
               <li key={index}>
@@ -230,6 +240,8 @@ function InterestingReports() {
       {showAllCustomers && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM customer;"</p>
           <ul>
             {allCustomers.map((customers, index) => (
               <li key={index}>
@@ -247,6 +259,10 @@ function InterestingReports() {
       {showWealthiestRestaurants && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Restaurants Ordered By Highest Revenue</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to order by highest revenue:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT" r.restaurantid, r."name", b.balance AS "wealth"
+            FROM restaurant r JOIN bank b ON r.bankaccountid = b.accountid
+            ORDER BY b.balance;"</p>
           <ul>
             {richestRestaurants.map((res, index) => (
               <li key={index}>
@@ -275,6 +291,10 @@ function InterestingReports() {
       {showRestaurantMenu && joinClicked && searchedMenuItems.length > 0 && (
         <div className="w-full">
           <h2 style = {{color: 'blue'}}>Restaurant Menu Items</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get restaurant menu based off of id:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT m.name, r.price, m.type, m.description, m.itemid, r.restaurantid
+            FROM restaurantmenu r join menuitem m on r.menuitemid = m.itemid
+            where r.restaurantid = ${restaurantID};"</p>
           <ul>
             {searchedMenuItems.map((menuItem, index) => (
               <li key={index}>
