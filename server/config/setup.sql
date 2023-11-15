@@ -134,7 +134,7 @@ VALUES
     ('Sopaipillas', 'Fried pastry dough, often sprinkled with cinnamon sugar.', 1),
     ('Mexican Street Corn (Elote)', 'Grilled corn on the cob topped with mayo, cheese, and chili powder.', 1),
     ('Cesar Salad', 'Classic Cesar Salad with crutons, fresh sauce, and parmesean cheese.', 1),
-    ('Coconut Rice', 'Sweet and fragrant rice cooked with coconut milk.', 1),
+    ('Arroz con Leche', 'Rice pudding with sweetened condensed milk and cinnamon.', 1),
     ('Pastelón', 'Sweet plantain lasagna with layers of meat and cheese.', 1),
     ('Jamaica Margarita', 'Margarita with a twist, flavored with hibiscus tea.', 2),
     ('Cucumber Agua Fresca', 'Refreshing drink made with cucumber, lime, and sugar.', 2),
@@ -145,7 +145,7 @@ VALUES
     ('Pisco Sour', 'South American cocktail made with pisco, lime juice, and egg white.', 2),
     ('Aguas Frescas', 'Various fruit-infused drinks, such as watermelon or cantaloupe.', 2),
     ('Café con Leche', 'Coffee with steamed milk.', 2),
-    ('Horchata Latte', 'Latte made with horchata instead of regular milk.', 2);
+    ('Horchata Lattee', 'Latte made with horchata instead of regular milk.', 2);
 
 
 CREATE TABLE RestaurantMenu (
