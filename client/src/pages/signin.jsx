@@ -2,16 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import HeroImage from "../assets/HeroImage.png";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { OrderContext } from "../context/OrderContext";
 import axios from "axios";
 
 function SignIn() {
   const navigate = useNavigate();
   const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
+  const {clearCart} = useContext(OrderContext);
 
   useEffect(() => {
     if(Object.keys(custInfo).length !== 0) {
       console.log(`User ${custInfo.email} signed out.`);
     }
+    clearCart();
     custSignOut();
   }, []);
 
