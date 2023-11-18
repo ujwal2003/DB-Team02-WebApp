@@ -102,9 +102,10 @@ async function queryCurrentCart(email) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT c2.orderid, c.customeremail, r.menuitemid, r.restaurantid, r.price
+            SELECT m.name, r.price, m.type, m.description, r.menuitemid, r.restaurantid
             FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
-            JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid  
+                JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid
+                JOIN menuitem m ON m.itemid = c2.menuitemid
             WHERE c.processed = false AND c.customeremail = '${email}';
         `);
         client.release();
@@ -135,7 +136,7 @@ async function queryCartSubtotal(email) {
     }
 }
 
-async function updateBankBalanceAttribute(email, customerTotal) {
+async function updateBankBalanceAttribute(email, customerTotal, orderDate, orderTime) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
@@ -164,7 +165,9 @@ async function updateBankBalanceAttribute(email, customerTotal) {
             WHERE bank.accountid = owed.accountid;
 
             UPDATE customerorder 
-            SET processed = true 
+            SET processed = true,
+                orderdate = ${orderDate},
+                ordertime = ${orderTime}
             WHERE customeremail = '${email}' AND processed = false;
 
             COMMIT;

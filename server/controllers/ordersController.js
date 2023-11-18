@@ -155,8 +155,14 @@ async function processOrder(req, res) {
 
         let tip = parseFloat(getOrderTip.result[0].tip);
 
+        const currTime = new Date();
+        const formatDigit = (x) => x.toString().length === 1 ? '0' + x.toString() : x.toString();
+
+        let orderDate = `${currTime.getFullYear()}-${formatDigit(currTime.getMonth()+1)}-${formatDigit(currTime.getDate())}`;
+        let orderTime = `${formatDigit(currTime.getHours())}:${formatDigit(currTime.getMinutes())}:${formatDigit(currTime.getSeconds())}`;
+
         let userTotal = parseFloat(getSubTotal.result[0].subtotal) + tax + tip;
-        const processOrder = await ordersModel.updateBankBalanceAttribute(email, userTotal);
+        const processOrder = await ordersModel.updateBankBalanceAttribute(email, userTotal, orderDate, orderTime);
 
         if(!processOrder.SQL_success)
             return res.status(500).json({"success": false, "error": processOrder.error});
