@@ -1,11 +1,17 @@
 import placeHolder from '../assets/placeholder.png'
 import { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
+import { UserContext } from "../context/UserContext";
 import { Link } from 'react-router-dom';
 
 function Order() {
     const { cart, removeFromCart } = useContext(OrderContext);
     const { location } = useContext(OrderContext);
+
+    const {custInfo} = useContext(UserContext);
+    if (Object.keys(custInfo).length === 0) {
+        return <>{alert("Please Sign In as a Customer before Ordering")} {window.location.href = 'signin'}</>
+    }
 
     // Calculate totals
     const subtotal = cart.reduce((total, item) => total + parseInt(item.price), 0); 
