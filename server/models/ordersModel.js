@@ -166,8 +166,8 @@ async function updateBankBalanceAttribute(email, customerTotal, orderDate, order
 
             UPDATE customerorder 
             SET processed = true,
-                orderdate = ${orderDate},
-                ordertime = ${orderTime}
+                orderdate = '${orderDate}',
+                ordertime = '${orderTime}'
             WHERE customeremail = '${email}' AND processed = false;
 
             COMMIT;
