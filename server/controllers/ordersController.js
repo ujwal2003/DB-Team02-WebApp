@@ -34,7 +34,7 @@ async function removeFromCart(req, res) {
         const removeItem = await ordersModel.deleteFromCart(email, menuItemID, restaurantID);
 
         if(!removeItem.SQL_success)
-            return res.status(500).json({"success": false, "error": addItem.error});
+            return res.status(500).json({"success": false, "SQL_error": removeItem.error});
 
         return res.status(200).json({
             "success": true, 
