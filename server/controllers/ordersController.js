@@ -34,7 +34,7 @@ async function removeFromCart(req, res) {
         const removeItem = await ordersModel.deleteFromCart(email, menuItemID, restaurantID);
 
         if(!removeItem.SQL_success)
-            return res.status(500).json({"success": false, "error": addItem.error});
+            return res.status(500).json({"success": false, "SQL_error": removeItem.error});
 
         return res.status(200).json({
             "success": true, 
@@ -155,8 +155,14 @@ async function processOrder(req, res) {
 
         let tip = parseFloat(getOrderTip.result[0].tip);
 
+        const currTime = new Date();
+        const formatDigit = (x) => x.toString().length === 1 ? '0' + x.toString() : x.toString();
+
+        let orderDate = `${currTime.getFullYear()}-${formatDigit(currTime.getMonth()+1)}-${formatDigit(currTime.getDate())}`;
+        let orderTime = `${formatDigit(currTime.getHours())}:${formatDigit(currTime.getMinutes())}:${formatDigit(currTime.getSeconds())}`;
+
         let userTotal = parseFloat(getSubTotal.result[0].subtotal) + tax + tip;
-        const processOrder = await ordersModel.updateBankBalanceAttribute(email, userTotal);
+        const processOrder = await ordersModel.updateBankBalanceAttribute(email, userTotal, orderDate, orderTime);
 
         if(!processOrder.SQL_success)
             return res.status(500).json({"success": false, "error": processOrder.error});

@@ -1,12 +1,31 @@
 import placeHolder from '../assets/placeholder.png'
 import { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
+import { UserContext } from '../context/UserContext';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 // Used to display Meals, Sides, and Drinks pages
 export default function MenuItems({ title, items }) {
     const { addToCart } = useContext(OrderContext);
     const { location } = useContext(OrderContext);
+    const { custInfo } = useContext(UserContext);
+
+    async function placeItemInCart(itemObj) {
+        try {
+            addToCart(itemObj);
+            const res = await axios.post('order/add/', {
+                "email": custInfo.email.toString(),
+                "menuItemID": itemObj.itemid,
+                "restaurantID": itemObj.restaurantid
+            });
+            const data = res.data;
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
     return (
       <div className="flex flex-col items-center">
@@ -29,7 +48,7 @@ export default function MenuItems({ title, items }) {
                             <Link to='/Locations' className='text-red-500 italic'>Choose a location</Link>
                             <button disabled
                             className="bg-[#537D8D] text-white py-2 px-4 opacity-50 cursor-not-allowed"
-                            onClick={() => addToCart(item)}
+                            onClick={() => {placeItemInCart(item)}}
                             >
                             Add to Cart  
                             </button>
@@ -37,7 +56,7 @@ export default function MenuItems({ title, items }) {
                         :
                             <button
                             className="bg-[#537D8D] text-white py-2 px-4"
-                            onClick={() => addToCart(item)}
+                            onClick={() => {placeItemInCart(item)}}
                             >
                             Add to Cart  
                             </button>

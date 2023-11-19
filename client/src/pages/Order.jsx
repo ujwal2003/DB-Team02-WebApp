@@ -1,14 +1,38 @@
 import placeHolder from '../assets/placeholder.png'
 import { useContext } from 'react';
 import { OrderContext } from '../context/OrderContext';
+import { UserContext } from "../context/UserContext";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Order() {
     const { cart, removeFromCart } = useContext(OrderContext);
+    const { custInfo } = useContext(UserContext);
     const { location } = useContext(OrderContext);
 
+    if (Object.keys(custInfo).length === 0) {
+        return <>{alert("Please Sign In as a Customer before Ordering")} {window.location.href = 'signin'}</>
+    }
+
+    async function removeItemFromCart(itemObj, itemIndex) {
+        try {
+            // console.log(itemObj);
+            const res = await axios.delete('order/remove/', {data: {
+                "email": custInfo.email.toString(),
+                "menuItemID": itemObj.itemid,
+                "restaurantID": itemObj.restaurantid
+            }});
+            const data = res.data;
+            console.log(data);
+            removeFromCart(itemIndex);
+            return data;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    }
+
     // Calculate totals
-    const subtotal = cart.reduce((total, item) => total + parseInt(item.price), 0); 
+    const subtotal = cart.reduce((total, item) => total + parseFloat(item.price), 0); 
     console.log(subtotal)
     const tax = subtotal * 0.0825; // 8.25% tax
     const total = subtotal + tax;
@@ -33,7 +57,7 @@ function Order() {
                     <div>
                         <div className=''>${item.price}</div>
                         <div className='space-x-4'>
-                            <button onClick={() => removeFromCart(index)} className=' text-[#537D8D] underline'>delete</button>
+                            <button onClick={() => {removeItemFromCart(item, index)}} className=' text-[#537D8D] underline'>delete</button>
                         </div>
                     </div>
                     </div>
