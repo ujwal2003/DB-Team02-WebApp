@@ -8,7 +8,7 @@ import axios from "axios";
 function SignIn() {
   const navigate = useNavigate();
   const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
-  const {clearCart} = useContext(OrderContext);
+  const {clearCart, loadCart} = useContext(OrderContext);
 
   useEffect(() => {
     if(Object.keys(custInfo).length !== 0) {
@@ -52,7 +52,24 @@ function SignIn() {
     try {
       const res = await axios.post('customers/login/', formData);
       const data = await res.data;
-      // console.log(data);
+      
+      const orderRes = await axios.post('order/get/', {"email": formData.email});
+      const orderData = await orderRes.data;
+
+      if(orderData.data.result.length > 0) {
+        const cartRes = await axios.post('order/load/', {"email": formData.email});
+        const cartData = await cartRes.data;
+
+        let loadedCart = cartData.data.result;
+        loadedCart = loadedCart.map(function (cartItem) {
+          cartItem['itemid'] = cartItem['menuitemid'];
+          delete cartItem['menuitemid'];
+          return cartItem;
+        });
+        
+        loadCart(loadedCart);
+      }
+
       return data;
     } catch (error) {
       // console.log(error.message);
