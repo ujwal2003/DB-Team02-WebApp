@@ -231,5 +231,6 @@ module.exports = {
     queryCurrentCart,
     queryCartSubtotal,
     updateBankBalanceAttribute,
-    queryMoneyOwedToEachRestauarant
+    queryMoneyOwedToEachRestauarant,
+    queryBankAccountsForUserOrder
 }

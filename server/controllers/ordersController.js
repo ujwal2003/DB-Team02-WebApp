@@ -202,6 +202,27 @@ async function getOrderDetails(req, res) {
     }
 }
 
+async function getOrderBankAccounts(req, res) {
+    try {
+        let email = req.params['email'];
+        const userOrderBanks = await ordersModel.queryBankAccountsForUserOrder(email);
+
+        if(!userOrderBanks.SQL_success)
+            return res.status(500).json({"success": false, "error": userOrderBanks.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved bank accounts for each restaurant for unprocessed order of ${email}`,
+            "data": userOrderBanks
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
@@ -210,5 +231,6 @@ module.exports = {
     getUnprocessedUserOrder,
     getUserOrderSubtotal,
     processOrder,
-    getOrderDetails
+    getOrderDetails,
+    getOrderBankAccounts
 }
