@@ -14,6 +14,14 @@ export function OrderProvider({ children }) {
         console.log(item)
     };
 
+    const loadCart = (loadItemsArr) => {
+        setCart(loadItemsArr);
+    }
+
+    const clearCart = () => {
+        setCart([]);
+    };
+
     const removeFromCart = (index) => {
         const updatedCart = cart.filter((_, i) => i !== index);
         setCart(updatedCart);
@@ -40,7 +48,7 @@ export function OrderProvider({ children }) {
     }
 
     return (
-        <OrderContext.Provider value={{ cart, addToCart, removeFromCart, location, addLocation, meals, addMeals, sides, addSides, drinks, addDrinks }}>
+        <OrderContext.Provider value={{ cart, addToCart, removeFromCart, loadCart, clearCart, location, addLocation, meals, addMeals, sides, addSides, drinks, addDrinks }}>
             {children}
         </OrderContext.Provider>
     );

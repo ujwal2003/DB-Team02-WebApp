@@ -46,10 +46,32 @@ async function getRestaurantWealth(req, res) {
     }
 }
 
+async function searchByRestaurantName(req, res) {
+    try {
+        let {search} = req.body;
+
+        const getRestaurantNames = await restaurantModel.queryRestaurantByName(search);
+        if(!getRestaurantNames.SQL_success)
+            return res.status(500).json({"success": false, "error": getRestaurantNames.error});
+
+            return res.status(200).json({
+                "success": true,
+                "result": `retrieved users where last name contains ${search}`,
+                "data": getRestaurantNames
+            });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     getRestaurants,
     getNumRestaurantDishes,
     getRestaurantMenu,
     getMostExpensiveDishForEach,
-    getRestaurantWealth
+    getRestaurantWealth,
+    searchByRestaurantName
 }

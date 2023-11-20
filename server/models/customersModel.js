@@ -143,6 +143,22 @@ async function updateUserPaymentInfo(customerEmail, cardNumber, cvv, cardName, e
     }
 }
 
+async function queryByLastNameSearch(searchTerm) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT email, firstname, lastname, c.phone
+            FROM customer c
+            WHERE c.lastname LIKE '${searchTerm}%' OR c.lastname LIKE '%${searchTerm}' OR c.lastname LIKE '%${searchTerm}%';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     insertNewCustomer,
     queryUserEmail,
@@ -151,5 +167,6 @@ module.exports = {
     insertNewPaymentInfo,
     updateCustomer,
     updateUserPaymentInfo,
-    queryCustomersTable
+    queryCustomersTable,
+    queryByLastNameSearch
 }
