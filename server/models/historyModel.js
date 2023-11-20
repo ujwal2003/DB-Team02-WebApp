@@ -37,7 +37,28 @@ async function queryUserReceipt(email, orderDate, orderTime) {
     }
 }
 
+async function queryPaidToRestaurantInOrder(email, orderDate, orderTime) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_paid
+            FROM (SELECT r.restaurantid, SUM(r.price) AS "total_paid"
+                FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                    JOIN restaurantmenu r ON c2.menuitemid = r.menuitemid AND c2.restaurantid = r.restaurantid 
+                WHERE c.processed = true AND c.customeremail = '${email}' AND c.orderdate = '${orderDate}' AND c.ordertime = '${orderTime}' 
+                GROUP BY r.restaurantid) rbill JOIN restaurant r2 ON rbill.restaurantid = r2.restaurantid
+                                            JOIN bank b ON b.accountid = r2.bankaccountid;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.log(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUserOrders,
-    queryUserReceipt
+    queryUserReceipt,
+    queryPaidToRestaurantInOrder
 }

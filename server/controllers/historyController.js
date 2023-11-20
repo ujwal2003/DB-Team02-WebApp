@@ -31,7 +31,6 @@ async function getOrdersHistory(req, res) {
 async function getOrderReceipt(req, res) {
     try {
         let {email, orderDate, orderTime} = req.body;
-        console.log(orderDate, orderTime);
         const order = await historyModel.queryUserReceipt(email, orderDate, orderTime);
 
         if(!order.SQL_success)
@@ -50,7 +49,29 @@ async function getOrderReceipt(req, res) {
     }
 }
 
+async function getPaymentToEachRestaurant(req, res) {
+    try {
+        let {email, orderDate, orderTime} = req.body;
+        const restaurantPayments = await historyModel.queryPaidToRestaurantInOrder(email, orderDate, orderTime);
+
+        if(!restaurantPayments.SQL_success)
+            return res.status(500).json({"success": false, "error": restaurantPayments.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved processed receipt of ${email}`,
+            "data": restaurantPayments
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     getOrdersHistory,
-    getOrderReceipt
+    getOrderReceipt,
+    getPaymentToEachRestaurant
 }
