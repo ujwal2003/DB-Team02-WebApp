@@ -180,6 +180,26 @@ async function updateBankBalanceAttribute(email, customerTotal, orderDate, order
     }
 }
 
+async function queryMoneyOwedToEachRestauarant(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_due
+            FROM (select r.restaurantid, sum(r.price) AS "total_due"
+                FROM customerorder c join cart c2 ON c.orderid = c2.orderid 
+                    JOIN restaurantmenu r ON c2.menuitemid = r.menuitemid AND c2.restaurantid = r.restaurantid 
+                WHERE c.processed = false AND c.customeremail = '${email}'
+                GROUP BY r.restaurantid) rbill JOIN restaurant r2 ON rbill.restaurantid = r2.restaurantid
+                                            JOIN bank b ON b.accountid = r2.bankaccountid;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
@@ -187,5 +207,6 @@ module.exports = {
     updateTipAttribute,
     queryCurrentCart,
     queryCartSubtotal,
-    updateBankBalanceAttribute
+    updateBankBalanceAttribute,
+    queryMoneyOwedToEachRestauarant
 }
