@@ -250,24 +250,6 @@ function InterestingReports() {
           </ul>
         </div>
       )}
-      {showOneCustomer && searchedCustomer.length > 0 && (
-        <div className="w-full">
-          <h2 style={{ color: 'blue' }}>Customer Information</h2>
-          {/* Add any additional information you want to display for customers */}
-          <ul>
-            {searchedCustomer.map((customer, index) => (
-              <li key={index}>
-                <p style={{ fontWeight: '400', textAlign: "center" }}>
-                  <span style={{ color: 'green' }}>First Name:</span> {customer.firstname}<br />
-                  <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
-                  <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
-                  {/* Add more customer information fields as needed */}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {showExpensiveDishes && (
         <div className="w-full">
@@ -333,11 +315,8 @@ function InterestingReports() {
       )}
       {showOneCustomer && (
         <div className="w-full">
-          <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Search for Customer by last name!</h2>
+          <label htmlFor="customerLastName" className="mb-2">Enter Customer Last Name:</label>
           <div className="flex flex-col items-center">
-            <label htmlFor="customerLastName" className="mb-2">
-              Enter Customer Last Name:
-            </label>
             <input
               type="text"
               id="customerLastName"
@@ -348,6 +327,27 @@ function InterestingReports() {
             />
             <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button>
           </div>
+        </div>
+      )}
+      {showOneCustomer && searchedCustomer.length > 0 && (
+        <div className="w-full">
+          <h2 style={{ color: 'blue' }}>Customer Information</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>SELECT email, firstname, lastname, phone, zipcode, membership
+            FROM customer c
+            WHERE c.lastname LIKE '${customerLastName}';</p>
+          <ul></ul>
+          <ul>
+            {searchedCustomer.map((customer, index) => (
+              <li key={index}>
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                  <span style={{ color: 'green' }}>First Name:</span> {customer.firstname}<br />
+                  <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
+                  <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {showRestaurantMenu && joinClicked && (
