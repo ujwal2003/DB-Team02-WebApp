@@ -176,23 +176,8 @@ function InterestingReports() {
       </button>
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Menu Items")}
-          >
-            Join with Menu Items
-          </button>
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Cart")}
-          >
-            Join with Cart
-          </button>
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Orders")}
-          >
-            Join with Orders
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Join with Menu Items")}>
+            Join with Menu Items - Restauraunt ID
           </button>
         </div>
       )}
