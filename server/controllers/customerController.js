@@ -140,6 +140,15 @@ async function searchByUserLastName(req, res) {
         });
     }
 }
+async function getCustomerInformation(req, res) {
+    try {
+        const ClastName = req.params.lastName;
+        const information = await customersModel.queryCustomerInfo(ClastName);
+        return res.status(200).json(information);
+    } catch (error) {
+        return res.status(500).json({"error_message": error.message});
+    }
+}
 
 module.exports = {
     registerNewUser,
@@ -149,5 +158,6 @@ module.exports = {
     updateUserAccount,
     updateUserPaymentInfo,
     getAllCustomers,
+    getCustomerInformation,
     searchByUserLastName
 }
