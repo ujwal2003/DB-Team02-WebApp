@@ -142,8 +142,8 @@ async function searchByUserLastName(req, res) {
 }
 async function getUserInfo(req, res) {
     try {
-        const customerLastName= req.params.lastName;
-        const info = await customersModel.queryCustomerInfo(customerLastName);
+        const lastName= req.params.lastName;
+        const info = await customersModel.queryCustomerInfo(lastName);
         return res.status(200).json(info);
     } catch (error) {
         return res.status(500).json({"error_message": error.message});
