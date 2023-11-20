@@ -21,7 +21,7 @@ async function queryUserReceipt(email, orderDate, orderTime) {
     try {
         const client = await pool.connect();
         const res = await client.query(`
-            SELECT  m."name", r."name", r2.price  
+            SELECT  m."name" as "item_name", r."name" as "restaurant_name", r2.price  
             FROM customerorder c join cart c2 ON c.orderid = c2.orderid
                 JOIN menuitem m ON c2.menuitemid = m.itemid
                 JOIN restaurant r ON r.restaurantid = c2.restaurantid
