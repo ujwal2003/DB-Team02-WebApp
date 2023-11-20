@@ -181,6 +181,27 @@ async function processOrder(req, res) {
     }
 }
 
+async function getOrderDetails(req, res) {
+    try {
+        let email = req.params['email'];
+        const userOrderDetails = await ordersModel.queryMoneyOwedToEachRestauarant(email);
+
+        if(!userOrderDetails.SQL_success)
+            return res.status(500).json({"success": false, "error": userOrderDetails.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved subtotal for each restaurant for unprocessed order of ${email}`,
+            "data": userOrderDetails
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
@@ -188,5 +209,6 @@ module.exports = {
     getUnprocessedUserCart,
     getUnprocessedUserOrder,
     getUserOrderSubtotal,
-    processOrder
+    processOrder,
+    getOrderDetails
 }
