@@ -70,8 +70,30 @@ async function getPaymentToEachRestaurant(req, res) {
     }
 }
 
+async function getOrderTotals(req, res) {
+    try {
+        let {email, orderDate, orderTime} = req.body;
+        const orderTotals = await historyModel.queryOrderTotals(email, orderDate, orderTime);
+
+        if(!orderTotals.SQL_success)
+            return res.status(500).json({"success": false, "error": orderTotals.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved processed receipt of ${email}`,
+            "data": orderTotals
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     getOrdersHistory,
     getOrderReceipt,
-    getPaymentToEachRestaurant
+    getPaymentToEachRestaurant,
+    getOrderTotals
 }
