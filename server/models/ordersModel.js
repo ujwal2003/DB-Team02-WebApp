@@ -200,6 +200,29 @@ async function queryMoneyOwedToEachRestauarant(email) {
     }
 }
 
+async function queryBankAccountsForUserOrder(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT b.accountid, 'User: ' || c.email as "account_name", b.balance
+            FROM customer c JOIN bank b ON c.bankaccountid = b.accountid 
+                JOIN customerorder c2 ON c2.customeremail = c.email 
+            WHERE c2.customeremail = '${email}' AND c2.processed = false
+            UNION 
+            SELECT b2.accountid, 'Restaurant: ' || r."name" as "account_name", b2.balance
+            FROM restaurant r JOIN bank b2 ON r.bankaccountid = b2.accountid
+                JOIN (SELECT DISTINCT ON (c1.restaurantid) c1.restaurantid, c1.orderid FROM cart c1) c ON c.restaurantid = r.restaurantid
+                JOIN customerorder co ON co.orderid = c.orderid AND co.customeremail = '${email}' AND co.processed = false
+            ORDER BY "account_name" DESC;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
