@@ -81,16 +81,16 @@ CREATE TABLE Restaurant (
 
 INSERT INTO Restaurant (name, phone, street, bankAccountID)
 VALUES
-('The Rustic Table', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
-('Savory Bites Cafe', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
-('Flavor Fusion Grill', '5076099924', 'Skylark Avenue', '4GcSTfqkB-f6H-EiTjb7MA'),
-('La Petite Boulangerie', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
-('Spice Street Kitchen', '5851822528', 'Bluebell Lane', 'nGq37Atmqxtkk2pT-T-9XA'),
-('Oceanview Oyster House', '9443488937', 'Elmwood Way', 'hge8VnXcCnkdtkqcm28sHA'),
-('The Cozy Corner Cafe', '6455706792', 'Cedar Ridge Lane', 'NR-tUZUai36m6Nl0nMso2Q'),
-('Urban Grill & Bar', '8565650149', 'Oakdale Boulevard', '_VDHAHkBz3BQ1yIx7sogPQ'),
-('Pizzeria Bella Napoli', '4513710890', 'Sunflower Street', 's7CHJngo0FCg2VVFCgh5Rw'),
-('Sushi Haven Express', '6475656533', 'Meadowview Terrace', 'q9oO2fRskl6sfo0E7xWlsg');
+('Sabor Mexicano Grill', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
+('Fiesta Flavors Cantina', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
+('Jalisco Spice House', '5076099924', 'Skylark Avenue', '4GcSTfqkB-f6H-EiTjb7MA'),
+('Guacamole Grov', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
+('Tortilla Tango Bistro', '5851822528', 'Bluebell Lane', 'nGq37Atmqxtkk2pT-T-9XA'),
+('Enchilada Oasis', '9443488937', 'Elmwood Way', 'hge8VnXcCnkdtkqcm28sHA'),
+('Tacos y Tequila Terrace', '6455706792', 'Cedar Ridge Lane', 'NR-tUZUai36m6Nl0nMso2Q'),
+('Chimichanga Chateau', '8565650149', 'Oakdale Boulevard', '_VDHAHkBz3BQ1yIx7sogPQ'),
+('Mariachi Munchies', '4513710890', 'Sunflower Street', 's7CHJngo0FCg2VVFCgh5Rw'),
+('Quesadilla Delight', '6475656533', 'Meadowview Terrace', 'q9oO2fRskl6sfo0E7xWlsg');
 
 INSERT INTO Bank (accountID, balance)
 VALUES
