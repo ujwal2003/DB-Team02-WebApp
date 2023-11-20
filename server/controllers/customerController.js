@@ -120,6 +120,27 @@ async function updateUserPaymentInfo(req, res) {
     }
 }
 
+async function searchByUserLastName(req, res) {
+    try {
+        let {search} = req.body;
+
+        const getUsers = await customersModel.queryByLastNameSearch(search);
+        if(!getUsers.SQL_success)
+            return res.status(500).json({"success": false, "error": getUsers.error});
+
+            return res.status(200).json({
+                "success": true,
+                "result": `retrieved users where last name contains ${search}`,
+                "data": getUsers
+            });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     registerNewUser,
     validateSignIn,
@@ -127,5 +148,6 @@ module.exports = {
     setUserPaymentInfo,
     updateUserAccount,
     updateUserPaymentInfo,
-    getAllCustomers
+    getAllCustomers,
+    searchByUserLastName
 }
