@@ -43,7 +43,7 @@ function Header() {
               </div>
             ) : (
               <div className="flex items-center">
-                Sign Out
+                <>{custInfo.firstName + ' ' + custInfo.lastName}</> (Sign Out)
               </div>
             )
           }
