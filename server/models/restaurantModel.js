@@ -79,10 +79,27 @@ async function queryRestaurantsByWealth() {
     }
 }
 
+async function queryRestaurantByName(searchTerm) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT restaurantid, name
+            FROM restaurant r 
+            WHERE r.name LIKE '${searchTerm}%' OR r.name LIKE '%${searchTerm}' OR r.name LIKE '%${searchTerm}%';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryWholeRestaurantTable,
     queryRestaurantsDishesCount,
     queryMenuOfRestaurant,
     queryMaxPriceDish,
-    queryRestaurantsByWealth
+    queryRestaurantsByWealth,
+    queryRestaurantByName
 }
