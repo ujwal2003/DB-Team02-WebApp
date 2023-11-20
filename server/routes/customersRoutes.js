@@ -8,7 +8,6 @@ router.post("/card", customerController.getUserPaymentInfo);
 router.post("/set_card", customerController.setUserPaymentInfo);
 router.post("/profile", customerController.updateUserAccount);
 router.post("/new_card", customerController.updateUserPaymentInfo);
-router.get("/:lastName", customerController.getCustomerInformation);
 router.get("/all", customerController.getAllCustomers);
 router.post("/search", customerController.searchByUserLastName);
 

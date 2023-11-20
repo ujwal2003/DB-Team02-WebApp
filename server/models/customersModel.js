@@ -158,20 +158,7 @@ async function queryByLastNameSearch(searchTerm) {
         return {"SQL_success": false, "error": error.message};
     }
 }
-async function queryCustomerInfo(ClastName) {
-    try {
-        const client = await pool.connect();
-        const res = await client.query(`
-            SELECT email, firstname, lastname, c.phone
-            FROM customer c
-            WHERE c.lastname = ${ClastName};
-        `);
-        client.release();
-        return res.rows;
-    } catch (error) {
-        console.error(error.message);
-    }
-}
+
 module.exports = {
     insertNewCustomer,
     queryUserEmail,
@@ -181,6 +168,5 @@ module.exports = {
     updateCustomer,
     updateUserPaymentInfo,
     queryCustomersTable,
-    queryByLastNameSearch,
-    queryCustomerInfo
+    queryByLastNameSearch
 }
