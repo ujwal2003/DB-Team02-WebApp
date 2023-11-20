@@ -7,6 +7,7 @@ function InterestingReports() {
   const [showWealthiestRestaurants, setShowWealthiestRestaurants] = useState(false);
   const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
+  const [showOneCustomer, setShowOneCustomer] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -14,6 +15,7 @@ function InterestingReports() {
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
   const [allCustomers, setCustomers] = useState([]);
+  const [customerLastName, setCustomerLastName] = useState("");
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -91,24 +93,35 @@ function InterestingReports() {
       setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
+      setShowOneCustomer(false);
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
       setShowAllCustomers(false);
+      setShowOneCustomer(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
       setShowAllCustomers(false);
+      setShowOneCustomer(false);
     } else if (buttonName === "Customers") {
       setShowAllCustomers(true);
       setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setShowOneCustomer(false);
+    } else if (buttonName === "Search for Customer") {
+      setShowAllCustomers(false);
+      setShowWealthiestRestaurants(false);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setJoinClicked(false);
+      setShowOneCustomer(true);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
     } else {
@@ -157,6 +170,21 @@ function InterestingReports() {
     }
   }, [restaurantID, joinClicked]);
 
+
+  const handleCustomerSearch = () => {
+    if (customerLastName) {
+      axios.get(`/api/customers/byLastName/${customerLastName}`)
+        .then((response) => {
+          const data = response.data;
+          // Handle the response and update the UI accordingly.
+        })
+        .catch((error) => {
+          // Handle any errors that occur during the API request.
+          console.log(error);
+        });
+    }};
+
+
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants")}>
@@ -173,6 +201,9 @@ function InterestingReports() {
       </button>
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants By Wealth")}>
         Restaurants By Wealth
+      </button>
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Search for Customer")}>
+        Search for Customer
       </button>
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
@@ -259,6 +290,25 @@ function InterestingReports() {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+      {showOneCustomer && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Search for Customer by last name!</h2>
+          <div className="flex flex-col items-center">
+            <label htmlFor="customerLastName" className="mb-2">
+              Enter Customer Last Name:
+            </label>
+            <input
+              type="text"
+              id="customerLastName"
+              value={customerLastName}
+              onChange={(e) => setCustomerLastName(e.target.value)}
+              placeholder="Last Name"
+              className="border border-gray-300 rounded px-2 py-1 mb-2"
+            />
+            <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button>
+          </div>
         </div>
       )}
       {showRestaurantMenu && joinClicked && (
