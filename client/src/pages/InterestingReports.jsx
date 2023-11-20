@@ -12,6 +12,7 @@ function InterestingReports() {
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
+  const [searchedCustomer, setSearchedCustomerItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
   const [allCustomers, setCustomers] = useState([]);
@@ -94,6 +95,7 @@ function InterestingReports() {
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
       setShowOneCustomer(false);
+      setSearchedCustomerItems([]);
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
       setShowRestaurantMenu(false); // Hide restaurant menu
@@ -120,6 +122,7 @@ function InterestingReports() {
       setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
+      setSearchedCustomerItems([]);
       setJoinClicked(false);
       setShowOneCustomer(true);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
@@ -132,6 +135,7 @@ function InterestingReports() {
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
+      setSearchedCustomerItems([]);
       alert("Under development for phase 2");
     }
   };
@@ -169,21 +173,37 @@ function InterestingReports() {
       fetchMenuItems();
     }
   }, [restaurantID, joinClicked]);
-
-
   const handleCustomerSearch = () => {
     if (customerLastName) {
-      axios.get(`/api/customers/byLastName/${customerLastName}`)
+      axios.get(`/api/customers/${customerLastName}`)
         .then((response) => {
-          const data = response.data;
           // Handle the response and update the UI accordingly.
         })
         .catch((error) => {
-          // Handle any errors that occur during the API request.
           console.log(error);
         });
-    }};
+    }
+  };
 
+  const fetchCustomerItems = async () => {
+    try {
+      const res = await axios.get(`/customers/user/${customerLastName}`);
+      const data = await res.data;
+      if (data !== "none") {
+        setSearchedCustomerItems(data);
+      } else {
+        setSearchedCustomerItems([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (customerLastName && showOneCustomer) {
+      fetchCustomerItems();
+    }
+  }, [customerLastName, showOneCustomer]);
 
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
@@ -230,6 +250,25 @@ function InterestingReports() {
           </ul>
         </div>
       )}
+      {showOneCustomer && searchedCustomer.length > 0 && (
+        <div className="w-full">
+          <h2 style={{ color: 'blue' }}>Customer Information</h2>
+          {/* Add any additional information you want to display for customers */}
+          <ul>
+            {searchedCustomer.map((customer, index) => (
+              <li key={index}>
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                  <span style={{ color: 'green' }}>First Name:</span> {customer.firstname}<br />
+                  <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
+                  <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
+                  {/* Add more customer information fields as needed */}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {showExpensiveDishes && (
         <div className="w-full">
         <h2 style={{ fontWeight: '600', color: '#0066cc' }}> The priciest dish at each restaurant!</h2>
