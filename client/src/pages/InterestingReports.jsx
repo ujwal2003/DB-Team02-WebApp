@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
@@ -234,6 +235,11 @@ function InterestingReports() {
                 <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
                 <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
                 <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <div className="space-x-2 py-3">
+                  {/* TODO: Onclick functionality to sign in user  */}
+                  <Link to="/ManageAccount" className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
+                  <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link>
+                </div>
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
