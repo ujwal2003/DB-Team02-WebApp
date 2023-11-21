@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
@@ -19,6 +20,8 @@ function InterestingReports() {
   const [allCustomers, setCustomers] = useState([]);
   const [customerLastName, setCustomerLastName] = useState("");
 
+  const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
+
   useEffect(() => {
     async function getLocationsInfo() {
       try {
@@ -35,6 +38,8 @@ function InterestingReports() {
     // Fetch all restaurants when the component mounts
     getLocationsInfo();
   }, []);
+  
+  // get all customers info
   useEffect(() => {
     async function getCustomersInfo() {
       try {
@@ -206,6 +211,12 @@ function InterestingReports() {
     }
   }, [customerLastName, showOneCustomer]);
 
+  function signInSelectedCustomer(customerObj) {
+    console.log(customerObj);
+    custSignOut();
+    custSignIn(customerObj.email, customerObj.firstname, customerObj.lastname, customerObj.membership, customerObj.phone, customerObj.zipcode);
+  }
+
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants")}>
@@ -284,14 +295,18 @@ function InterestingReports() {
             {allCustomers.map((customers, index) => (
               <li key={index}>
                 <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <span style={{ color: 'green' }}> Pin:</span> {customers.pin}<br />
                 <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
                 <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
-                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <span style={{ color: 'green' }}> Phone:</span> {customers.phone}<br />
+                <span style={{ color: 'green' }}> Zip Code:</span> {customers.zipcode}<br />
+                <span style={{ color: 'green' }}> Bank Account:</span> {customers.bankaccountid}<br />
                 <div className="space-x-2 py-3">
-                  {/* TODO: Onclick functionality to sign in user  */}
-                  <Link to="/ManageAccount" className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
-                  <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link>
+                  <Link to="/ManageAccount" onClick={() => {signInSelectedCustomer(customers)}} className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
+                  {/* <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link> */}
                 </div>
+                <br />
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
