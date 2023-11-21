@@ -7,8 +7,8 @@ function OrderHistory() {
   const [orderDate, setOrderDate] = useState("");
   const [orderTime, setOrderTime] = useState("");
   const [viewResPayment, setViewResPayment] = useState(false);
+  const [resPayment, setResPayment] = useState([]);
   const [viewCPayment, setViewCPayment] = useState(false);
-  const [receiptInfo, setReceipt] = useState("");
   const [receipt, setRInfo] = useState([]);
   const [showReceipt, setShowReceipt] = useState(false);
   const [showResPayment, setShowResPayment] = useState(false);
@@ -48,13 +48,7 @@ function OrderHistory() {
               "orderTime": orderTime 
            });
           const receiptData = response.data.data.result;
-          
-          //console.log("Server Response:", response.data.data.result); // Log the entire server response
-          //console.log("Receipt Data:", receiptData);
-          //setRInfo(receiptData);
           setRInfo(Array.isArray(receiptData) ? receiptData : [receiptData]);
-          //console.log("Updated rInfo:", receipt);
-          // Setting receipt information to be displayed on the screen
           setShowReceipt(true);
         }
       } catch (error) {
@@ -64,6 +58,29 @@ function OrderHistory() {
     };
 
     fetchOrderReceipt();
+  }, [viewResPayment, orderDate, orderTime, email]);
+  // fetch payments to restaurant
+  useEffect(() => {
+    const fetchResPayment = async () => {
+      try {
+        if (viewResPayment && orderDate && orderTime && email) {
+          const response = await axios.post("/history/payments/", { 
+              "email": email, 
+              "orderDate": orderDate, 
+              "orderTime": orderTime 
+           });
+          const paymentData = response.data.data.result;
+          console.log(paymentData);
+          setResPayment(Array.isArray(paymentData) ? paymentData : [paymentData]);
+          setViewResPayment(true);
+        }
+      } catch (error) {
+        console.error("Error fetching payment to restaurant:", error);
+        setResPayment([]);
+      }
+    };
+
+    fetchResPayment();
   }, [showReceipt, orderDate, orderTime, email]);
   const handleButtonClick = (buttonName) => {
     if (buttonName === "View Receipt") {
@@ -170,6 +187,18 @@ function OrderHistory() {
           {viewResPayment && (
             <div>
               <h1 className={orderListStyle + " text-2xl mb-4"}>Restaurant Payment Details</h1>
+              <ul>
+                {resPayment.map((res, index) => (
+                  <li key={index}>
+                    <p className={otherElementsStyle}>Restaurant ID: {res.restaurantid}</p>
+                    <p className={otherElementsStyle}>Restaurant Name: {res.restaurant}</p>
+                    <p className={otherElementsStyle}>Account ID: {res.accountid}</p>
+                    <p className={otherElementsStyle}>Total Paid: {res.total_paid}</p>
+                    <p className={otherElementsStyle}>- - - - - - - - - - - - - - - - - </p>
+                  </li>
+                ))}
+              </ul>
+              {console.log("Restaurant Payment section Rendered")} {/* Add this line */}
             </div>
           )}
           {viewCPayment && (
