@@ -9,6 +9,7 @@ function InterestingReports() {
   const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [showOneCustomer, setShowOneCustomer] = useState(false);
+  const [setOrders] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -97,6 +98,7 @@ function InterestingReports() {
       setSearchedMenuItems([]); // Clear searched menu items
       setShowOneCustomer(false);
       setSearchedCustomerItems([]);
+      setOrders(false);
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
       setShowRestaurantMenu(false); // Hide restaurant menu
@@ -104,6 +106,7 @@ function InterestingReports() {
       setJoinClicked(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
       setShowExpensiveDishes(false);
@@ -111,6 +114,7 @@ function InterestingReports() {
       setJoinClicked(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Customers") {
       setShowAllCustomers(true);
       setShowWealthiestRestaurants(false);
@@ -118,6 +122,7 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Search for Customer") {
       setShowAllCustomers(false);
       setShowWealthiestRestaurants(false);
@@ -126,6 +131,16 @@ function InterestingReports() {
       setSearchedCustomerItems([]);
       setJoinClicked(false);
       setShowOneCustomer(true);
+      setOrders(false);
+    } else if (buttonName === "Orders") {
+      setShowAllCustomers(false);
+      setShowWealthiestRestaurants(false);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setSearchedCustomerItems([]);
+      setJoinClicked(false);
+      setShowOneCustomer(false);
+      setOrders(true);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
     } else {
@@ -134,6 +149,7 @@ function InterestingReports() {
       setShowWealthiestRestaurants(false);
       setShowAllCustomers(false);
       setJoinClicked(false);
+      setOrders(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
       setSearchedCustomerItems([]);
@@ -214,9 +230,11 @@ function InterestingReports() {
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Customers")}>
         Customers
       </button>
-      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
-        Orders
-      </button>
+      <Link to={`/OrderHistory`}>
+        <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
+          Orders
+        </button>
+      </Link>
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Most Expensive Dishes")}>
         Most Expensive Dishes
       </button>
