@@ -223,6 +223,26 @@ async function queryBankAccountsForUserOrder(email) {
     }
 }
 
+async function queryDishOrdersByCount() {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT m."name" AS "dish_name", dishStats.num_orders
+            FROM (SELECT c.menuitemid, COUNT(c.menuitemid) AS "num_orders"
+                    FROM cart c JOIN customerorder c2 ON c.orderid = c2.orderid
+                    WHERE c2.processed = true
+                    GROUP BY c.menuitemid
+                    ORDER BY "num_orders" DESC) dishStats
+                JOIN menuitem m ON m.itemid = dishStats.menuitemid;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUnprocessedOrder,
     insertCustomerOrderAndCart,
@@ -232,5 +252,6 @@ module.exports = {
     queryCartSubtotal,
     updateBankBalanceAttribute,
     queryMoneyOwedToEachRestauarant,
-    queryBankAccountsForUserOrder
+    queryBankAccountsForUserOrder,
+    queryDishOrdersByCount
 }
