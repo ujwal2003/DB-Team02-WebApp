@@ -12,5 +12,6 @@ router.post('/subtotal', ordersController.getUserOrderSubtotal);
 router.patch('/checkout', ordersController.processOrder);
 router.get('/details/:email', ordersController.getOrderDetails);
 router.get('/banks/:email', ordersController.getOrderBankAccounts);
+router.get('/popular', ordersController.getMostPopularDishes);
 
 module.exports = router;

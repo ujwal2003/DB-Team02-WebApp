@@ -20,6 +20,11 @@ function Header() {
             Menu
           </div>
         </Link>
+        <Link to="/InterestingReports" className="text-[#644536] px-4 py-2 ml-4 font-bold">
+          <div className="flex items-center">
+            Reports
+          </div>
+        </Link>
       </div>
 
       <div className="flex items-center md:space-x-10">

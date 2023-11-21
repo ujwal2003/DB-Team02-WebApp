@@ -54,11 +54,31 @@ async function searchByRestaurantName(req, res) {
         if(!getRestaurantNames.SQL_success)
             return res.status(500).json({"success": false, "error": getRestaurantNames.error});
 
-            return res.status(200).json({
-                "success": true,
-                "result": `retrieved users where last name contains ${search}`,
-                "data": getRestaurantNames
-            });
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved users where last name contains ${search}`,
+            "data": getRestaurantNames
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
+async function getRestaurantsByPopularity(req, res) {
+    try {
+        const restaurantsList = await restaurantModel.queryRestaurantByOrders();
+
+        if(!restaurantsList.SQL_success)
+            return res.status(500).json({"success": false, "error": restaurantsList.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": "restrived popular restaurants",
+            "data": restaurantsList
+        });
     } catch (error) {
         return res.status(500).json({
             "success": false,
@@ -73,5 +93,6 @@ module.exports = {
     getRestaurantMenu,
     getMostExpensiveDishForEach,
     getRestaurantWealth,
-    searchByRestaurantName
+    searchByRestaurantName,
+    getRestaurantsByPopularity
 }
