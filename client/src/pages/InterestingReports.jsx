@@ -10,9 +10,10 @@ function InterestingReports() {
   const [joinClicked, setJoinClicked] = useState(false);
   const [showOneCustomer, setShowOneCustomer] = useState(false);
   const [setOrders] = useState(false);
+  const [dishesClicked, setDishesClicked] = useState(false);
+  const [popularRes, setPopularRes] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
-  const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [searchedCustomer, setSearchedCustomerItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
@@ -93,6 +94,8 @@ function InterestingReports() {
       setShowExpensiveDishes(false); // Hide expensive dishes
       setShowWealthiestRestaurants(false);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
@@ -104,6 +107,8 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
       setOrders(false);
@@ -112,6 +117,8 @@ function InterestingReports() {
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
       setOrders(false);
@@ -121,6 +128,8 @@ function InterestingReports() {
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowOneCustomer(false);
       setOrders(false);
     } else if (buttonName === "Search for Customer") {
@@ -130,6 +139,8 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setSearchedCustomerItems([]);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowOneCustomer(true);
       setOrders(false);
     } else if (buttonName === "Orders") {
@@ -139,17 +150,30 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setSearchedCustomerItems([]);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowOneCustomer(false);
       setOrders(true);
-    } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
+    } else if (buttonName === "Join with Menu Items") {
       setJoinClicked(true);
+      setDishesClicked(false);
+      setPopularRes(false);
+    } else if (buttonName === "Popular Dishes") {
+      setDishesClicked(true);
+      setJoinClicked(false);
+      setPopularRes(false);
+    } else if (buttonName === "Popular Restaurants") {
+      setPopularRes(true);
+      setDishesClicked(false);
+      setJoinClicked(false);
     } else {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
       setShowWealthiestRestaurants(false);
       setShowAllCustomers(false);
       setJoinClicked(false);
-      setOrders(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
       setSearchedCustomerItems([]);
@@ -247,11 +271,17 @@ function InterestingReports() {
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
           <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Join with Menu Items")}>
-            Join with Menu Items - Restauraunt ID
+            Restaurant's Menu Items
+          </button>
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Popular Dishes")}>
+            Popular Dishes
+          </button>
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Popular Restaurants")}>
+            Popular Restaurants
           </button>
         </div>
       )}
-      {showRestaurantMenu && !joinClicked && (
+      {showRestaurantMenu && !joinClicked && !dishesClicked && !popularRes &&(
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Showing All Restaurants in the DB</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all restaurants information:</p>
@@ -372,6 +402,20 @@ function InterestingReports() {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+      {showRestaurantMenu && dishesClicked && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Dishes</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
+        </div>
+      )}
+      {showRestaurantMenu && popularRes && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Restaurants</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
         </div>
       )}
       {showRestaurantMenu && joinClicked && (
