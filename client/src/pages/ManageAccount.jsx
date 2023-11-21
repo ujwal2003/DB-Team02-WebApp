@@ -74,6 +74,11 @@ function ManageAccount() {
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
             Account Information
           </h1>
+          <p className="text-sm">
+            SELECT email, firstname, lastname, phone, zipcode, membership <br />
+            FROM customer c <br />
+            WHERE c.email = '{userInfo.email}' AND c.pin = $pin AND c.active = 'yes';
+          </p>
           <div className="mb-6">
             <strong className="text-xl text-[#644536]">First Name:</strong> {userInfo.firstName}
           </div>
@@ -104,10 +109,16 @@ function ManageAccount() {
     Delete Account
   </button>
         </div>
+        <div>&nbsp;</div>
         <div className="w-1/2">
           <h1 className="text-4xl font-bold mb-8 text-[#644536]">
             Payment Information
           </h1>
+          <p className="text-sm">
+            SELECT email, firstname, lastname, phone, zipcode, membership <br />
+            FROM customer c <br />
+            WHERE c.email = '{userInfo.email}' AND c.pin = $pin AND c.active = 'yes';
+          </p>
           {/* <div className="mb-6">
             <strong className="text-xl text-[#644536]">Payment ID:</strong> {paymentInfo.paymentID}
           </div> */}
