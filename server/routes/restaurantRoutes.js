@@ -8,5 +8,6 @@ router.get("/dishes", restaurantController.getNumRestaurantDishes);
 router.get("/expensive", restaurantController.getMostExpensiveDishForEach);
 router.get("/wealth", restaurantController.getRestaurantWealth);
 router.post("/search", restaurantController.searchByRestaurantName);
+router.get("/popular", restaurantController.getRestaurantsByPopularity);
 
 module.exports = router;

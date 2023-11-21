@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
@@ -9,15 +10,19 @@ function InterestingReports() {
   const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [showOneCustomer, setShowOneCustomer] = useState(false);
+  const [orders, setOrders] = useState(false);
+  const [dishesClicked, setDishesClicked] = useState(false);
+  const [popularRes, setPopularRes] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
-  const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [searchedCustomer, setSearchedCustomerItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
   const [allCustomers, setCustomers] = useState([]);
   const [customerLastName, setCustomerLastName] = useState("");
+
+  const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -35,6 +40,8 @@ function InterestingReports() {
     // Fetch all restaurants when the component mounts
     getLocationsInfo();
   }, []);
+  
+  // get all customers info
   useEffect(() => {
     async function getCustomersInfo() {
       try {
@@ -92,32 +99,44 @@ function InterestingReports() {
       setShowExpensiveDishes(false); // Hide expensive dishes
       setShowWealthiestRestaurants(false);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
       setShowOneCustomer(false);
       setSearchedCustomerItems([]);
+      setOrders(false);
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowAllCustomers(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Customers") {
       setShowAllCustomers(true);
       setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowOneCustomer(false);
+      setOrders(false);
     } else if (buttonName === "Search for Customer") {
       setShowAllCustomers(false);
       setShowWealthiestRestaurants(false);
@@ -125,15 +144,33 @@ function InterestingReports() {
       setShowRestaurantMenu(false); // Hide restaurant menu
       setSearchedCustomerItems([]);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setShowOneCustomer(true);
-    } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
+      setOrders(false);
+    } else if (buttonName === "Orders") {
+      setShowAllCustomers(false);
+      setShowWealthiestRestaurants(false);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setSearchedCustomerItems([]);
+      setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
+      setShowOneCustomer(false);
+      setOrders(true);
+    } else if (buttonName === "Join with Menu Items") {
       setJoinClicked(true);
+    } else if (buttonName === "Orders") {
+      window.location.href = '/OrderHistory';
     } else {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
       setShowWealthiestRestaurants(false);
       setShowAllCustomers(false);
       setJoinClicked(false);
+      setDishesClicked(false);
+      setPopularRes(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
       setSearchedCustomerItems([]);
@@ -206,6 +243,12 @@ function InterestingReports() {
     }
   }, [customerLastName, showOneCustomer]);
 
+  function signInSelectedCustomer(customerObj) {
+    console.log(customerObj);
+    custSignOut();
+    custSignIn(customerObj.email, customerObj.firstname, customerObj.lastname, customerObj.membership, customerObj.phone, customerObj.zipcode);
+  }
+
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover:bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants")}>
@@ -214,9 +257,11 @@ function InterestingReports() {
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Customers")}>
         Customers
       </button>
-      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
-        Orders
-      </button>
+      <Link to={`/OrderHistory`}>
+        <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Orders")}>
+          Orders
+        </button>
+      </Link>
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Most Expensive Dishes")}>
         Most Expensive Dishes
       </button>
@@ -229,11 +274,17 @@ function InterestingReports() {
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
           <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Join with Menu Items")}>
-            Join with Menu Items - Restauraunt ID
+            Restaurant's Menu Items
+          </button>
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Popular Dishes")}>
+            Popular Dishes
+          </button>
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Popular Restaurants")}>
+            Popular Restaurants
           </button>
         </div>
       )}
-      {showRestaurantMenu && !joinClicked && (
+      {showRestaurantMenu && !joinClicked && !dishesClicked && !popularRes &&(
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Showing All Restaurants in the DB</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all restaurants information:</p>
@@ -278,20 +329,29 @@ function InterestingReports() {
       {showAllCustomers && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
+          <h4 style={{ fontWeight: '600', color: '#0066cc' }}> Add a new customer by clicking <Link to="/Register"><u>Register</u></Link>!</h4>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
-          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM customer;"</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>
+            SELECT email, pin, firstname, lastname, phone, zipcode, bankaccountid FROM customer;
+          </p>
           <ul>
             {allCustomers.map((customers, index) => (
               <li key={index}>
                 <p style={{ fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}> <b>Email (PK)</b>:</span> {customers.email}<br />
+                <span style={{ color: 'green' }}> Pin:</span> {customers.pin}<br />
                 <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
                 <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
-                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <span style={{ color: 'green' }}> Phone:</span> {customers.phone}<br />
+                <span style={{ color: 'green' }}> Zip Code:</span> {customers.zipcode}<br />
+                <span style={{ color: 'green' }}> <i>Bank Account (FK):</i></span> {customers.bankaccountid}<br />
                 <div className="space-x-2 py-3">
-                  {/* TODO: Onclick functionality to sign in user  */}
-                  <Link to="/ManageAccount" className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
-                  <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link>
+                  <Link to="/ManageAccount" onClick={() => {signInSelectedCustomer(customers)}} className="bg-[#537D8D] text-white py-2 px-4">
+                    Order as customer
+                  </Link>
+                  {/* <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link> */}
                 </div>
+                <br />
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
@@ -322,6 +382,8 @@ function InterestingReports() {
       {showOneCustomer && (
         <div className="w-full">
           <label htmlFor="customerLastName" className="mb-2">Enter Customer Last Name:</label>
+          <br />
+          <label htmlFor="customerLastName" className="mb-2 text-sm">(If last name matches in DB result will be displayed)</label>
           <div className="flex flex-col items-center">
             <input
               type="text"
@@ -331,7 +393,7 @@ function InterestingReports() {
               placeholder="Last Name"
               className="border border-gray-300 rounded px-2 py-1 mb-2"
             />
-            <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button>
+            {/* <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button> */}
           </div>
         </div>
       )}
@@ -341,8 +403,11 @@ function InterestingReports() {
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query:</p>
           <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>SELECT email, firstname, lastname, phone, zipcode, membership
             FROM customer c
-            WHERE c.lastname LIKE '${customerLastName}';</p>
+            WHERE c.lastname LIKE '${customerLastName}%'
+                OR c.lastname LIKE '%{customerLastName}'
+                OR c.lastname LIKE '%{customerLastName}%';</p>
           <ul></ul>
+          <br />
           <ul>
             {searchedCustomer.map((customer, index) => (
               <li key={index}>
@@ -351,9 +416,24 @@ function InterestingReports() {
                   <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
                   <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
                 </p>
+                <br />
               </li>
             ))}
           </ul>
+        </div>
+      )}
+      {showRestaurantMenu && dishesClicked && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Dishes</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
+        </div>
+      )}
+      {showRestaurantMenu && popularRes && (
+        <div className="w-full">
+          <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Restaurants</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
         </div>
       )}
       {showRestaurantMenu && joinClicked && (
