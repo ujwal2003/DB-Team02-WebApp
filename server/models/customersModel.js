@@ -164,7 +164,9 @@ async function queryCustomerInfo(lastName) {
         const res = await client.query(`
             SELECT email, firstname, lastname, phone, zipcode, membership
             FROM customer c
-            WHERE c.lastname LIKE '${lastName}';
+            WHERE c.lastname LIKE '${lastName}%'
+                OR c.lastname LIKE '%${lastName}'
+                OR c.lastname LIKE '%${lastName}%';
         `);
         client.release();
         return res.rows;

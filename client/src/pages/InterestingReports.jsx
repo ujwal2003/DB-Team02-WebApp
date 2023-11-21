@@ -133,6 +133,8 @@ function InterestingReports() {
       setShowOneCustomer(true);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
+    } else if (buttonName === "Orders") {
+      window.location.href = '/OrderHistory';
     } else {
       setShowRestaurantMenu(false);
       setShowExpensiveDishes(false);
@@ -289,6 +291,7 @@ function InterestingReports() {
       {showAllCustomers && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
+          <h4 style={{ fontWeight: '600', color: '#0066cc' }}> Add a new customer by clicking <Link to="/Register"><u>Register</u></Link>!</h4>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
           <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>
             SELECT email, pin, firstname, lastname, phone, zipcode, bankaccountid FROM customer;
@@ -341,6 +344,8 @@ function InterestingReports() {
       {showOneCustomer && (
         <div className="w-full">
           <label htmlFor="customerLastName" className="mb-2">Enter Customer Last Name:</label>
+          <br />
+          <label htmlFor="customerLastName" className="mb-2 text-sm">(If last name matches in DB result will be displayed)</label>
           <div className="flex flex-col items-center">
             <input
               type="text"
@@ -350,7 +355,7 @@ function InterestingReports() {
               placeholder="Last Name"
               className="border border-gray-300 rounded px-2 py-1 mb-2"
             />
-            <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button>
+            {/* <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button> */}
           </div>
         </div>
       )}
@@ -360,8 +365,11 @@ function InterestingReports() {
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query:</p>
           <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>SELECT email, firstname, lastname, phone, zipcode, membership
             FROM customer c
-            WHERE c.lastname LIKE '${customerLastName}';</p>
+            WHERE c.lastname LIKE '${customerLastName}%'
+                OR c.lastname LIKE '%{customerLastName}'
+                OR c.lastname LIKE '%{customerLastName}%';</p>
           <ul></ul>
+          <br />
           <ul>
             {searchedCustomer.map((customer, index) => (
               <li key={index}>
@@ -370,6 +378,7 @@ function InterestingReports() {
                   <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
                   <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
                 </p>
+                <br />
               </li>
             ))}
           </ul>
