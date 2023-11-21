@@ -50,21 +50,21 @@ function ManageAccount() {
     <div className="flex">
       <div className="bg-[#9DC087] w-1/8 p-8">
         <ul>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <Link to="/AboutMe" className="text-[#05204A] font-bold">
               About Me
             </Link>
-          </li>
+          </li> */}
           <li className="mb-4">
             <Link to="/OrderHistory" className="text-[#05204A] font-bold">
               Order History
             </Link>
           </li>
-          <li className="mb-4">
+          {/* <li className="mb-4">
             <Link to="/Membership" className="text-[#05204A] font-bold">
               Membership
             </Link>
-          </li>
+          </li> */}
           {/* Add more navigation links as needed */}
         </ul>
       </div>
