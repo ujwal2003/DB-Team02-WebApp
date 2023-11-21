@@ -290,20 +290,24 @@ function InterestingReports() {
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
-          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT * FROM customer;"</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>
+            "SELECT email, pin, firstname, lastname, phone, zipcode, bankaccountid FROM customer;"
+          </p>
           <ul>
             {allCustomers.map((customers, index) => (
               <li key={index}>
                 <p style={{ fontWeight: '400', textAlign: "center" }}>
-                <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <span style={{ color: 'green' }}> <b>Email (PK)</b>:</span> {customers.email}<br />
                 <span style={{ color: 'green' }}> Pin:</span> {customers.pin}<br />
                 <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
                 <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
                 <span style={{ color: 'green' }}> Phone:</span> {customers.phone}<br />
                 <span style={{ color: 'green' }}> Zip Code:</span> {customers.zipcode}<br />
-                <span style={{ color: 'green' }}> Bank Account:</span> {customers.bankaccountid}<br />
+                <span style={{ color: 'green' }}> <i>Bank Account (FK):</i></span> {customers.bankaccountid}<br />
                 <div className="space-x-2 py-3">
-                  <Link to="/ManageAccount" onClick={() => {signInSelectedCustomer(customers)}} className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
+                  <Link to="/ManageAccount" onClick={() => {signInSelectedCustomer(customers)}} className="bg-[#537D8D] text-white py-2 px-4">
+                    Order as customer
+                  </Link>
                   {/* <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link> */}
                 </div>
                 <br />
