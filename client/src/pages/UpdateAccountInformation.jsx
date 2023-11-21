@@ -92,6 +92,23 @@ function UpdateAccountInformation() {
           ) : (
             <>
               <h1 className="text-4xl font-semibold text-[#05204A] mb-4">Update Account Information</h1>
+              <p className="text-sm">
+                BEGIN; <br />
+                UPDATE customer <br />
+                SET email = '{formData.email}',
+                  pin = $pin,
+                  firstname = '{formData.firstName}',
+                  lastname = '{formData.lastName}',
+                  phone = '{formData.phoneNumber}',
+                  membership = '{custInfo.membershipType}',
+                  zipcode = {formData.zip} <br />
+                WHERE email = '{custInfo.email}'; <br /> <br />
+
+                UPDATE paymentinformation 
+                SET customeremail = '{formData.email}'
+                WHERE customeremail = '{custInfo.email}'; <br />
+                COMMIT;
+              </p>
               <div className="mb-4">
                 <div className="mb-2">
                   <label className="text-l text-[#05204A]">First Name</label>
