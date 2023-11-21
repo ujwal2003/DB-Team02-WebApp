@@ -291,7 +291,7 @@ function InterestingReports() {
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}> Showing All Customers in the DB!</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get all customers:</p>
           <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>
-            "SELECT email, pin, firstname, lastname, phone, zipcode, bankaccountid FROM customer;"
+            SELECT email, pin, firstname, lastname, phone, zipcode, bankaccountid FROM customer;
           </p>
           <ul>
             {allCustomers.map((customers, index) => (
