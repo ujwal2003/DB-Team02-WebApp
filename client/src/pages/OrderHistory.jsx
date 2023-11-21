@@ -128,6 +128,9 @@ function OrderHistory() {
     <div className="w-[90%] p-10 mt-8 flex">
       <div className="w-1/2">
         <h1 className={orderListStyle + " text-4xl mb-4"}>Order History</h1>
+        <p>
+          test
+        </p>
         <div className="mb-4">
           <input
             type="text"
