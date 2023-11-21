@@ -10,7 +10,7 @@ function InterestingReports() {
   const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
   const [showOneCustomer, setShowOneCustomer] = useState(false);
-  const [setOrders] = useState(false);
+  const [orders, setOrders] = useState(false);
   const [dishesClicked, setDishesClicked] = useState(false);
   const [popularRes, setPopularRes] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
