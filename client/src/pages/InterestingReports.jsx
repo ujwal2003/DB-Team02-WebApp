@@ -15,6 +15,8 @@ function InterestingReports() {
   const [popularRes, setPopularRes] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
+  const [popOrders, setPopOrders] = useState([]);
+  const [popRes, setPopRes] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
   const [searchedCustomer, setSearchedCustomerItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
@@ -40,6 +42,41 @@ function InterestingReports() {
     // Fetch all restaurants when the component mounts
     getLocationsInfo();
   }, []);
+
+  useEffect(() => {
+    async function getPopularOrders() {
+      try {
+        const res = await axios.get('/order/popular');
+        const data = await res.data.data.result;
+        console.log(data);
+        if (data !== "none") {
+          setPopOrders(data);
+        }
+      } catch (error) {
+        console.log(error);
+        setPopOrders([]);
+      }
+    }
+    getPopularOrders();
+  }, []);
+  useEffect(() => {
+    async function getPopularRes() {
+      try {
+        const res = await axios.get('/restaurants/popular');
+        const data = await res.data.data.result;
+        console.log(data);
+        console.log(data);
+        if (data !== "none") {
+          setPopRes(data);
+        }
+      } catch (error) {
+        console.log(error);
+        setPopRes([]);
+      }
+    }
+    getPopularRes();
+  }, []);
+
   
   // get all customers info
   useEffect(() => {
@@ -143,6 +180,9 @@ function InterestingReports() {
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setSearchedCustomerItems([]);
+      setSearchedMenuItems([]);
+      setPopOrders([]);
+      setPopRes([]);
       setJoinClicked(false);
       setDishesClicked(false);
       setPopularRes(false);
@@ -154,13 +194,26 @@ function InterestingReports() {
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setSearchedCustomerItems([]);
+      setSearchedMenuItems([]);
+      setPopOrders([]);
+      setPopRes([]);
       setJoinClicked(false);
       setDishesClicked(false);
       setPopularRes(false);
       setShowOneCustomer(false);
       setOrders(true);
     } else if (buttonName === "Join with Menu Items") {
+      setDishesClicked(false);
+      setPopularRes(false);
       setJoinClicked(true);
+    } else if (buttonName === "Popular Dishes") {
+      setDishesClicked(true);
+      setPopularRes(false);
+      setJoinClicked(false);
+    } else if (buttonName === "Popular Restaurants") {
+      setDishesClicked(false);
+      setPopularRes(true);
+      setJoinClicked(false);
     } else if (buttonName === "Orders") {
       window.location.href = '/OrderHistory';
     } else {
@@ -174,6 +227,8 @@ function InterestingReports() {
       setRestaurantID("");
       setSearchedMenuItems([]);
       setSearchedCustomerItems([]);
+      setPopOrders([]);
+      setPopRes([]);
       alert("Under development for phase 2");
     }
   };
@@ -426,14 +481,46 @@ function InterestingReports() {
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Dishes</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
-          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT m."name" AS "dish_name", dishStats.num_orders
+            FROM (SELECT c.menuitemid, COUNT(c.menuitemid) AS "num_orders"
+                    FROM cart c JOIN customerorder c2 ON c.orderid = c2.orderid
+                    WHERE c2.processed = true
+                    GROUP BY c.menuitemid
+                    ORDER BY "num_orders" DESC) dishStats
+                JOIN menuitem m ON m.itemid = dishStats.menuitemid;"</p>
+          <ul>
+            {popOrders.map((pop, index) => (
+              <li key={index}>
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}>Dish Name: </span> {pop.dish_name}<br />
+                <span style={{ color: 'green' }}>Number of Orders:</span> {pop.num_orders}<br />
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {showRestaurantMenu && popularRes && (
         <div className="w-full">
           <h2 style={{ fontWeight: '600', color: '#0066cc' }}>Popular Restaurants</h2>
           <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query to get the most popular dishes:</p>
-          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"insert query here"</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>"SELECT r.name AS "restaurant_name", orderStats.num_orders
+            FROM (SELECT c2.restaurantid, COUNT(c2.restaurantid) AS "num_orders"
+                    FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid
+                    WHERE c.processed = true
+                    GROUP BY c2.restaurantid
+                    ORDER BY "num_orders" desc) orderStats
+            JOIN restaurant r ON r.restaurantid = orderStats.restaurantid;"</p>
+          <ul>
+            {popRes.map((pop, index) => (
+              <li key={index}>
+                <p style={{  fontWeight: '400', textAlign: "center" }}>
+                <span style={{ color: 'green' }}>Restaurant Name: </span> {pop.restaurant_name}<br />
+                <span style={{ color: 'green' }}>Number of Orders:</span> {pop.num_orders}<br />
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {showRestaurantMenu && joinClicked && (
