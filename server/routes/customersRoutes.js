@@ -10,5 +10,6 @@ router.post("/profile", customerController.updateUserAccount);
 router.post("/new_card", customerController.updateUserPaymentInfo);
 router.get("/all", customerController.getAllCustomers);
 router.post("/search", customerController.searchByUserLastName);
+router.get("/user/:lastName", customerController.getUserInfo);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
@@ -7,13 +8,16 @@ function InterestingReports() {
   const [showWealthiestRestaurants, setShowWealthiestRestaurants] = useState(false);
   const [showAllCustomers, setShowAllCustomers] = useState(false);
   const [joinClicked, setJoinClicked] = useState(false);
+  const [showOneCustomer, setShowOneCustomer] = useState(false);
   const [restaurantID, setRestaurantID] = useState("");
   const [restaurants, setRestaurantInfo] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   const [searchedMenuItems, setSearchedMenuItems] = useState([]);
+  const [searchedCustomer, setSearchedCustomerItems] = useState([]);
   const [expensiveDishes, setExpensiveDishes] = useState([]);
   const [richestRestaurants, setRichestRestaurants] = useState([]);
   const [allCustomers, setCustomers] = useState([]);
+  const [customerLastName, setCustomerLastName] = useState("");
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -91,24 +95,37 @@ function InterestingReports() {
       setShowAllCustomers(false);
       setRestaurantID("");
       setSearchedMenuItems([]); // Clear searched menu items
+      setShowOneCustomer(false);
+      setSearchedCustomerItems([]);
     } else if (buttonName === "Most Expensive Dishes") {
       setShowExpensiveDishes(true);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setShowWealthiestRestaurants(false); // hide the wealthiest restaurant menu
       setJoinClicked(false);
       setShowAllCustomers(false);
+      setShowOneCustomer(false);
     } else if (buttonName === "Restaurants By Wealth") {
       setShowWealthiestRestaurants(true);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
       setShowAllCustomers(false);
+      setShowOneCustomer(false);
     } else if (buttonName === "Customers") {
       setShowAllCustomers(true);
       setShowWealthiestRestaurants(false);
       setShowExpensiveDishes(false);
       setShowRestaurantMenu(false); // Hide restaurant menu
       setJoinClicked(false);
+      setShowOneCustomer(false);
+    } else if (buttonName === "Search for Customer") {
+      setShowAllCustomers(false);
+      setShowWealthiestRestaurants(false);
+      setShowExpensiveDishes(false);
+      setShowRestaurantMenu(false); // Hide restaurant menu
+      setSearchedCustomerItems([]);
+      setJoinClicked(false);
+      setShowOneCustomer(true);
     } else if (buttonName === "Join with Menu Items" && showRestaurantMenu) {
       setJoinClicked(true);
     } else {
@@ -119,6 +136,7 @@ function InterestingReports() {
       setJoinClicked(false);
       setRestaurantID("");
       setSearchedMenuItems([]);
+      setSearchedCustomerItems([]);
       alert("Under development for phase 2");
     }
   };
@@ -156,6 +174,37 @@ function InterestingReports() {
       fetchMenuItems();
     }
   }, [restaurantID, joinClicked]);
+  const handleCustomerSearch = () => {
+    if (customerLastName) {
+      axios.get(`/api/customers/${customerLastName}`)
+        .then((response) => {
+          // Handle the response and update the UI accordingly.
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const fetchCustomerItems = async () => {
+    try {
+      const res = await axios.get(`/customers/user/${customerLastName}`);
+      const data = await res.data;
+      if (data !== "none") {
+        setSearchedCustomerItems(data);
+      } else {
+        setSearchedCustomerItems([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (customerLastName && showOneCustomer) {
+      fetchCustomerItems();
+    }
+  }, [customerLastName, showOneCustomer]);
 
   return (
     <div className="flex flex-wrap justify-center items-center text-center">
@@ -174,25 +223,13 @@ function InterestingReports() {
       <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Restaurants By Wealth")}>
         Restaurants By Wealth
       </button>
+      <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Search for Customer")}>
+        Search for Customer
+      </button>
       {showRestaurantMenu && (
         <div className="w-full flex flex-wrap justify-center items-center">
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Menu Items")}
-          >
-            Join with Menu Items
-          </button>
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Cart")}
-          >
-            Join with Cart
-          </button>
-          <button
-            className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]"
-            onClick={() => handleButtonClick("Join with Orders")}
-          >
-            Join with Orders
+          <button className="m-2 px-6 py-4 bg-[#05204A] text-white rounded hover.bg-[#0F355A]" onClick={() => handleButtonClick("Join with Menu Items")}>
+            Join with Menu Items - Restauraunt ID
           </button>
         </div>
       )}
@@ -214,6 +251,7 @@ function InterestingReports() {
           </ul>
         </div>
       )}
+
       {showExpensiveDishes && (
         <div className="w-full">
         <h2 style={{ fontWeight: '600', color: '#0066cc' }}> The priciest dish at each restaurant!</h2>
@@ -249,6 +287,11 @@ function InterestingReports() {
                 <span style={{ color: 'green' }}> First Name:</span> {customers.firstname}<br />
                 <span style={{ color: 'green' }}> Last Name:</span> {customers.lastname}<br />
                 <span style={{ color: 'green' }}> Email:</span> {customers.email}<br />
+                <div className="space-x-2 py-3">
+                  {/* TODO: Onclick functionality to sign in user  */}
+                  <Link to="/ManageAccount" className="bg-[#537D8D] text-white py-2 px-4">Order as customer</Link>
+                  <Link to="/OrderHistory" className="bg-[#537D8D] text-white py-2 px-4">See customer orders</Link>
+                </div>
                   {/* Add more dish information fields as needed */}
                 </p>
               </li>
@@ -270,6 +313,43 @@ function InterestingReports() {
                 <span style={{ color: 'green' }}> Restaurant Name:</span> {res.name}<br />
                 <span style={{ color: 'green' }}> Revenue:</span> {res.wealth}<br />
                   {/* Add more restaurant information fields as needed */}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {showOneCustomer && (
+        <div className="w-full">
+          <label htmlFor="customerLastName" className="mb-2">Enter Customer Last Name:</label>
+          <div className="flex flex-col items-center">
+            <input
+              type="text"
+              id="customerLastName"
+              value={customerLastName}
+              onChange={(e) => setCustomerLastName(e.target.value)}
+              placeholder="Last Name"
+              className="border border-gray-300 rounded px-2 py-1 mb-2"
+            />
+            <button className="bg-[#537D8D] text-white " onClick={handleCustomerSearch}>Search</button>
+          </div>
+        </div>
+      )}
+      {showOneCustomer && searchedCustomer.length > 0 && (
+        <div className="w-full">
+          <h2 style={{ color: 'blue' }}>Customer Information</h2>
+          <p style={{ fontWeight: '600', color: 'red', textAlign: 'center' }}>Query:</p>
+          <p style={{ fontWeight: '600', color: 'black', textAlign: 'center' }}>SELECT email, firstname, lastname, phone, zipcode, membership
+            FROM customer c
+            WHERE c.lastname LIKE '${customerLastName}';</p>
+          <ul></ul>
+          <ul>
+            {searchedCustomer.map((customer, index) => (
+              <li key={index}>
+                <p style={{ fontWeight: '400', textAlign: "center" }}>
+                  <span style={{ color: 'green' }}>First Name:</span> {customer.firstname}<br />
+                  <span style={{ color: 'green' }}>Last Name:</span> {customer.lastname}<br />
+                  <span style={{ color: 'green' }}>Email:</span> {customer.email}<br />
                 </p>
               </li>
             ))}

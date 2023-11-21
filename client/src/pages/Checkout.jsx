@@ -260,6 +260,16 @@ function Checkout() {
                         </div>
                     </div>
                 </div>
+
+                <hr className="border border-[#644536] my-4" />
+                
+                {/* TODO: Insert details here*/}
+                <div>
+                    <div className='text-2xl font-bold '>More Details</div>
+                    <div className='text-font-semibold'>Money I owe to {location.name}: *INSERT HERE*</div>
+                    <div className='text-font-semibold'>My bank account: *INSERT HERE*</div>
+                    <div className='text-font-semibold'>{location.name} bank account: *INSERT HERE*</div>
+                </div>
             </div>
 
             <>

@@ -54,9 +54,11 @@ function LocationList() {
 
   }
 
+
   const filteredLocations = restaurants.filter((location) => {
-    return location.restaurantid.toString().includes(searchTerm);
+    return location.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
+
 
   return (
     <div className="w-[90%] p-10 mt-8 flex">
@@ -65,7 +67,7 @@ function LocationList() {
         <div className="mb-4">
           <input
             type="text"
-            placeholder="Search by Restaurant ID"
+            placeholder="Search by Restaurant Name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold"

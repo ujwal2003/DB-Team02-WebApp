@@ -84,7 +84,7 @@ VALUES
 ('Sabor Mexicano Grill', '6005103401', 'Willowbrook Lane', 'XS8uRWWCaRYWVzB7cOrZig'),
 ('Fiesta Flavors Cantina', '2276164313', 'Maplecrest Drive', 'usTiA20eC8PQV1YjYZgpDw'),
 ('Jalisco Spice House', '5076099924', 'Skylark Avenue', '4GcSTfqkB-f6H-EiTjb7MA'),
-('Guacamole Grove', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
+('Guacamole Grov', '3816850026', 'Quail Ridge Road', 'NzhL8Gq3KF51atHzGKjVeQ'),
 ('Tortilla Tango Bistro', '5851822528', 'Bluebell Lane', 'nGq37Atmqxtkk2pT-T-9XA'),
 ('Enchilada Oasis', '9443488937', 'Elmwood Way', 'hge8VnXcCnkdtkqcm28sHA'),
 ('Tacos y Tequila Terrace', '6455706792', 'Cedar Ridge Lane', 'NR-tUZUai36m6Nl0nMso2Q'),
