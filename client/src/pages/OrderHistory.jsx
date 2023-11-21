@@ -7,8 +7,14 @@ function OrderHistory() {
   const [orderDate, setOrderDate] = useState("");
   const [orderTime, setOrderTime] = useState("");
   const [viewDetails, setViewDetails] = useState(false);
-  const [vietReceipt, setViewReceipt] = useState(false);
-  const [receipt, setReceipt] = useState(null);
+  const [viewReceipt, setViewReceipt] = useState(false);
+  const [viewResPayment, setViewResPayment] = useState(false);
+  const [viewCPayment, setViewCPayment] = useState(false);
+  const [receiptInfo, setReceiptInfo] = useState("");
+  const [showReceipt, setShowReceipt] = useState(false);
+  const [showResPayment, setShowRPayment] = useState(false);
+  const [showCPayment, setShowCPayment] = useState(false);
+  const [receipt, setReceipt] = useState([]);
 
   const orderListStyle = "text-[#05204A] font-bold";
   const otherElementsStyle = "text-[#05204A] font-semibold";
@@ -32,14 +38,45 @@ function OrderHistory() {
       setOrders([]);
     }
   }, [email]);
-  // Fetch order receipt given order date, time, and use the same email
-  // Fetch order receipt given order date, time, and use the same email
-  // Fetch order receipt given order date, time, and use the same email
+
+  // Fetch order receipt when the view receipt button is clicked
+  useEffect(() => {
+    const fetchOrderReceipt = async () => {
+      try {
+        if (viewReceipt && orderDate && orderTime && email) {
+          const response = await axios.post("/receipt/get", { email, orderDate, orderTime });
+          const receiptData = response.data.data;
+          setReceipt([receiptData]);
+          // Setting receipt information to be displayed on the screen
+          setReceiptInfo(`Restaurant: ${receiptData.restaurantName}, Items Ordered: ${receiptData.itemsOrdered}`);
+          setShowReceipt(true);
+        }
+      } catch (error) {
+        console.error("Error fetching order receipt:", error);
+        // Handle error as needed, e.g., display an error message
+      }
+    };
+
+    fetchOrderReceipt();
+  }, [viewReceipt, orderDate, orderTime, email]);
+
   const handleButtonClick = (buttonName) => {
-    if (buttonName === "View Receipt"){
+    if (buttonName === "View Receipt" && orderDate && orderTime && email) {
       setViewReceipt(true);
-    } else{
+      setViewResPayment(false);
+      setViewCPayment(false);
+    } else if (buttonName === "Payments to Restaurant" && orderDate && orderTime && email){
+      setViewResPayment(true);
       setViewReceipt(false);
+      setViewCPayment(false);
+    } else if (buttonName === "Customer Payment Quantity" && orderDate && orderTime && email){
+      setViewCPayment(true);
+      setViewReceipt(false);
+      setViewResPayment(false);
+    } else {
+      setViewReceipt(false);
+      setViewResPayment(false);
+      setViewCPayment(false);
     }
   };
 
@@ -69,35 +106,48 @@ function OrderHistory() {
         </div>
       </div>
       <div className="w-1/2">
-      <h1 className={orderListStyle + " text-4xl mb-4"}> Order Details</h1>
-      <input
-        type="text"
-        placeholder="Enter Order Date"
-        value={orderDate}
-        onChange={(e) => setOrderDate(e.target.value)}
-        className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2" // Added margin-bottom
-      />
-
-      <input
-        type="text"
-        placeholder="Enter Order Time"
-        value={orderTime}
-        onChange={(e) => setOrderTime(e.target.value)}
-        className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2"
-      />
-      <div className="mb-4">
-        <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("View Receipt")}> 
-          View Receipt
-        </button>
-        <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("View Receipt")}>
-          Restaurant Payments
-        </button>
-        <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2" onClick={() => handleButtonClick("View Receipt")}> 
-          Payment Quantity
-        </button>
+        <h1 className={orderListStyle + " text-4xl mb-4"}> Order Details</h1>
+        <input
+          type="date" // Use type "date" for order date
+          value={orderDate}
+          onChange={(e) => setOrderDate(e.target.value)}
+          className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2" // Added margin-bottom
+        />
+        <input
+          type="text" // Keep type "text" for order time
+          placeholder="Order Time (HH:mm:ss)"
+          value={orderTime}
+          onChange={(e) => setOrderTime(e.target.value)}
+          className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2"
+        />
+        <div className="mb-4">
+          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("View Receipt")}>
+            View Receipt
+          </button>
+          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("Payments to Restaurant")}>
+            Payments to Restaurant
+          </button>
+          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("Customer Payment Quantity")}>
+            Customer Payment Quantity
+          </button>
+          {showReceipt && (
+            <div>
+              <h1 className={orderListStyle + " text-4xl mb-4"}>Receipt Details</h1>
+            </div>
+          )}
+          {showResPayment && (
+            <div>
+              <h1 className={orderListStyle + " text-4xl mb-4"}>Restaurant Payment Details</h1>
+            </div>
+          )}
+          {showCPayment && (
+            <div>
+              <h1 className={orderListStyle + " text-4xl mb-4"}>Customer Payment Quantity</h1>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
   );
 }
 
