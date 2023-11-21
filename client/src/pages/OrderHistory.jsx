@@ -6,15 +6,13 @@ function OrderHistory() {
   const [orders, setOrders] = useState([]);
   const [orderDate, setOrderDate] = useState("");
   const [orderTime, setOrderTime] = useState("");
-  const [viewDetails, setViewDetails] = useState(false);
   const [viewReceipt, setViewReceipt] = useState(false);
   const [viewResPayment, setViewResPayment] = useState(false);
   const [viewCPayment, setViewCPayment] = useState(false);
   const [receiptInfo, setReceiptInfo] = useState("");
   const [showReceipt, setShowReceipt] = useState(false);
-  const [showResPayment, setShowRPayment] = useState(false);
+  const [showResPayment, setShowResPayment] = useState(false);
   const [showCPayment, setShowCPayment] = useState(false);
-  const [receipt, setReceipt] = useState([]);
 
   const orderListStyle = "text-[#05204A] font-bold";
   const otherElementsStyle = "text-[#05204A] font-semibold";
@@ -44,11 +42,13 @@ function OrderHistory() {
     const fetchOrderReceipt = async () => {
       try {
         if (viewReceipt && orderDate && orderTime && email) {
-          const response = await axios.post("/receipt/get", { email, orderDate, orderTime });
+          const response = await axios.post("/history/receipt/", {
+            email: email,
+            orderdate: orderDate,
+            ordertime: orderTime,
+          });
           const receiptData = response.data.data;
-          setReceipt([receiptData]);
-          // Setting receipt information to be displayed on the screen
-          setReceiptInfo(`Restaurant: ${receiptData.restaurantName}, Items Ordered: ${receiptData.itemsOrdered}`);
+          setReceiptInfo(`Order Date: ${receiptData.orderdate}, Order Time: ${receiptData.ordertime}`);
           setShowReceipt(true);
         }
       } catch (error) {
@@ -65,11 +65,11 @@ function OrderHistory() {
       setViewReceipt(true);
       setViewResPayment(false);
       setViewCPayment(false);
-    } else if (buttonName === "Payments to Restaurant" && orderDate && orderTime && email){
+    } else if (buttonName === "Payments to Restaurant" && orderDate && orderTime && email) {
       setViewResPayment(true);
       setViewReceipt(false);
       setViewCPayment(false);
-    } else if (buttonName === "Customer Payment Quantity" && orderDate && orderTime && email){
+    } else if (buttonName === "Customer Payment Quantity" && orderDate && orderTime && email) {
       setViewCPayment(true);
       setViewReceipt(false);
       setViewResPayment(false);
@@ -114,25 +114,41 @@ function OrderHistory() {
           className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2" // Added margin-bottom
         />
         <input
-          type="text" // Keep type "text" for order time
+          type="time" // Keep type "text" for order time
           placeholder="Order Time (HH:mm:ss)"
           value={orderTime}
           onChange={(e) => setOrderTime(e.target.value)}
           className="p-2 rounded border border-[#05204A] text-[#05204A] font-semibold mb-2"
         />
         <div className="mb-4">
-          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("View Receipt")}>
+          <button
+            className={`text-[#05204A] font-semibold border rounded p-2 mr-2 ${
+              viewReceipt ? 'bg-green-500' : ''
+            }`}
+            onClick={() => handleButtonClick("View Receipt")}
+          >
             View Receipt
           </button>
-          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("Payments to Restaurant")}>
+          <button
+            className={`text-[#05204A] font-semibold border rounded p-2 mr-2 ${
+              viewResPayment ? 'bg-green-500' : ''
+            }`}
+            onClick={() => handleButtonClick("Payments to Restaurant")}
+          >
             Payments to Restaurant
           </button>
-          <button className="text-[#05204A] font-semibold border border-[#05204A] rounded p-2 mr-2" onClick={() => handleButtonClick("Customer Payment Quantity")}>
+          <button
+            className={`text-[#05204A] font-semibold border rounded p-2 mr-2 ${
+              viewCPayment ? 'bg-green-500' : ''
+            }`}
+            onClick={() => handleButtonClick("Customer Payment Quantity")}
+          >
             Customer Payment Quantity
           </button>
           {showReceipt && (
             <div>
               <h1 className={orderListStyle + " text-4xl mb-4"}>Receipt Details</h1>
+              <p className={otherElementsStyle}>{receiptInfo}</p>
             </div>
           )}
           {showResPayment && (
