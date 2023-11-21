@@ -223,6 +223,26 @@ async function getOrderBankAccounts(req, res) {
     }
 }
 
+async function getMostPopularDishes(req, res) {
+    try {
+        const dishesList = await ordersModel.queryDishOrdersByCount();
+
+        if(!dishesList.SQL_success)
+            return res.status(500).json({"success": false, "error": dishesList.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": "retrieved list of most ordered dishes",
+            "data": dishesList
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     addToCart,
     removeFromCart,
@@ -232,5 +252,6 @@ module.exports = {
     getUserOrderSubtotal,
     processOrder,
     getOrderDetails,
-    getOrderBankAccounts
+    getOrderBankAccounts,
+    getMostPopularDishes
 }
