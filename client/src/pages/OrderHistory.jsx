@@ -9,10 +9,9 @@ function OrderHistory() {
   const [viewResPayment, setViewResPayment] = useState(false);
   const [resPayment, setResPayment] = useState([]);
   const [viewCPayment, setViewCPayment] = useState(false);
+  const [cusPayment, setCusPaymet] = useState([]);
   const [receipt, setRInfo] = useState([]);
   const [showReceipt, setShowReceipt] = useState(false);
-  const [showResPayment, setShowResPayment] = useState(false);
-  const [showCPayment, setShowCPayment] = useState(false);
 
   const orderListStyle = "text-[#05204A] font-bold";
   const otherElementsStyle = "text-[#05204A] font-semibold";
@@ -58,7 +57,7 @@ function OrderHistory() {
     };
 
     fetchOrderReceipt();
-  }, [viewResPayment, orderDate, orderTime, email]);
+  }, [showReceipt, orderDate, orderTime, email]);
   // fetch payments to restaurant
   useEffect(() => {
     const fetchResPayment = async () => {
@@ -81,7 +80,30 @@ function OrderHistory() {
     };
 
     fetchResPayment();
-  }, [showReceipt, orderDate, orderTime, email]);
+  }, [viewResPayment, orderDate, orderTime, email]);
+  // fetch customer Payments
+  useEffect(() => {
+    const fetchCusPayment = async () => {
+      try {
+        if (viewCPayment && orderDate && orderTime && email) {
+          const response = await axios.post("/history/totals/", { 
+              "email": email, 
+              "orderDate": orderDate, 
+              "orderTime": orderTime 
+           });
+          const cusPaymentData = response.data.data.result;
+          console.log(cusPaymentData);
+          setCusPaymet(Array.isArray(cusPaymentData) ? cusPaymentData : [cusPaymentData]);
+          setViewCPayment(true);
+        }
+      } catch (error) {
+        console.error("Error fetching payment to restaurant:", error);
+        setCusPayment([]);
+      }
+    };
+
+    fetchCusPayment();
+  }, [viewCPayment, orderDate, orderTime, email]);
   const handleButtonClick = (buttonName) => {
     if (buttonName === "View Receipt") {
       setShowReceipt(true);
@@ -204,6 +226,18 @@ function OrderHistory() {
           {viewCPayment && (
             <div>
               <h1 className={orderListStyle + " text-2xl mb-4"}>Customer Payment Quantity</h1>
+              <ul>
+                {cusPayment.map((res, index) => (
+                  <li key={index}>
+                    <p className={otherElementsStyle}>Subtotal: ${(Number(res.subtotal).toFixed(2))} </p>
+                    <p className={otherElementsStyle}>Tax: ${(Number(res.tax).toFixed(2))}</p>
+                    <p className={otherElementsStyle}>Tip: ${(Number(res.tip).toFixed(2))}</p>
+                    <p className={otherElementsStyle}>Total: ${(Number(res.total).toFixed(2))}</p>
+                    <p className={otherElementsStyle}>- - - - - - - - - - - - - - - - - </p>
+                  </li>
+                ))}
+              </ul>
+              {console.log("Customer Payment section Rendered")} {/* Add this line */}
             </div>
           )}
         </div>
