@@ -13,7 +13,7 @@ function OrderHistory() {
       try {
         const response = await axios.get(`history/get/${email}`);
         const data = response.data;
-        setOrders(data);
+        setOrders(data.data.result);
       } catch (error) {
         console.error("Error fetching order history:", error);
         // Handle error as needed
@@ -46,7 +46,7 @@ function OrderHistory() {
             {orders.map((order) => (
               <li key={order.orderId}>
                 <p className={otherElementsStyle}>Order Date: {order.orderdate}</p>
-                <p className={otherElementsStyle}>Order Time: ${order.ordertime}</p>
+                <p className={otherElementsStyle}>Order Time: {order.ordertime}</p>
               </li>
             ))}
           </ul>
