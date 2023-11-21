@@ -95,11 +95,32 @@ async function queryRestaurantByName(searchTerm) {
     }
 }
 
+async function queryRestaurantByOrders() {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT r.name AS "restaurant_name", orderStats.num_orders
+            FROM (SELECT c2.restaurantid, COUNT(c2.restaurantid) AS "num_orders"
+                    FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid
+                    WHERE c.processed = true
+                    GROUP BY c2.restaurantid
+                    ORDER BY "num_orders" desc) orderStats
+            JOIN restaurant r ON r.restaurantid = orderStats.restaurantid;
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.error(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryWholeRestaurantTable,
     queryRestaurantsDishesCount,
     queryMenuOfRestaurant,
     queryMaxPriceDish,
     queryRestaurantsByWealth,
-    queryRestaurantByName
+    queryRestaurantByName,
+    queryRestaurantByOrders
 }
