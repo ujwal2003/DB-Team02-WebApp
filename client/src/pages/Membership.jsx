@@ -1,9 +1,8 @@
-import HeroImage from "../assets/HeroImage.png";
 import { Link } from "react-router-dom";
 
 function Membership(){
     return(
-    <main className="relative h-screen bg-[#E7E6DA]">
+    <main className="relative h-screen bg-[#644536]">
   
         <div className="container mx-auto text-center relative flex items-center justify-center h-full">
           <div className="bg-[#9DC087] py-24 px-72">
