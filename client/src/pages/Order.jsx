@@ -40,6 +40,13 @@ function Order() {
     return (
         <div className="flex flex-col items-center text-[#644536]">
             <h1 className="text-[#644536] text-4xl font-bold mt-20">MY ORDER</h1>
+            <p className='text-sm'>
+                SELECT m.name, r.price, m.type, m.description, r.menuitemid, r.restaurantid <br />
+                FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid <br />
+                    JOIN restaurantmenu r ON c2.menuitemid  = r.menuitemid AND c2.restaurantid = r.restaurantid <br />
+                    JOIN menuitem m ON m.itemid = c2.menuitemid <br />
+                WHERE c.processed = false AND c.customeremail = '{custInfo.email}';
+            </p>
 
             {cart.map((item, index) => (
                 <div key={index} className="p-6 w-screen">

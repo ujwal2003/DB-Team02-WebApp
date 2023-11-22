@@ -128,6 +128,12 @@ function OrderHistory() {
     <div className="w-[90%] p-10 mt-8 flex">
       <div className="w-1/2">
         <h1 className={orderListStyle + " text-4xl mb-4"}>Order History</h1>
+        <p>
+            SELECT c.orderdate, c.ordertime <br />
+            FROM customerorder c <br />
+            WHERE c.customeremail = '{email}' and c.processed = true <br />
+            ORDER BY c.orderdate, c.ordertime;
+        </p>
         <div className="mb-4">
           <input
             type="text"
@@ -151,6 +157,40 @@ function OrderHistory() {
       </div>
       <div className="w-1/2">
         <h1 className={orderListStyle + " text-4xl mb-4"}> Order Details</h1>
+        {showReceipt && (
+          <p>
+            SELECT  m."name" as "item_name", r."name" as "restaurant_name", r2.price <br /> 
+            FROM customerorder c join cart c2 ON c.orderid = c2.orderid <br />
+                JOIN menuitem m ON c2.menuitemid = m.itemid <br />
+                JOIN restaurant r ON r.restaurantid = c2.restaurantid <br />
+                JOIN restaurantmenu r2 ON (r2.restaurantid = c2.restaurantid AND r2.menuitemid = m.itemid) <br />
+            WHERE c.customeremail = '{email}' AND c.processed = true <br />
+                AND c.orderdate = '{orderDate}' AND c.ordertime = '{orderTime}';
+          </p>
+        )}
+        {viewResPayment && (
+          <p className="text-sm">
+            SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_paid <br />
+            FROM (SELECT r.restaurantid, SUM(r.price) AS "total_paid" <br />
+                  FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid <br />
+                  JOIN restaurantmenu r ON c2.menuitemid = r.menuitemid AND c2.restaurantid = r.restaurantid <br />
+                  WHERE c.processed = true AND c.customeremail = '{email}' <br /> AND c.orderdate = '{orderDate}' AND c.ordertime = '{orderTime}' <br />
+                  GROUP BY r.restaurantid) rbill JOIN restaurant r2 ON rbill.restaurantid = r2.restaurantid <br />
+                                            JOIN bank b ON b.accountid = r2.bankaccountid;
+          </p>
+        )}
+        {viewCPayment && (
+          <p className="text-sm">
+            SELECT SUM(r2.price) as "subtotal", SUM(r2.price) * 0.0825 AS "tax", MAX(c.tip) AS "tip", <br />
+                    SUM(r2.price) + (SUM(r2.price)*0.0825) + MAX(c.tip) AS "total" <br />
+            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid <br />
+                JOIN menuitem m ON c2.menuitemid = m.itemid <br />
+                JOIN restaurant r ON r.restaurantid = c2.restaurantid <br />
+                JOIN restaurantmenu r2 ON (r2.restaurantid = c2.restaurantid AND r2.menuitemid = m.itemid) <br />
+            WHERE c.customeremail = '{email}' AND c.processed = true <br />
+                AND c.orderdate = '{orderDate}' AND c.ordertime = '{orderTime}';
+          </p>
+        )}
         <input
           type="text" // Use type "date" for order date
           placeholder="Order Date (YYYY-MM-DD)"

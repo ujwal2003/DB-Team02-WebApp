@@ -89,6 +89,16 @@ function UpdatePaymentInformation() {
               ) : (
                 <>
                   <h1 className="text-4xl font-semibold text-[#05204A] mb-4">Update Payment Information</h1>
+                  <p className="text-sm">
+                    BEGIN; <br />
+                    UPDATE paymentinformation <br />
+                    SET cardnumber = '{formData.cardNumber}',
+                        cvv = ${formData.cvv},
+                        cardname = '{formData.cardName}',
+                        expiration = '{formData.expiration}' <br />
+                    WHERE customeremail = '{custInfo.email}'; <br />
+                    COMMIT;
+                  </p>
 
                   {/* <div className="mb-8">
                     <div className="mb-2">
