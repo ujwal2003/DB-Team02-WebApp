@@ -21,6 +21,7 @@ function Home() {
         <div className="bg-white py-14 px-40 bg-opacity-70">
           <h1 className="text-7xl font-bold text-[#05204A] mb-4">2 Guys</h1>
           <p className="text-xl text-[#05204A] mb-8">Our restaurant chain is dedicated to a diverse type of food groups!</p>
+          <p>(see demo video in our Report!)</p>
           {/* <button onClick={() => window.location.href = '/Locations'} className="bg-[#537D8D] px-4 py-2 text-white rounded">Order Now</button> */}
           <button onClick={initializeDB} className="bg-[#05204A] px-4 py-2 text-white mt-4 rounded">Start DB</button>
           <p className="text-gray-400 mt-4">Free Delivery for Members!</p>
