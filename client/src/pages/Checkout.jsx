@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { OrderContext } from '../context/OrderContext';
 import { UserContext } from '../context/UserContext';
 import axios from 'axios';
@@ -87,6 +87,40 @@ function Checkout() {
         remainingBalance = 0;
     }
 
+    const [moneyOwedInfo, setMoneyOwedInfo] = useState([])
+    useEffect(() => {
+        async function getMoneyOwed() {
+          try {
+            const res = await axios.get(`order/details/${custInfo.email}`);
+            const data = await res.data;
+            if (data !== "none") {
+                setMoneyOwedInfo(data.data.result);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+    
+        getMoneyOwed();
+    }, [[], processed]);
+
+    const [bankInfo, setBankInfo] = useState([])
+    useEffect(() => {
+        async function getBankInfo() {
+          try {
+            const res = await axios.get(`order/banks/${custInfo.email}`);
+            const data = await res.data;
+            if (data !== "none") {
+                setBankInfo(data.data.result);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+    
+        getBankInfo();
+    }, [[], processed]);   
+    
     return (
         <div className="flex flex-col items-center text-[#644536]">
             {!processed && (<>
@@ -294,11 +328,30 @@ function Checkout() {
 
                 <hr className="border border-[#644536] my-4" />
                 
-                {/* TODO: Insert details here*/}
                 <div>
                     <div className='text-2xl font-bold '>More Details</div>
-                    <div className='text-font-semibold'>Money I owe to Restaurants: *INSERT HERE*</div>
-                    <div className='text-font-semibold'>Bank accounts: *INSERT HERE*</div>
+                    <div className='text-font-semibold'>Money I owe to Restaurants: 
+                        {moneyOwedInfo.length >= 1 ? ( 
+                            moneyOwedInfo.map(item => (
+                            <li key={item.restaurantid}>
+                                {item.restaurant}: ${item.total_due}  
+                            </li>
+                            ))
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                    <div className='text-font-semibold'>Bank accounts: 
+                        {bankInfo.length >= 1 ? ( 
+                            bankInfo.map(item => (
+                            <li key={item.accountid}>
+                                {item.account_name} has ${item.balance}  
+                            </li>
+                            ))
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -318,6 +371,30 @@ function Checkout() {
             {processed && (<>
                 <div className='text-2xl font-bold py-6'>
                     Payment Sucessfully Processed!
+
+                    <div className='text-2xl font-bold '>Updated Details</div>
+                    <div className='text-font-semibold'>Money I owe to Restaurants: 
+                        {moneyOwedInfo.length >= 1 ? ( 
+                            moneyOwedInfo.map(item => (
+                            <li key={item.restaurantid}>
+                                {item.restaurant}: ${item.total_due}  
+                            </li>
+                            ))
+                        ) : (
+                            ""
+                        )}
+                    </div>
+                    <div className='text-font-semibold'>Bank accounts: 
+                        {bankInfo.length >= 1 ? ( 
+                            bankInfo.map(item => (
+                            <li key={item.accountid}>
+                                {item.account_name} has ${item.balance}  
+                            </li>
+                            ))
+                        ) : (
+                            ""
+                        )}
+                    </div>
                 </div>
             </>)}
         </div>
