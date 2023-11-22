@@ -78,9 +78,26 @@ async function queryOrderTotals(email, orderDate, orderTime) {
     }
 }
 
+async function queryUserMembershipType(email) {
+    try {
+        const client = await pool.connect();
+        const res = await client.query(`
+            SELECT membership
+            FROM customer c
+            WHERE c.email = '${email}';
+        `);
+        client.release();
+        return {"SQL_success": true, "result": res.rows};
+    } catch (error) {
+        console.log(error.message);
+        return {"SQL_success": false, "error": error.message};
+    }
+}
+
 module.exports = {
     queryUserOrders,
     queryUserReceipt,
     queryPaidToRestaurantInOrder,
-    queryOrderTotals
+    queryOrderTotals,
+    queryUserMembershipType
 }

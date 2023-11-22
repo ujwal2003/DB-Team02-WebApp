@@ -14,6 +14,7 @@ function UpdateAccountInformation() {
     email: custInfo.email,
     accountPin: "",
     phoneNumber: custInfo.phone,
+    membership: custInfo.membershipType,
     zip: custInfo.zip
   });
 
@@ -44,7 +45,7 @@ function UpdateAccountInformation() {
         fname: formData.firstName,
         lname: formData.lastName,
         phone: formData.phoneNumber,
-        membership: custInfo.membershipType,
+        membership: formData.membership,
         zipCode: formData.zip
       });
       const data = await res;
@@ -79,6 +80,15 @@ function UpdateAccountInformation() {
       setShowSuccessMessage(true);
     }
   };
+
+  function handleMembershipClick() {
+    let newMembership = formData.membership ? false : true;
+    
+    setFormData({
+      ...formData,
+      ["membership"]: newMembership,
+    });
+  }
 
   return (
     <main className="relative h-screen bg-cover" style={{ backgroundImage: `url(${AlternateImage})` }}>
@@ -213,6 +223,14 @@ function UpdateAccountInformation() {
                     onClick={handleSubmit}
                   >
                     Submit
+                  </button>
+                  <p>&nbsp;</p>
+                  <button
+                    className="w-32 h-12 bg-[#05204A] rounded-md text-white"
+                    type="submit"
+                    onClick={handleMembershipClick}
+                  >
+                    {formData.membership ? (<>Opt Out Of Membership</>) : (<>Opt Into Membership</>)}
                   </button>
                 </div>
               </div>

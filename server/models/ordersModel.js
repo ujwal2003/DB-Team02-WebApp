@@ -152,6 +152,15 @@ async function updateBankBalanceAttribute(email, customerTotal, orderDate, order
             );
 
             UPDATE bank 
+            SET balance = balance - 1
+            WHERE accountid IN (
+                SELECT b.accountid
+                FROM customer c JOIN bank b ON c.bankaccountid = b.accountid 
+                    JOIN customerorder c2 ON c2.customeremail = c.email 
+                WHERE c2.customeremail = '${email}' AND c.membership = true AND c2.processed = false
+            );
+
+            UPDATE bank 
             SET balance = balance + total_due
             FROM (
                 SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_due

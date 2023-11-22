@@ -12,6 +12,7 @@ function OrderHistory() {
   const [cusPayment, setCusPaymet] = useState([]);
   const [receipt, setRInfo] = useState([]);
   const [showReceipt, setShowReceipt] = useState(false);
+  const [membership, setMembership] = useState(false);
 
   const orderListStyle = "text-[#05204A] font-bold";
   const otherElementsStyle = "text-[#05204A] font-semibold";
@@ -23,6 +24,13 @@ function OrderHistory() {
         const response = await axios.get(`history/get/${email}`);
         const data = response.data;
         setOrders(data.data.result);
+
+        const memRes = await axios.get(`history/member/${email}`);
+        const memData = memRes.data;
+        if(memData.data.result) {
+          console.log(memData.data.result[0].membership);
+          setMembership(memData.data.result[0].membership);
+        }
       } catch (error) {
         console.error("Error fetching order history:", error);
       }
@@ -272,7 +280,7 @@ function OrderHistory() {
                     <p className={otherElementsStyle}>Subtotal: ${(Number(res.subtotal).toFixed(2))} </p>
                     <p className={otherElementsStyle}>Tax: ${(Number(res.tax).toFixed(2))}</p>
                     <p className={otherElementsStyle}>Tip: ${(Number(res.tip).toFixed(2))}</p>
-                    <p className={otherElementsStyle}>Total: ${(Number(res.total).toFixed(2))}</p>
+                    <p className={otherElementsStyle}>Total: ${(Number(res.total).toFixed(2))} {membership ? <>+ $1 membership</> : <></>}</p>
                     <p className={otherElementsStyle}>- - - - - - - - - - - - - - - - - </p>
                   </li>
                 ))}
