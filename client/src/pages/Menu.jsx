@@ -7,6 +7,11 @@ import nachos from '../assets/nachos.jpeg'
 export default function Menu() {
   return (
     <div className="flex flex-col items-center">
+      <p>
+        select m.name, r.price, m.type, m.description, m.itemid, r.restaurantid <br />
+        from restaurantmenu r join menuitem m on r.menuitemid = m.itemid <br />
+        where r.restaurantid = $restaurantID;
+      </p>
       <h1 className="text-[#644536] text-4xl font-bold mt-20">MENU</h1>
       
       <div className="flex flex-col items-center md:items-start md:flex-row justify-evenly mt-16 mb-96 w-screen">

@@ -93,12 +93,43 @@ function Checkout() {
             <h1 className="text-[#644536] text-4xl font-bold mt-20 mb-10">CHECKOUT</h1>
 
             <div className='w-1/2 border border-[#644536] p-6'>
-                <div>
-                    <div className='text-2xl font-bold '>Pickup Location Details</div>
+                <div className='text-sm'>
+                    {/* <div className='text-2xl font-bold '>Pickup Location Details</div>
                     <div className='text-font-semibold'>Restaurant Name: {location.name}</div>
                     <div className='text-font-semibold'>Restaurant ID: {location.restaurantid}</div>
                     <div className='text-font-semibold'>Phone Number: {location.phone}</div>
-                    <div className='text-font-semibold'>Location: {location.street}, Houston, TX, 77057</div>
+                    <div className='text-font-semibold'>Location: {location.street}, Houston, TX, 77057</div> */}
+                    BEGIN; <br />
+
+                    UPDATE bank <br />
+                    SET balance = balance - {total} <br /> 
+                    WHERE accountid IN (
+                        SELECT b.accountid
+                        FROM customer c JOIN bank b ON c.bankaccountid = b.accountid 
+                            JOIN customerorder c2 ON c2.customeremail = c.email 
+                        WHERE c2.customeremail = '{custInfo.email}' AND c2.processed = false
+                    ); <br /> <br /> 
+
+                    UPDATE bank <br /> 
+                    SET balance = balance + total_due <br /> 
+                    FROM (
+                        SELECT r2.restaurantid, r2."name" AS "restaurant", b.accountid, rbill.total_due
+                        FROM (SELECT r.restaurantid, sum(r.price) AS "total_due"
+                            FROM customerorder c JOIN cart c2 ON c.orderid = c2.orderid 
+                                JOIN restaurantmenu r ON c2.menuitemid = r.menuitemid AND c2.restaurantid = r.restaurantid 
+                            WHERE c.processed = false AND c.customeremail = '{custInfo.email}'
+                            GROUP BY r.restaurantid) rbill JOIN restaurant r2 ON rbill.restaurantid = r2.restaurantid
+                                                        JOIN bank b ON b.accountid = r2.bankaccountid
+                    ) AS owed <br /> 
+                    WHERE bank.accountid = owed.accountid; <br /> <br /> 
+
+                    UPDATE customerorder <br /> 
+                    SET processed = true,
+                        orderdate = '{new Date().getFullYear()}-{new Date().getMonth()+1}-{new Date().getDate()}',
+                        ordertime = '{new Date().getHours()}:{new Date().getMinutes()}:{new Date().getSeconds()}' <br /> 
+                    WHERE customeremail = '{custInfo.email}' AND processed = false; <br /> <br /> 
+
+                    COMMIT;
                 </div>
 
                 <hr className="border border-[#644536] my-4" />
@@ -266,9 +297,8 @@ function Checkout() {
                 {/* TODO: Insert details here*/}
                 <div>
                     <div className='text-2xl font-bold '>More Details</div>
-                    <div className='text-font-semibold'>Money I owe to {location.name}: *INSERT HERE*</div>
-                    <div className='text-font-semibold'>My bank account: *INSERT HERE*</div>
-                    <div className='text-font-semibold'>{location.name} bank account: *INSERT HERE*</div>
+                    <div className='text-font-semibold'>Money I owe to Restaurants: *INSERT HERE*</div>
+                    <div className='text-font-semibold'>Bank accounts: *INSERT HERE*</div>
                 </div>
             </div>
 

@@ -64,6 +64,11 @@ function LocationList() {
     <div className="w-[90%] p-10 mt-8 flex">
       <div className="w-1/2">
         <h1 className={locationListStyle + " text-7xl mb-4"}>Choose a Location to View Our Menu</h1>
+        <p>
+            SELECT restaurantid, name, phone, street <br />
+            FROM restaurant r <br />
+            WHERE r.name LIKE '{searchTerm}%' OR r.name LIKE '%{searchTerm}' OR r.name LIKE '%{searchTerm}%';
+        </p>
         <div className="mb-4">
           <input
             type="text"

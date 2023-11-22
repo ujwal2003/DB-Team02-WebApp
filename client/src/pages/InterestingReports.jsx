@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { OrderContext } from "../context/OrderContext";
 
 function InterestingReports() {
   const [showRestaurantMenu, setShowRestaurantMenu] = useState(false);
@@ -25,6 +26,7 @@ function InterestingReports() {
   const [customerLastName, setCustomerLastName] = useState("");
 
   const {custInfo, custSignIn, custSignOut} = useContext(UserContext);
+  const {clearCart, loadCart} = useContext(OrderContext);
 
   useEffect(() => {
     async function getLocationsInfo() {
@@ -298,10 +300,28 @@ function InterestingReports() {
     }
   }, [customerLastName, showOneCustomer]);
 
-  function signInSelectedCustomer(customerObj) {
+  async function signInSelectedCustomer(customerObj) {
     console.log(customerObj);
+    clearCart();
     custSignOut();
     custSignIn(customerObj.email, customerObj.firstname, customerObj.lastname, customerObj.membership, customerObj.phone, customerObj.zipcode);
+
+    const orderRes = await axios.post('order/get/', {"email": customerObj.email});
+      const orderData = await orderRes.data;
+
+      if(orderData.data.result.length > 0) {
+        const cartRes = await axios.post('order/load/', {"email": customerObj.email});
+        const cartData = await cartRes.data;
+
+        let loadedCart = cartData.data.result;
+        loadedCart = loadedCart.map(function (cartItem) {
+          cartItem['itemid'] = cartItem['menuitemid'];
+          delete cartItem['menuitemid'];
+          return cartItem;
+        });
+        
+        loadCart(loadedCart);
+      }
   }
 
   return (
