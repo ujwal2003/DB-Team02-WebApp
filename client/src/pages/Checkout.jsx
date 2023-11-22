@@ -192,7 +192,7 @@ function Checkout() {
 
                             <div className='flex justify-between'>
                                 <span className=' text-xl font-bold'>TOTAL</span>
-                                <span>{total.toFixed(2)}</span>
+                                <span>{total.toFixed(2)} {custInfo.membershipType ? <>+ $1 membership fee</> : <></>}</span>
                             </div>
                         </div>
                     </div>
@@ -372,6 +372,15 @@ function Checkout() {
                                 JOIN customerorder c2 ON c2.customeremail = c.email 
                             WHERE c2.customeremail = '{custInfo.email}' AND c2.processed = false
                         ); <br /> <br /> 
+
+                        UPDATE bank <br />
+                        SET balance = balance - 1 <br />
+                        WHERE accountid IN ( 
+                            SELECT b.accountid
+                            FROM customer c JOIN bank b ON c.bankaccountid = b.accountid 
+                                JOIN customerorder c2 ON c2.customeremail = c.email 
+                            WHERE c2.customeremail = '{custInfo.email}' AND c.membership = true AND c2.processed = false
+                        );<br /> <br />
 
                         UPDATE bank <br /> 
                         SET balance = balance + total_due <br /> 
