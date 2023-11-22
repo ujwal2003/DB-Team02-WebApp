@@ -91,9 +91,31 @@ async function getOrderTotals(req, res) {
     }
 }
 
+async function getUserMembership(req, res) {
+    try {
+        let email = req.params['email'];
+        const memberStatus = await historyModel.queryUserMembershipType(email);
+
+        if(!memberStatus.SQL_success)
+            return res.status(500).json({"success": false, "error": memberStatus.error});
+
+        return res.status(200).json({
+            "success": true,
+            "result": `retrieved processed receipt of ${email}`,
+            "data": memberStatus
+        });
+    } catch (error) {
+        return res.status(500).json({
+            "success": false,
+            "error": error.message
+        });
+    }
+}
+
 module.exports = {
     getOrdersHistory,
     getOrderReceipt,
     getPaymentToEachRestaurant,
-    getOrderTotals
+    getOrderTotals,
+    getUserMembership
 }
